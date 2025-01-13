@@ -4,8 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Red
-  - Blue
+  - Background
   layers:
   - Default
   - TransparentFX
@@ -16,8 +15,8 @@ TagManager:
   - Obstacle
   - Ground
   - Tower
-  - 
-  - 
+  - Red
+  - Blue
   - 
   - 
   - 

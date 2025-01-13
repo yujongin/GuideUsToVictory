@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitController : UnitBase
 {
+
+    string myTeam;
+    string enemyTeam;
+
+    [SerializeField]
+    UnitBase target;
+    Animator animator;
     public enum UnitState
     {
         Idle,
@@ -17,20 +23,21 @@ public class UnitController : UnitBase
     UnitState unitState;
 
     Node startNode;
-    Node destNode; 
+    Node destNode;
     List<Vector2> path;
 
-    float detectRange = 10f;
+    float detectRange = 50f;
 
+    public LayerMask enemyLayer;
     void Start()
     {
-        animator = GetComponent<Animator>();    
+        animator = GetComponent<Animator>();
+        myTeam = LayerMask.LayerToName(gameObject.layer);
+        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
+        enemyLayer = LayerMask.GetMask(enemyTeam);
+
         unitState = UnitState.Idle;
         SetState(UnitState.Move);
-    }
-
-    void Update()
-    {
     }
 
     public void SetState(UnitState state)
@@ -43,50 +50,60 @@ public class UnitController : UnitBase
                 break;
             case UnitState.Move:
                 animator.SetTrigger("Move");
-                StartCoroutine(UpdateMove(stat.Speed));
+                StartCoroutine(UpdateMove(baseStat.Speed));
                 break;
             case UnitState.Attack:
-                //base.Attack(target);
+                StartCoroutine(UpdateAttack(baseStat.AttackSpeed));
                 break;
             case UnitState.Skill:
                 break;
             case UnitState.Dead:
-                OnDead();
                 break;
         }
 
     }
 
-    void UpdateIdle()
-    {
-        animator.SetTrigger("Idle");
-    }
-    void UpdateAttack()
-    {
-
-    }
-    void UpdateSkill()
-    {
-
-    }
-
-    void UpdateDead()
-    {
-
-    }
-
     bool IsLerpCellPosCompleted = true;
     Node next;
+    IEnumerator UpdateAttack(float attackSpeed)
+    {
+
+        while (unitState == UnitState.Attack)
+        {
+            animator.SetTrigger("Attack");
+            AnimatorClipInfo[] info = animator.GetCurrentAnimatorClipInfo(0);
+
+            foreach (var anim in info)
+            {
+                Debug.Log(anim.clip.name);
+                //if (anim.clip.name == "Attack")
+                //{
+
+                //}
+            }
+
+            float animationLength = 0.5f;
+            yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
+        }
+    }
 
     IEnumerator UpdateMove(float moveSpeed)
     {
-        while(unitState == UnitState.Move)
+        while (unitState == UnitState.Move)
         {
             if (IsLerpCellPosCompleted)
             {
                 startNode = Managers.Map.GetNodeFromWorldPosition(transform.position);
 
-                destNode = Managers.Map.GetNodeFromWorldPosition(Managers.Map.GetTowerPos(tag));
+                DetectTarget();
+                if (target != null)
+                {
+                    destNode = Managers.Map.GetNodeFromWorldPosition(target.transform.position);
+                }
+                else
+                {
+                    destNode = Managers.Map.GetNodeFromWorldPosition(Managers.Map.GetTowerPos(enemyTeam));
+                }
 
                 List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos);
 
@@ -99,6 +116,15 @@ public class UnitController : UnitBase
             }
             else
             {
+                if(target != null)
+                {
+                    if(Vector3.Distance(transform.position, target.transform.position) < baseStat.AttackRange)
+                    {
+                        animator.SetTrigger("Idle");
+                        SetState(UnitState.Attack);
+                        yield break;
+                    }
+                }
                 Vector3 dirVec = new Vector3(next.worldPosition.x, transform.position.y, next.worldPosition.z) - transform.position;
                 if (dirVec.magnitude < 0.01f)
                 {
@@ -109,15 +135,24 @@ public class UnitController : UnitBase
                 float moveDist = Mathf.Min(dirVec.magnitude, moveSpeed * Time.deltaTime);
                 transform.position += dirVec.normalized * moveDist;
             }
+
             yield return null;
         }
         yield break;
     }
 
-
+    Collider[] detectedEnemy = new Collider[1];
     public void DetectTarget()
     {
-
+        Physics.OverlapSphereNonAlloc(transform.position, detectRange, detectedEnemy, enemyLayer);
+        if (detectedEnemy[0] != null)
+        {
+            target = detectedEnemy[0].GetComponent<UnitBase>();
+        }
+    }
+    public void OnDamage()
+    {
+        
     }
 
     private List<Vector2> debugPath = new List<Vector2>();

@@ -16,11 +16,11 @@ public class MapManager : MonoBehaviour
         map = FindFirstObjectByType<GridGenerator>().GenerateGrid(nodeSize);
     }
 
-    public Vector3 GetTowerPos(string tag)
+    public Vector3 GetTowerPos(string team)
     {
         for(int i = 0; i<towers.Length; i++)
         {
-            if(towers[i].tag != tag)
+            if (towers[i].layer == LayerMask.GetMask(team))
             {
                 return towers[i].transform.position;   
             }
