@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GridGenerator : MonoBehaviour
 {
-    public float nodeSize = 2.0f;
 
     public LayerMask obstacleMask;
     public LayerMask walkableMask;
@@ -11,7 +10,7 @@ public class GridGenerator : MonoBehaviour
     Vector2 planeSize;
     Node[,] grid;
 
-    public Node[,] GenerateGrid()
+    public Node[,] GenerateGrid(float nodeSize)
     {
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         Vector3 groundScale = transform.localScale;
@@ -32,12 +31,13 @@ public class GridGenerator : MonoBehaviour
                 bool walkable = Physics.CheckBox(worldPoint, Vector3.one, Quaternion.identity, walkableMask)
                                 && !Physics.CheckBox(worldPoint, Vector3.one, Quaternion.identity, obstacleMask);
 
-                grid[x, z] = new Node(walkable, worldPoint, x, z);
+                grid[x, z] = new Node(walkable, worldPoint, new Vector2(x,z));
             }
         }
 
         return grid;
     }
+
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -47,7 +47,7 @@ public class GridGenerator : MonoBehaviour
             foreach(Node node in grid)
             {
                 Gizmos.color = node.walkable ? Color.green : Color.red;
-                Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeSize * 0.1f));
+                Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
             }
         }
     }
@@ -58,13 +58,12 @@ public class Node
 {
     public bool walkable;
     public Vector3 worldPosition;
-    public int gridX, gridZ;
-
-    public Node(bool walkable, Vector3 worldPosition, int gridX, int gridZ)
+    public Vector2 cellPos;
+    public Node(bool walkable, Vector3 worldPosition, Vector2 cellPos)
     {
         this.walkable = walkable;
         this.worldPosition = worldPosition;
-        this.gridX = gridX;
-        this.gridZ = gridZ;
+        this.cellPos = cellPos;
     }
 }
+

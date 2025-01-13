@@ -3,26 +3,27 @@ using UnityEngine;
 
 public class UnitBase : MonoBehaviour
 {
-    UnitStat stat;
+    [SerializeField]
+    protected UnitData stat;
 
     protected UnitBase target;
     protected Animator animator;
 
-    public void Attack(UnitBase unit)
-    {
-        target = unit;
-        StartCoroutine(AttackSequence());
-    }
+    //public void Attack(UnitBase unit)
+    //{
+    //    target = unit;
+    //    StartCoroutine(AttackSequence());
+    //}
 
-    IEnumerator AttackSequence()
-    {
-        while (target != null)
-        {
-            animator.SetTrigger("Attack");
-            yield return new WaitForSeconds(1 / stat.AttackSpeed);
-        }
-        yield return null;
-    }
+    //IEnumerator AttackSequence()
+    //{
+    //    while (target != null)
+    //    {
+    //        animator.SetTrigger("Attack");
+    //        yield return new WaitForSeconds(1 / stat.AttackSpeed);
+    //    }
+    //    yield return null;
+    //}
 
     public void Run()
     {

@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ab9f6f295ad6a4b82bf553f1762bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stat: {fileID: 0}
 --- !u!136 &48952228
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4167,13 +4168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850a5e1f26adb1d4eb0ec4b21e3af63f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeSize: 2
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   walkableMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
 --- !u!1 &580756069
 GameObject:
   m_ObjectHideFlags: 0
@@ -14513,6 +14513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ab9f6f295ad6a4b82bf553f1762bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stat: {fileID: 0}
 --- !u!136 &1905656888
 CapsuleCollider:
   m_ObjectHideFlags: 0
