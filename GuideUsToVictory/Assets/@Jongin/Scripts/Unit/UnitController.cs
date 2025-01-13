@@ -1,95 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static Define;
 public class UnitController : UnitBase
 {
-
-    string myTeam;
-    string enemyTeam;
-
     [SerializeField]
     UnitBase target;
-    Animator animator;
-    public enum UnitState
-    {
-        Idle,
-        Move,
-        Attack,
-        Skill,
-        Dead
-    }
 
-    UnitState unitState;
+    EUnitState unitState;
 
     Node startNode;
     Node destNode;
     List<Vector2> path;
 
-    float detectRange = 50f;
-
-    public LayerMask enemyLayer;
     void Start()
     {
-        animator = GetComponent<Animator>();
-        myTeam = LayerMask.LayerToName(gameObject.layer);
-        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
-        enemyLayer = LayerMask.GetMask(enemyTeam);
+        base.Init();
 
-        unitState = UnitState.Idle;
-        SetState(UnitState.Move);
+        SetState(EUnitState.Move);
     }
 
-    public void SetState(UnitState state)
+    public void SetState(EUnitState state)
     {
         unitState = state;
         switch (unitState)
         {
-            case UnitState.Idle:
+            case EUnitState.Idle:
                 animator.SetTrigger("Idle");
                 break;
-            case UnitState.Move:
+            case EUnitState.Move:
                 animator.SetTrigger("Move");
                 StartCoroutine(UpdateMove(baseStat.Speed));
                 break;
-            case UnitState.Attack:
+            case EUnitState.Attack:
                 StartCoroutine(UpdateAttack(baseStat.AttackSpeed));
                 break;
-            case UnitState.Skill:
+            case EUnitState.Skill:
                 break;
-            case UnitState.Dead:
+            case EUnitState.Dead:
                 break;
         }
-
     }
 
     bool IsLerpCellPosCompleted = true;
     Node next;
     IEnumerator UpdateAttack(float attackSpeed)
     {
-
-        while (unitState == UnitState.Attack)
+        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        float animationLength = 0;
+        foreach (var clip in clips)
+        {
+            if (clip.name.Contains("Attack"))
+            {
+                animationLength = clip.length;
+            }
+        }
+        while (unitState == EUnitState.Attack)
         {
             animator.SetTrigger("Attack");
-            AnimatorClipInfo[] info = animator.GetCurrentAnimatorClipInfo(0);
-
-            foreach (var anim in info)
-            {
-                Debug.Log(anim.clip.name);
-                //if (anim.clip.name == "Attack")
-                //{
-
-                //}
-            }
-
-            float animationLength = 0.5f;
             yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
         }
     }
 
     IEnumerator UpdateMove(float moveSpeed)
     {
-        while (unitState == UnitState.Move)
+        while (unitState == EUnitState.Move)
         {
             if (IsLerpCellPosCompleted)
             {
@@ -121,7 +96,7 @@ public class UnitController : UnitBase
                     if(Vector3.Distance(transform.position, target.transform.position) < baseStat.AttackRange)
                     {
                         animator.SetTrigger("Idle");
-                        SetState(UnitState.Attack);
+                        SetState(EUnitState.Attack);
                         yield break;
                     }
                 }
@@ -152,7 +127,7 @@ public class UnitController : UnitBase
     }
     public void OnDamage()
     {
-        
+        //target.curHp -= 
     }
 
     private List<Vector2> debugPath = new List<Vector2>();
