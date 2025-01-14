@@ -11,21 +11,21 @@ public class MapManager : MonoBehaviour
 
     public GameObject[] towers;
 
-    void Start()
+    void Awake()
     {
         map = FindFirstObjectByType<GridGenerator>().GenerateGrid(nodeSize);
     }
 
-    public Vector3 GetTowerPos(string team)
+    public UnitBase GetTower(string team)
     {
         for(int i = 0; i<towers.Length; i++)
         {
-            if (towers[i].layer == LayerMask.GetMask(team))
+            if ((1 << towers[i].layer) == LayerMask.GetMask(team))
             {
-                return towers[i].transform.position;   
+                return towers[i].GetComponent<UnitBase>();   
             }
         }
-        return Vector3.zero;
+        return null;
     }
 
     #region PathFinding

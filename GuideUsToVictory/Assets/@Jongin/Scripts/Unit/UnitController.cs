@@ -57,13 +57,24 @@ public class UnitController : UnitBase
         }
         while (unitState == EUnitState.Attack)
         {
+            if (target != null)
+            {
+                if (target.isDead)
+                {
+                    SetState(EUnitState.Move);
+                    yield break;
+                }
+            }
+
             animator.SetTrigger("Attack");
             yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
         }
+        yield break;
     }
 
     IEnumerator UpdateMove(float moveSpeed)
     {
+        IsLerpCellPosCompleted = true;
         while (unitState == EUnitState.Move)
         {
             if (IsLerpCellPosCompleted)
@@ -74,10 +85,7 @@ public class UnitController : UnitBase
                 if (target != null)
                 {
                     destNode = Managers.Map.GetNodeFromWorldPosition(target.transform.position);
-                }
-                else
-                {
-                    destNode = Managers.Map.GetNodeFromWorldPosition(Managers.Map.GetTowerPos(enemyTeam));
+                    LookAtTarget(target);
                 }
 
                 List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos);
@@ -91,9 +99,9 @@ public class UnitController : UnitBase
             }
             else
             {
-                if(target != null)
+                if (target != null)
                 {
-                    if(Vector3.Distance(transform.position, target.transform.position) < baseStat.AttackRange)
+                    if (Vector3.Distance(transform.position, target.transform.position) < baseStat.AttackRange + target.unitRadius)
                     {
                         animator.SetTrigger("Idle");
                         SetState(EUnitState.Attack);
@@ -120,15 +128,34 @@ public class UnitController : UnitBase
     public void DetectTarget()
     {
         Physics.OverlapSphereNonAlloc(transform.position, detectRange, detectedEnemy, enemyLayer);
+
         if (detectedEnemy[0] != null)
         {
             target = detectedEnemy[0].GetComponent<UnitBase>();
         }
+        else
+        {
+            target = Managers.Map.GetTower(enemyTeam);
+        }
     }
-    public void OnDamage()
+
+    public void DamageToEnemy()
     {
-        //target.curHp -= 
+        target.OnDamage(this);
     }
+    public override void OnDead()
+    {
+        base.OnDead();
+        animator.SetTrigger("Dead");
+        SetState(EUnitState.Dead);
+        if(next != null)
+        {
+            next.walkable = true;
+        }
+        collider.enabled = false;
+        Destroy(gameObject, 2f);
+    }
+
 
     private List<Vector2> debugPath = new List<Vector2>();
 
@@ -148,5 +175,8 @@ public class UnitController : UnitBase
                 Gizmos.DrawLine(from, to);
             }
         }
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, detectRange);
     }
 }

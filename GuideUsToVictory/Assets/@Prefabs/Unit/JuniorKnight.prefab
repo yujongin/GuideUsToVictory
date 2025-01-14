@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2826364413829887196}
   - component: {fileID: 2774960476377445082}
   - component: {fileID: 4140534028821063269}
-  - component: {fileID: 3703104441618041418}
-  m_Layer: 0
+  - component: {fileID: -3733590711513702907}
+  m_Layer: 10
   m_Name: JuniorKnight
-  m_TagString: Blue
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,10 +124,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ab9f6f295ad6a4b82bf553f1762bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat: {fileID: 11400000, guid: 045bce67f476ee74fa499e9ee15ffaef, type: 2}
-  UpdateAITick: 0
---- !u!136 &3703104441618041418
-CapsuleCollider:
+  baseStat: {fileID: 0}
+  curHp: 0
+  detectRange: 10
+  unitRadius: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  target: {fileID: 0}
+--- !u!65 &-3733590711513702907
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -144,8 +150,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.0375
-  m_Height: 0.11999998
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.08499999, z: 0}
+  serializedVersion: 3
+  m_Size: {x: 0.1, y: 0.13, z: 0.02}
+  m_Center: {x: 0, y: -0.09, z: 0}
