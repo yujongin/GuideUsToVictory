@@ -64,10 +64,14 @@ public class UnitController : UnitBase
                     SetState(EUnitState.Move);
                     yield break;
                 }
-            }
 
-            animator.SetTrigger("Attack");
-            yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
+                animator.SetTrigger("Attack");
+                yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
+            }
+            else
+            {
+                SetState(EUnitState.Move);
+            }
         }
         yield break;
     }
@@ -124,14 +128,26 @@ public class UnitController : UnitBase
         yield break;
     }
 
-    Collider[] detectedEnemy = new Collider[1];
+    Collider[] detectedEnemies;
     public void DetectTarget()
     {
-        Physics.OverlapSphereNonAlloc(transform.position, detectRange, detectedEnemy, enemyLayer);
+        detectedEnemies = Physics.OverlapSphere(transform.position, detectRange, enemyLayer);
 
-        if (detectedEnemy[0] != null)
+        if (detectedEnemies != null && detectedEnemies.Length > 0)
         {
-            target = detectedEnemy[0].GetComponent<UnitBase>();
+            float minDist = float.MaxValue;
+            int minIndex = 0;
+            for(int i = 0; i < detectedEnemies.Length; i++)
+            {
+                float dist = Vector3.Distance(transform.position, detectedEnemies[i].transform.position);
+                if(minDist > dist)
+                {
+                    if (detectedEnemies[i].GetComponent<UnitBase>().isDead) continue;
+                    minDist = dist;
+                    minIndex = i;
+                }
+            }
+            target = detectedEnemies[minIndex].GetComponent<UnitBase>();
         }
         else
         {
@@ -148,7 +164,7 @@ public class UnitController : UnitBase
         base.OnDead();
         animator.SetTrigger("Dead");
         SetState(EUnitState.Dead);
-        if(next != null)
+        if (next != null)
         {
             next.walkable = true;
         }

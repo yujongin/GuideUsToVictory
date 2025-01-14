@@ -58,6 +58,7 @@ public class UnitBase : MonoBehaviour
         myTeam = LayerMask.LayerToName(gameObject.layer);
         enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
         enemyLayer = LayerMask.GetMask(enemyTeam);
+
     }
 
     public void OnDamage(UnitBase attacker)
@@ -74,6 +75,7 @@ public class UnitBase : MonoBehaviour
     public virtual void OnDead()
     {
         isDead = true;
+
     }
 
     public void LookAtTarget(UnitBase target)
