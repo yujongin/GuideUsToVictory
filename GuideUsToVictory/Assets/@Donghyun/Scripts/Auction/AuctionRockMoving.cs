@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class AuctionRockMoving : MonoBehaviour
-{
+{ //cubeMoving
 
     Vector3 pos; //현재위치
     float delta = 3.0f; // 상(하)로 이동가능한 (x)최대값
