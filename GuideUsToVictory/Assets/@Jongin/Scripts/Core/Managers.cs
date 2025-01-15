@@ -7,9 +7,10 @@ public class Managers : MonoBehaviour
     private MapManager _map;
 
     private GameManager _game;
-
+    private PoolManager _pool;
     public static MapManager Map { get { return Instance?._map; } }
     public static GameManager Game { get { return Instance ?. _game; } }
+    public static PoolManager Pool {  get { return Instance?._pool; } } 
 
     private void Awake()
     {
@@ -23,5 +24,6 @@ public class Managers : MonoBehaviour
         }
         _map = GetComponentInChildren<MapManager>();
         _game = GetComponentInChildren<GameManager>();
+        _pool = new PoolManager();
     }
 }

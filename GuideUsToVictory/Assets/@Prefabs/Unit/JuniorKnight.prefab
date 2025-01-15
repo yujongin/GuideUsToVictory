@@ -126,8 +126,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStat: {fileID: 0}
   curHp: 0
-  detectRange: 10
+  detectRange: 20
   unitRadius: 0
+  isDead: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
