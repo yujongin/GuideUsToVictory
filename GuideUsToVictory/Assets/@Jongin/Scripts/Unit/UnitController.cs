@@ -4,9 +4,6 @@ using UnityEngine;
 using static Define;
 public class UnitController : UnitBase
 {
-    [SerializeField]
-    UnitBase target;
-
     EUnitState unitState;
 
     Node startNode;
@@ -30,10 +27,10 @@ public class UnitController : UnitBase
                 break;
             case EUnitState.Move:
                 animator.SetTrigger("Move");
-                StartCoroutine(UpdateMove(baseStat.Speed));
+                StartCoroutine(UpdateMove(speed.Value));
                 break;
             case EUnitState.Attack:
-                StartCoroutine(UpdateAttack(baseStat.AttackSpeed));
+                StartCoroutine(UpdateAttack(attackSpeed.Value));
                 break;
             case EUnitState.Skill:
                 break;
@@ -50,9 +47,10 @@ public class UnitController : UnitBase
         float animationLength = 0;
         foreach (var clip in clips)
         {
-            if (clip.name.Contains("Attack"))
+            if (clip.name.Contains(skills.CurrentSkill.skillData.AnimParam))
             {
                 animationLength = clip.length;
+                Debug.Log(animationLength);
             }
         }
         while (unitState == EUnitState.Attack)
@@ -64,8 +62,11 @@ public class UnitController : UnitBase
                     SetState(EUnitState.Move);
                     yield break;
                 }
+                //Debug.Log(skills.CurrentSkill.skillData.name);
 
-                animator.SetTrigger("Attack");
+                //animator.SetTrigger("Attack");
+
+                skills.CurrentSkill.DoSkill();
                 yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
             }
             else
@@ -85,12 +86,14 @@ public class UnitController : UnitBase
             {
                 startNode = Managers.Map.GetNodeFromWorldPosition(transform.position);
 
-                DetectTarget();
-                if (target != null)
+                target = DetectTarget();
+                if (target == null)
                 {
-                    destNode = Managers.Map.GetNodeFromWorldPosition(target.transform.position);
-                    LookAtTarget(target);
+                    target = Managers.Map.GetTower(enemyTeam);
                 }
+
+                destNode = Managers.Map.GetNodeFromWorldPosition(target.transform.position);
+                LookAtTarget(target);
 
                 List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos);
 
@@ -128,33 +131,6 @@ public class UnitController : UnitBase
         yield break;
     }
 
-    Collider[] detectedEnemies;
-    public void DetectTarget()
-    {
-        detectedEnemies = Physics.OverlapSphere(transform.position, detectRange, enemyLayer);
-
-        if (detectedEnemies != null && detectedEnemies.Length > 0)
-        {
-            float minDist = float.MaxValue;
-            int minIndex = 0;
-            for(int i = 0; i < detectedEnemies.Length; i++)
-            {
-                float dist = Vector3.Distance(transform.position, detectedEnemies[i].transform.position);
-                if(minDist > dist)
-                {
-                    if (detectedEnemies[i].GetComponent<UnitBase>().isDead) continue;
-                    minDist = dist;
-                    minIndex = i;
-                }
-            }
-            target = detectedEnemies[minIndex].GetComponent<UnitBase>();
-        }
-        else
-        {
-            target = Managers.Map.GetTower(enemyTeam);
-        }
-    }
-
     public void DamageToEnemy()
     {
         target.OnDamage(this);
@@ -168,7 +144,7 @@ public class UnitController : UnitBase
         {
             next.walkable = true;
         }
-        collider.enabled = false;
+        unitCollider.enabled = false;
         Destroy(gameObject, 2f);
     }
 

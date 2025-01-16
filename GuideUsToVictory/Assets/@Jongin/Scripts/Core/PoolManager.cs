@@ -62,7 +62,7 @@ public class Pool
         GameObject.Destroy(go);
     }
 }
-public class PoolManager : MonoBehaviour
+public class PoolManager
 {
     private Dictionary<string, Pool> pools = new Dictionary<string, Pool>();
     

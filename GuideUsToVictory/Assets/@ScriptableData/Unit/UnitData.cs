@@ -11,4 +11,6 @@ public class UnitData : ScriptableObject
     public float AbilityPower;
     public float MagicRegistance;
     public float AttackRange;
+
+    public GameObject Projectile;
 }

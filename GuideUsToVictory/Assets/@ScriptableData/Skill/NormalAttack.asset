@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
-  m_Name: EliteArcher
+  m_Script: {fileID: 11500000, guid: d97c2cee6e55fe8459dd19369cf6765b, type: 3}
+  m_Name: NormalAttack
   m_EditorClassIdentifier: 
-  Hp: 8
-  Speed: 4
-  AttackSpeed: 1.5
-  AttackDamage: 5
-  Armor: 1
-  AbilityPower: 0
-  MagicRegistance: 1
-  AttackRange: 3
+  Name: NormalAttack
+  CoolTime: 0
+  Duration: 0
+  SkillRange: 0
+  DamageMultiplier: 0
+  AnimParam: Attack
+  SkillSlot: 0

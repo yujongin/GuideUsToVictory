@@ -1,8 +1,11 @@
 using UnityEngine;
 public class UnitBase : MonoBehaviour
 {
-    [SerializeField]
-    protected UnitData baseStat;
+    public UnitBase target;
+    [HideInInspector]
+    public SkillComponent skills;
+    public UnitData baseStat;
+
 
     public float curHp;
     public UnitStat maxHp;
@@ -17,15 +20,15 @@ public class UnitBase : MonoBehaviour
     public float unitRadius = 0;
     public bool isDead = false;
 
-
-    protected Animator animator;
-    protected SpriteRenderer renderer;
-    protected Collider collider;
+    public Animator animator;
+    protected SpriteRenderer spriteRenderer;
+    protected Collider unitCollider;
 
     protected string myTeam;
     protected string enemyTeam;
     public LayerMask enemyLayer;
 
+    public Vector3 CenterPosition { get { return transform.position + Vector3.down * 4f; } }
 
     bool lookLeft = false;
     public bool LookLeft
@@ -41,8 +44,11 @@ public class UnitBase : MonoBehaviour
     public void Init()
     {
         animator = GetComponent<Animator>();
-        renderer = GetComponent<SpriteRenderer>();
-        collider = GetComponent<Collider>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        unitCollider = GetComponent<Collider>();
+        skills = GetComponent<SkillComponent>();
+        skills.SetInfo(this);
+
 
         curHp = baseStat.Hp;
         maxHp = new UnitStat(baseStat.Hp);
@@ -53,7 +59,7 @@ public class UnitBase : MonoBehaviour
         abilityPower = new UnitStat(baseStat.AbilityPower);
         magicRegistance = new UnitStat(baseStat.MagicRegistance);
         attackRange = new UnitStat(baseStat.AttackRange);
-        unitRadius = collider.bounds.size.x / 2;
+        unitRadius = unitCollider.bounds.size.x / 2;
 
         myTeam = LayerMask.LayerToName(gameObject.layer);
         enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
@@ -89,6 +95,30 @@ public class UnitBase : MonoBehaviour
 
     public void Flip(bool flag)
     {
-        renderer.flipX = flag;
+        spriteRenderer.flipX = flag;
+    }
+
+    Collider[] detectedEnemies;
+    public UnitBase DetectTarget()
+    {
+        detectedEnemies = Physics.OverlapSphere(transform.position, detectRange, enemyLayer);
+
+        if (detectedEnemies != null && detectedEnemies.Length > 0)
+        {
+            float minDist = float.MaxValue;
+            int minIndex = 0;
+            for (int i = 0; i < detectedEnemies.Length; i++)
+            {
+                float dist = Vector3.Distance(transform.position, detectedEnemies[i].transform.position);
+                if (minDist > dist)
+                {
+                    if (detectedEnemies[i].GetComponent<UnitBase>().isDead) continue;
+                    minDist = dist;
+                    minIndex = i;
+                }
+            }
+            return detectedEnemies[minIndex].GetComponent<UnitBase>();
+        }
+        return null;
     }
 }

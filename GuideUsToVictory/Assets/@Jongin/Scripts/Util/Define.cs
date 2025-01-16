@@ -17,4 +17,10 @@ public static class Define
         Skill,
         Dead
     }
+
+    public enum ESkillSlot
+    {
+        DefaultSkill,
+        ASkill
+    }
 }

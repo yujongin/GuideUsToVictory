@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 2774960476377445082}
   - component: {fileID: 4140534028821063269}
   - component: {fileID: -3733590711513702907}
-  m_Layer: 10
+  - component: {fileID: 8863531311716941715}
+  - component: {fileID: 690645942434656617}
+  m_Layer: 9
   m_Name: JuniorKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,15 +126,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ab9f6f295ad6a4b82bf553f1762bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStat: {fileID: 0}
+  target: {fileID: 0}
+  skills: {fileID: 0}
+  baseStat: {fileID: 11400000, guid: 045bce67f476ee74fa499e9ee15ffaef, type: 2}
   curHp: 0
   detectRange: 20
   unitRadius: 0
   isDead: 0
+  animator: {fileID: 0}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  target: {fileID: 0}
 --- !u!65 &-3733590711513702907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -154,3 +158,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.13, z: 0.02}
   m_Center: {x: 0, y: -0.09, z: 0}
+--- !u!114 &8863531311716941715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6047110446006999997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c68f338be01f79439b52dd565316f0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &690645942434656617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6047110446006999997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc2a25055d8541741b1bb5dd268bd22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillData: {fileID: 11400000, guid: 3e12250d7bf2ed140913b704f250a9d4, type: 2}
+  projectile: {fileID: 0}

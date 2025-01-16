@@ -13,13 +13,15 @@ GameObject:
   - component: {fileID: 393383745406286367}
   - component: {fileID: 2509774230946197014}
   - component: {fileID: 3748418911159177726}
-  m_Layer: 0
+  - component: {fileID: 5299642383663043490}
+  - component: {fileID: 1241836373146879249}
+  m_Layer: 10
   m_Name: EliteArcher
   m_TagString: Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7396017775447130606
 Transform:
   m_ObjectHideFlags: 0
@@ -147,5 +149,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ab9f6f295ad6a4b82bf553f1762bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat: {fileID: 0}
-  UpdateAITick: 0
+  target: {fileID: 0}
+  skills: {fileID: 0}
+  baseStat: {fileID: 11400000, guid: 924b2bffe7429904491542e853c7171a, type: 2}
+  curHp: 0
+  detectRange: 20
+  unitRadius: 0
+  isDead: 0
+  animator: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &5299642383663043490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853830086771883477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c68f338be01f79439b52dd565316f0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1241836373146879249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853830086771883477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc2a25055d8541741b1bb5dd268bd22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillData: {fileID: 11400000, guid: 3e12250d7bf2ed140913b704f250a9d4, type: 2}
+  projectile: {fileID: 6097272118568363735, guid: 094268ced8a070e4ab6ec383e9c88578, type: 3}
+  shootDelay: 0.7
