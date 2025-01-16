@@ -50,7 +50,6 @@ public class UnitController : UnitBase
             if (clip.name.Contains(skills.CurrentSkill.skillData.AnimParam))
             {
                 animationLength = clip.length;
-                Debug.Log(animationLength);
             }
         }
         while (unitState == EUnitState.Attack)
@@ -145,9 +144,8 @@ public class UnitController : UnitBase
             next.walkable = true;
         }
         unitCollider.enabled = false;
-        Destroy(gameObject, 2f);
+        Managers.Resource.Destroy(gameObject, 2f);
     }
-
 
     private List<Vector2> debugPath = new List<Vector2>();
 

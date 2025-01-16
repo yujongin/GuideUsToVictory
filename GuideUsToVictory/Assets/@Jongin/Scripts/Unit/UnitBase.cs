@@ -27,7 +27,13 @@ public class UnitBase : MonoBehaviour
     protected string enemyTeam;
     public LayerMask enemyLayer;
 
-    public Vector3 CenterPosition { get { return transform.position + Vector3.down * 4f; } }
+    public Vector3 CenterPosition
+    {
+        get
+        {
+            return transform.position + Vector3.down * 4f + Vector3.back * 0.005f;
+        }
+    }
     public Transform projectileLauncher;
 
 
@@ -37,8 +43,11 @@ public class UnitBase : MonoBehaviour
         get { return lookLeft; }
         set
         {
-            lookLeft = value;
-            Flip(value);
+            if(lookLeft != value)
+            {
+                lookLeft = value;
+                Flip(value);
+            }
         }
     }
 
@@ -70,10 +79,9 @@ public class UnitBase : MonoBehaviour
 
     public void OnDamage(UnitBase attacker)
     {
-        if(isDead) return;
+        if (isDead) return;
 
         UnitStat damage = attacker.attackDamage.Value >= attacker.abilityPower.Value ? attacker.attackDamage : attacker.abilityPower;
-        Debug.Log(damage.Value);
         UnitStat defense = damage == attacker.attackDamage ? armor : magicRegistance;
 
         float finalDamage = (100 / (100 + defense.Value)) * damage.Value;
@@ -102,7 +110,7 @@ public class UnitBase : MonoBehaviour
 
     public void Flip(bool flag)
     {
-        spriteRenderer.flipX = flag;
+        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
     }
 
     Collider[] detectedEnemies;

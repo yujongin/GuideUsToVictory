@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
   m_Name: JuniorKnight
   m_EditorClassIdentifier: 
-  Hp: 80
+  Hp: 50
   Speed: 5
   AttackSpeed: 1
   AttackDamage: 15
