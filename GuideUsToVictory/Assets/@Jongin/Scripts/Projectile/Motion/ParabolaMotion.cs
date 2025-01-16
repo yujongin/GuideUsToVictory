@@ -6,14 +6,14 @@ public class ParabolaMotion : ProjectileMotionBase
 {
     public float HeightArc { get; private set; } = 1;
 
-    public new void SetInfo(ProjectileData projectileData, Vector3 startPosition, Vector3 targetPosition, Action endCallback = null)
+    public new void SetInfo(ProjectileData projectileData, Vector3 startPosition, UnitBase target, Action endCallback = null)
     {
-        base.SetInfo(projectileData, startPosition, targetPosition, endCallback);
+        base.SetInfo(projectileData, startPosition, target, endCallback);
     }
 
     protected override IEnumerator LaunchProjectile()
     {
-        float journetLength = Vector3.Distance (StartPosition,TargetPosition);
+        float journetLength = Vector3.Distance (StartPosition,Target.transform.position);
         float totalTime = journetLength / ProjectileData.ProjSpeed;
 
         float elapsedTime = 0;
@@ -23,10 +23,11 @@ public class ParabolaMotion : ProjectileMotionBase
             elapsedTime += Time.deltaTime;
 
             float normalizedTime = elapsedTime / totalTime;
-
-            float x = Mathf.Lerp(StartPosition.x, TargetPosition.x, normalizedTime);
-            float z = Mathf.Lerp(StartPosition.z, TargetPosition.z, normalizedTime);
-            float baseY = Mathf.Lerp(StartPosition.y,TargetPosition.y, normalizedTime);
+            
+            Vector3 targetPosition = Target.CenterPosition;
+            float x = Mathf.Lerp(StartPosition.x, targetPosition.x, normalizedTime);
+            float z = Mathf.Lerp(StartPosition.z, targetPosition.z, normalizedTime);
+            float baseY = Mathf.Lerp(StartPosition.y,targetPosition.y, normalizedTime);
             float arc = HeightArc * Mathf.Sin(normalizedTime * Mathf.PI);
 
             float y = baseY + arc;

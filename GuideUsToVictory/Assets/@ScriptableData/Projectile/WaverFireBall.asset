@@ -9,15 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
-  m_Name: JuniorKnight
+  m_Script: {fileID: 11500000, guid: a75b5de6dcce31946944d312452ccd67, type: 3}
+  m_Name: WaverFireBall
   m_EditorClassIdentifier: 
-  Hp: 80
-  Speed: 5
-  AttackSpeed: 1
-  AttackDamage: 15
-  Armor: 15
-  AbilityPower: 0
-  MagicRegistance: 10
-  AttackRange: 4
-  Projectile: {fileID: 0}
+  Name: WaverFireBall
+  Duration: 2
+  HitSound: 0
+  ProjRange: 2
+  ProjSpeed: 20

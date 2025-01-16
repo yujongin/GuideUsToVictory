@@ -55,9 +55,9 @@ public class UnitController : UnitBase
         }
         while (unitState == EUnitState.Attack)
         {
-            if (target != null)
+            if (Target != null)
             {
-                if (target.isDead)
+                if (Target.isDead)
                 {
                     SetState(EUnitState.Move);
                     yield break;
@@ -86,14 +86,14 @@ public class UnitController : UnitBase
             {
                 startNode = Managers.Map.GetNodeFromWorldPosition(transform.position);
 
-                target = DetectTarget();
-                if (target == null)
+                Target = DetectTarget();
+                if (Target == null)
                 {
-                    target = Managers.Map.GetTower(enemyTeam);
+                    Target = Managers.Map.GetTower(enemyTeam);
                 }
 
-                destNode = Managers.Map.GetNodeFromWorldPosition(target.transform.position);
-                LookAtTarget(target);
+                destNode = Managers.Map.GetNodeFromWorldPosition(Target.transform.position);
+                LookAtTarget(Target);
 
                 List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos);
 
@@ -106,9 +106,9 @@ public class UnitController : UnitBase
             }
             else
             {
-                if (target != null)
+                if (Target != null)
                 {
-                    if (Vector3.Distance(transform.position, target.transform.position) < baseStat.AttackRange + target.unitRadius)
+                    if (Vector3.Distance(transform.position, Target.transform.position) < baseStat.AttackRange + Target.unitRadius)
                     {
                         animator.SetTrigger("Idle");
                         SetState(EUnitState.Attack);
@@ -133,7 +133,7 @@ public class UnitController : UnitBase
 
     public void DamageToEnemy()
     {
-        target.OnDamage(this);
+        Target.OnDamage(this);
     }
     public override void OnDead()
     {

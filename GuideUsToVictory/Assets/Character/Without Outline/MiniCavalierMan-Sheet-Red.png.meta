@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7dc745705eb057448b1288c0a6153f5b
+guid: 0e3d83785f514b2438deccbc05485401
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,7 +39,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MiniSwordMan_0
+      name: MiniCavalierMan-Sheet-Red_0
       rect:
         serializedVersion: 2
         x: 0
@@ -138,14 +138,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ec1b59d5c4822441ae5ae693487d4fc
-      internalID: -127458993
+      spriteID: 55ea3ddac2df4af43b7d2d716627b843
+      internalID: -1330443388
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_1
+      name: MiniCavalierMan-Sheet-Red_1
       rect:
         serializedVersion: 2
         x: 32
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24935e9dfbf9f274785a42426c53f814
-      internalID: -871747928
+      spriteID: 0fc3c6d522ddfa34d92a5640f465659e
+      internalID: -1463525180
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_2
+      name: MiniCavalierMan-Sheet-Red_2
       rect:
         serializedVersion: 2
         x: 64
@@ -182,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f75a1fcff79f7b44a2e79f9d6d50d41
-      internalID: -906848941
+      spriteID: 574db5ee0effd304f984c071f54bd202
+      internalID: 1887674373
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_3
+      name: MiniCavalierMan-Sheet-Red_3
       rect:
         serializedVersion: 2
         x: 96
@@ -204,14 +204,58 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81f188f65374558438e3844b99eede18
-      internalID: -1049984453
+      spriteID: efa23bd276724464da27f5a5359721af
+      internalID: 1761668979
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_4
+      name: MiniCavalierMan-Sheet-Red_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99bb4a431131a6b46b79e43bebe597fa
+      internalID: -1794691084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8d072b0eabdd6d46825782f6a415998
+      internalID: 1057184101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_6
       rect:
         serializedVersion: 2
         x: 0
@@ -226,14 +270,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad1bcff3085d8a478fa3e393ba84a4b
-      internalID: -684576790
+      spriteID: d28c3c3860fea8e4dadc4062c0d8c9d1
+      internalID: -50551078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_5
+      name: MiniCavalierMan-Sheet-Red_7
       rect:
         serializedVersion: 2
         x: 32
@@ -248,14 +292,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad0974df6ac62e4badead55a19f7806
-      internalID: -1569191069
+      spriteID: d7b6550990907994dacf860fc15f837a
+      internalID: 1831012485
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_6
+      name: MiniCavalierMan-Sheet-Red_8
       rect:
         serializedVersion: 2
         x: 64
@@ -270,14 +314,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4841ec7a8e0d4644b69dec9a8628eaf
-      internalID: -2127372869
+      spriteID: 03fac5c090a08584b828ac5dec523c56
+      internalID: -1496068456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_7
+      name: MiniCavalierMan-Sheet-Red_9
       rect:
         serializedVersion: 2
         x: 96
@@ -292,14 +336,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a8d82497274e3f488a7084b2d6fa49b
-      internalID: 1887938237
+      spriteID: 42026bb5e07f23f419f91f6143077931
+      internalID: -1259559917
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_8
+      name: MiniCavalierMan-Sheet-Red_10
       rect:
         serializedVersion: 2
         x: 128
@@ -314,14 +358,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d15cebcac4c472c42b409a8bfc949721
-      internalID: 235264104
+      spriteID: 6db8bb8c0869d5147a0c46c3faa48121
+      internalID: -1553951294
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_9
+      name: MiniCavalierMan-Sheet-Red_11
       rect:
         serializedVersion: 2
         x: 160
@@ -336,14 +380,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dff9e981f9e39484e8004cb91dc498c2
-      internalID: 918160977
+      spriteID: eb7dc963142e5664fa26d3c37d3d09c8
+      internalID: -1354142893
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_10
+      name: MiniCavalierMan-Sheet-Red_12
       rect:
         serializedVersion: 2
         x: 0
@@ -358,14 +402,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c5431dcf218e2654190fce53ecc700de
-      internalID: -807599739
+      spriteID: 796be79acd8b926479e927451ca55440
+      internalID: -2137664467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_11
+      name: MiniCavalierMan-Sheet-Red_13
       rect:
         serializedVersion: 2
         x: 32
@@ -380,14 +424,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cee2f726daabfe542aa6ec336eb08474
-      internalID: -433192363
+      spriteID: 1d78b92bf667a284e861447da0a1bcd4
+      internalID: -393348482
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_12
+      name: MiniCavalierMan-Sheet-Red_14
       rect:
         serializedVersion: 2
         x: 64
@@ -402,14 +446,80 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b89529db58826b4eb09ca2a75fe824e
-      internalID: 804984126
+      spriteID: f95ec260f54ab5541a36ce2ab4f4614d
+      internalID: -102680814
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_13
+      name: MiniCavalierMan-Sheet-Red_15
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 358d697885ee8e144a21f5d056a165db
+      internalID: -751747394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_16
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 800bfe054cbfcd44da3101cbc188b4a3
+      internalID: -1696067519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_17
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aff82f6a2c24f1249b5f32f75a8e8415
+      internalID: 252901712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_18
       rect:
         serializedVersion: 2
         x: 0
@@ -424,14 +534,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6169b1ff05155d4295126e3b90f88be
-      internalID: 125111885
+      spriteID: 5f7652bdbabf336459789399ea77fccf
+      internalID: 1432196725
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_14
+      name: MiniCavalierMan-Sheet-Red_19
       rect:
         serializedVersion: 2
         x: 32
@@ -446,14 +556,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d71029c1414c07643a75f81a34fb8253
-      internalID: 1490355585
+      spriteID: f7b4c7d970965d248a41fc7442a91c13
+      internalID: 1803947640
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_15
+      name: MiniCavalierMan-Sheet-Red_20
       rect:
         serializedVersion: 2
         x: 64
@@ -468,14 +578,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc1733743a2eb334aba8b8839832ff8c
-      internalID: -472277369
+      spriteID: 7c60573501d905443be473e137c1be0f
+      internalID: 1546497407
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_16
+      name: MiniCavalierMan-Sheet-Red_21
       rect:
         serializedVersion: 2
         x: 96
@@ -490,14 +600,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8470ded2921c97a469b8c349e6965a5b
-      internalID: -768969423
+      spriteID: d54b6796b4ef02447a4d168312b7e2c0
+      internalID: -374510552
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_17
+      name: MiniCavalierMan-Sheet-Red_22
       rect:
         serializedVersion: 2
         x: 128
@@ -512,14 +622,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 726bbdd796d88c343ba71eea207db334
-      internalID: 468967687
+      spriteID: 0b186045f52bc3e47ae4a3d6667c89e6
+      internalID: 1242037394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_18
+      name: MiniCavalierMan-Sheet-Red_23
       rect:
         serializedVersion: 2
         x: 160
@@ -534,14 +644,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0020dd8d69be5fb49bb4d6ea62cad206
-      internalID: -850198947
+      spriteID: 69b69c66867d2324ba42f18563def1d3
+      internalID: -1285578137
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_19
+      name: MiniCavalierMan-Sheet-Red_24
       rect:
         serializedVersion: 2
         x: 0
@@ -556,14 +666,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 845b3551e51322a4d99459e530a8f881
-      internalID: -358949628
+      spriteID: 479eeabf0719b364a91aebc41c17b677
+      internalID: 2049297479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_20
+      name: MiniCavalierMan-Sheet-Red_25
       rect:
         serializedVersion: 2
         x: 32
@@ -578,14 +688,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a23dcc2c3bed3b44b0383b26cb50552
-      internalID: -1945636117
+      spriteID: 3834b50e207eba746aa565bf59f6782a
+      internalID: 1083976462
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_21
+      name: MiniCavalierMan-Sheet-Red_26
       rect:
         serializedVersion: 2
         x: 64
@@ -600,14 +710,80 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0d5720cadc8dc14ca806d51f0a9c564
-      internalID: 2121592245
+      spriteID: 27488a6d2822e8c44b180d7c758c9260
+      internalID: 41336635
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_22
+      name: MiniCavalierMan-Sheet-Red_27
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 433579fb0e160b444bfa7f98d2c1c66a
+      internalID: 1188896237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_28
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af412a49ac5588842b475926a24813f7
+      internalID: 210457480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_29
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d631eb95bbf79bf4d966c8afa86c1669
+      internalID: 244232609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_30
       rect:
         serializedVersion: 2
         x: 0
@@ -622,14 +798,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a24e376646338e4d9472c185caede3a
-      internalID: -1608064619
+      spriteID: f3c601c129a19304aabe033545f2183e
+      internalID: 1393368335
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_23
+      name: MiniCavalierMan-Sheet-Red_31
       rect:
         serializedVersion: 2
         x: 32
@@ -644,14 +820,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1584bd610240414a9d1141d2d095632
-      internalID: 305265096
+      spriteID: bcbada27c5547ca468e0f0cd97e6149c
+      internalID: 73949764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_24
+      name: MiniCavalierMan-Sheet-Red_32
       rect:
         serializedVersion: 2
         x: 64
@@ -666,14 +842,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b93c98346b565748ba7625be52ca755
-      internalID: 1795293451
+      spriteID: 79fa3cdd71021f847a3fcac520295bde
+      internalID: -47019987
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniSwordMan_25
+      name: MiniCavalierMan-Sheet-Red_33
       rect:
         serializedVersion: 2
         x: 96
@@ -688,8 +864,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c71532fdc9493846836dd44ede0337a
-      internalID: -1757765044
+      spriteID: 065c762bbff9db4468912b79ee8bc004
+      internalID: 60730603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_34
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6089b3b8d90280b4b9703bfec08e565e
+      internalID: 802867632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniCavalierMan-Sheet-Red_35
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4c5b5dcf16d4fa4daab6047e7ee8c62
+      internalID: -1910993348
       vertices: []
       indices: 
       edges: []
@@ -698,7 +918,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: de5011bb703bd2f4a9050a59524af491
+    spriteID: b437af7842ee28d41af791d5793aa458
     internalID: 0
     vertices: []
     indices: 
@@ -708,32 +928,42 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      MiniSwordMan_0: -127458993
-      MiniSwordMan_1: -871747928
-      MiniSwordMan_10: -807599739
-      MiniSwordMan_11: -433192363
-      MiniSwordMan_12: 804984126
-      MiniSwordMan_13: 125111885
-      MiniSwordMan_14: 1490355585
-      MiniSwordMan_15: -472277369
-      MiniSwordMan_16: -768969423
-      MiniSwordMan_17: 468967687
-      MiniSwordMan_18: -850198947
-      MiniSwordMan_19: -358949628
-      MiniSwordMan_2: -906848941
-      MiniSwordMan_20: -1945636117
-      MiniSwordMan_21: 2121592245
-      MiniSwordMan_22: -1608064619
-      MiniSwordMan_23: 305265096
-      MiniSwordMan_24: 1795293451
-      MiniSwordMan_25: -1757765044
-      MiniSwordMan_3: -1049984453
-      MiniSwordMan_4: -684576790
-      MiniSwordMan_5: -1569191069
-      MiniSwordMan_6: -2127372869
-      MiniSwordMan_7: 1887938237
-      MiniSwordMan_8: 235264104
-      MiniSwordMan_9: 918160977
+      MiniCavalierMan-Sheet-Red_0: -1330443388
+      MiniCavalierMan-Sheet-Red_1: -1463525180
+      MiniCavalierMan-Sheet-Red_10: -1553951294
+      MiniCavalierMan-Sheet-Red_11: -1354142893
+      MiniCavalierMan-Sheet-Red_12: -2137664467
+      MiniCavalierMan-Sheet-Red_13: -393348482
+      MiniCavalierMan-Sheet-Red_14: -102680814
+      MiniCavalierMan-Sheet-Red_15: -751747394
+      MiniCavalierMan-Sheet-Red_16: -1696067519
+      MiniCavalierMan-Sheet-Red_17: 252901712
+      MiniCavalierMan-Sheet-Red_18: 1432196725
+      MiniCavalierMan-Sheet-Red_19: 1803947640
+      MiniCavalierMan-Sheet-Red_2: 1887674373
+      MiniCavalierMan-Sheet-Red_20: 1546497407
+      MiniCavalierMan-Sheet-Red_21: -374510552
+      MiniCavalierMan-Sheet-Red_22: 1242037394
+      MiniCavalierMan-Sheet-Red_23: -1285578137
+      MiniCavalierMan-Sheet-Red_24: 2049297479
+      MiniCavalierMan-Sheet-Red_25: 1083976462
+      MiniCavalierMan-Sheet-Red_26: 41336635
+      MiniCavalierMan-Sheet-Red_27: 1188896237
+      MiniCavalierMan-Sheet-Red_28: 210457480
+      MiniCavalierMan-Sheet-Red_29: 244232609
+      MiniCavalierMan-Sheet-Red_3: 1761668979
+      MiniCavalierMan-Sheet-Red_30: 1393368335
+      MiniCavalierMan-Sheet-Red_31: 73949764
+      MiniCavalierMan-Sheet-Red_32: -47019987
+      MiniCavalierMan-Sheet-Red_33: 60730603
+      MiniCavalierMan-Sheet-Red_34: 802867632
+      MiniCavalierMan-Sheet-Red_35: -1910993348
+      MiniCavalierMan-Sheet-Red_4: -1794691084
+      MiniCavalierMan-Sheet-Red_5: 1057184101
+      MiniCavalierMan-Sheet-Red_6: -50551078
+      MiniCavalierMan-Sheet-Red_7: 1831012485
+      MiniCavalierMan-Sheet-Red_8: -1496068456
+      MiniCavalierMan-Sheet-Red_9: -1259559917
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

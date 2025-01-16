@@ -20,7 +20,7 @@ public class Tower : UnitBase
     {
         while (true)
         {
-            target = DetectTarget();
+            Target = DetectTarget();
 
             // 타겟이 있으면 라인 업데이트
 
@@ -30,13 +30,13 @@ public class Tower : UnitBase
 
     void UpdateLine()
     {
-        if (target != null)
+        if (Target != null)
         {
             lineRenderer.enabled = true;
 
             // 라인 시작점과 끝점 설정
             lineRenderer.SetPosition(0, transform.position + Vector3.up * 20f); // 타워 위치
-            lineRenderer.SetPosition(1, target.transform.position + Vector3.down * 0.5f); // 타겟 위치
+            lineRenderer.SetPosition(1, Target.transform.position + Vector3.down * 0.5f); // 타겟 위치
         }
         else
         {

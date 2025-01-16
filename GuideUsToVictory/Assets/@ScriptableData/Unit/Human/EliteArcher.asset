@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
   m_Name: EliteArcher
   m_EditorClassIdentifier: 
-  Hp: 8
-  Speed: 4
+  Hp: 120
+  Speed: 5
   AttackSpeed: 1.5
-  AttackDamage: 5
-  Armor: 1
+  AttackDamage: 20
+  Armor: 10
   AbilityPower: 0
-  MagicRegistance: 1
-  AttackRange: 20
+  MagicRegistance: 10
+  AttackRange: 16
   Projectile: {fileID: 0}

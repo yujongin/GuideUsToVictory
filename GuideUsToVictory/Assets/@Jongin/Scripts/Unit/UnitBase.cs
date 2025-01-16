@@ -1,11 +1,10 @@
 using UnityEngine;
 public class UnitBase : MonoBehaviour
 {
-    public UnitBase target;
+    public UnitBase Target { get; protected set; }
     [HideInInspector]
     public SkillComponent skills;
     public UnitData baseStat;
-
 
     public float curHp;
     public UnitStat maxHp;
@@ -17,10 +16,10 @@ public class UnitBase : MonoBehaviour
     public UnitStat magicRegistance;
     public UnitStat attackRange;
     public float detectRange = 10f;
-    public float unitRadius = 0;
+    public float unitRadius { get; private set; }
     public bool isDead = false;
 
-    public Animator animator;
+    public Animator animator { get; private set; }
     protected SpriteRenderer spriteRenderer;
     protected Collider unitCollider;
 
@@ -29,6 +28,8 @@ public class UnitBase : MonoBehaviour
     public LayerMask enemyLayer;
 
     public Vector3 CenterPosition { get { return transform.position + Vector3.down * 4f; } }
+    public Transform projectileLauncher;
+
 
     bool lookLeft = false;
     public bool LookLeft
@@ -69,9 +70,16 @@ public class UnitBase : MonoBehaviour
 
     public void OnDamage(UnitBase attacker)
     {
-        curHp -= attacker.attackDamage.Value;
+        if(isDead) return;
 
-        if(curHp < 0)
+        UnitStat damage = attacker.attackDamage.Value >= attacker.abilityPower.Value ? attacker.attackDamage : attacker.abilityPower;
+        Debug.Log(damage.Value);
+        UnitStat defense = damage == attacker.attackDamage ? armor : magicRegistance;
+
+        float finalDamage = (100 / (100 + defense.Value)) * damage.Value;
+        curHp -= finalDamage;
+
+        if (curHp < 0)
         {
             curHp = 0;
             OnDead();
@@ -81,7 +89,6 @@ public class UnitBase : MonoBehaviour
     public virtual void OnDead()
     {
         isDead = true;
-
     }
 
     public void LookAtTarget(UnitBase target)

@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
   m_Name: IronRider
   m_EditorClassIdentifier: 
-  Hp: 20
-  Speed: 6
+  Hp: 180
+  Speed: 8
   AttackSpeed: 1
-  AttackDamage: 6
-  Armor: 4
+  AttackDamage: 35
+  Armor: 25
   AbilityPower: 0
-  MagicRegistance: 6
-  AttackRange: 2
+  MagicRegistance: 20
+  AttackRange: 6
+  Projectile: {fileID: 0}

@@ -130,7 +130,7 @@ MonoBehaviour:
   skills: {fileID: 0}
   baseStat: {fileID: 11400000, guid: 045bce67f476ee74fa499e9ee15ffaef, type: 2}
   curHp: 0
-  detectRange: 20
+  detectRange: 30
   unitRadius: 0
   isDead: 0
   animator: {fileID: 0}
@@ -184,3 +184,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillData: {fileID: 11400000, guid: 3e12250d7bf2ed140913b704f250a9d4, type: 2}
   projectile: {fileID: 0}
+  shootDelay: 0
