@@ -10,27 +10,22 @@ public class UnitController : UnitBase
     Node destNode;
     List<Vector2> path;
 
-    void Start()
+    private void OnEnable()
     {
         base.Init();
-
         SetState(EUnitState.Move);
+    }
+    void Start()
+    {
+        //base.Init();
+
+
     }
 
     public void SetInfo()
     {
-        curHp = baseStat.Hp;
-        maxHp = new UnitStat(baseStat.Hp);
-        speed = new UnitStat(baseStat.Speed);
-        attackSpeed = new UnitStat(baseStat.AttackSpeed);
-        attackDamage = new UnitStat(baseStat.AttackDamage);
-        armor = new UnitStat(baseStat.Armor);
-        abilityPower = new UnitStat(baseStat.AbilityPower);
-        magicRegistance = new UnitStat(baseStat.MagicRegistance);
-        attackRange = new UnitStat(baseStat.AttackRange);
-
-        isDead = false;
-        //SetState(EUnitState.Move);
+        StatReset();
+        Debug.Log(animator);
     }
     public void SetState(EUnitState state)
     {

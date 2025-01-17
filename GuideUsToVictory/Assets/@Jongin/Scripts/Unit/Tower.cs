@@ -49,17 +49,15 @@ public class Tower : UnitBase
                 {
                     yield return null;
                 }
-                //Debug.Log(skills.CurrentSkill.skillData.name);
-
-                //animator.SetTrigger("Attack");
-
-                if (Vector3.Distance(Target.transform.position, transform.position) < attackRange.Value)
+                else
                 {
-                    skills.CurrentSkill.DoSkill();
-                    yield return new WaitForSeconds(1 / attackSpeed.Value);
+                    if (Vector3.Distance(Target.transform.position, transform.position) < attackRange.Value)
+                    {
+                        skills.CurrentSkill.DoSkill();
+                        yield return new WaitForSeconds(1 / attackSpeed.Value);
+                    }
                 }
             }
-
             yield return null;
         }
     }

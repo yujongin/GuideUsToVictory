@@ -61,7 +61,7 @@ public class ResourceManager : MonoBehaviour
             //{
             GameObject go = Instantiate(GetUnitPrefab("Blue", "JuniorKnight"), null, true);
             go.transform.position = new Vector3(200, 6, 0);
-            go.GetComponent<UnitController>().SetInfo();
+            //go.GetComponent<UnitController>().SetInfo();
             //    Instantiate(GetUnitPrefab("Red", "JuniorKnight"), null, true);
             //}
             //Instantiate(GetUnitPrefab("Blue", "EliteArcher"), null, true);

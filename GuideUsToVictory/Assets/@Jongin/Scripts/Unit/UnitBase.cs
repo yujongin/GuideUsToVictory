@@ -54,22 +54,26 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    bool isInit = false;
     public virtual void Init()
     {
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        unitCollider = GetComponent<Collider>();
-        unitRadius = unitCollider.bounds.size.x / 2;
+        if(!isInit)
+        {
+            animator = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            unitCollider = GetComponent<Collider>();
+            unitRadius = unitCollider.bounds.size.x / 2;
 
-        skills = GetComponent<SkillComponent>();
-        skills.SetInfo(this);
+            skills = GetComponent<SkillComponent>();
+            skills.SetInfo(this);
 
+            myTeam = LayerMask.LayerToName(gameObject.layer);
+            enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
+            enemyLayer = LayerMask.GetMask(enemyTeam);
+
+            isInit = true;
+        }
         StatReset();
-
-        myTeam = LayerMask.LayerToName(gameObject.layer);
-        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
-        enemyLayer = LayerMask.GetMask(enemyTeam);
-
     }
 
     public void StatReset()
@@ -83,6 +87,8 @@ public class UnitBase : MonoBehaviour
         abilityPower = new UnitStat(baseStat.AbilityPower);
         magicRegistance = new UnitStat(baseStat.MagicRegistance);
         attackRange = new UnitStat(baseStat.AttackRange);
+
+        isDead = false;
     }
     public void OnDamage(UnitBase attacker)
     {
