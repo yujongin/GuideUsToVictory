@@ -3302,6 +3302,7 @@ MonoBehaviour:
   TimerBar: {fileID: 676878737}
   Timer: {fileID: 1373857968}
   PriceInputField: {fileID: 1110055000}
+  CurrentBidText: {fileID: 678236314}
   tetrisSpawner: {fileID: 1762167086}
 --- !u!1 &472052499
 GameObject:
@@ -12283,6 +12284,7 @@ MonoBehaviour:
   TimerBar: {fileID: 0}
   Timer: {fileID: 0}
   PriceInputField: {fileID: 0}
+  CurrentBidText: {fileID: 0}
   tetrisSpawner: {fileID: 0}
 --- !u!222 &1373857970
 CanvasRenderer:
@@ -15090,6 +15092,18 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 470454259}
+        m_TargetAssemblyTypeName: AuctionTimer, Assembly-CSharp
+        m_MethodName: OnBidButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
