@@ -3,71 +3,67 @@ using System.Collections.Generic;
 
 public class RandomTetrisSpawner : MonoBehaviour
 {
-    public GameObject cubePrefab;      
-    public Vector3 spawnPosition = new Vector3(-6.5f, 45f, 428f); 
-    public float cubeSize = 1f;        
-    public Vector3 blockRotation = new Vector3(-46f, 46f, 0f); 
+    public GameObject cubePrefab;       // 큐브 프리팹
+    public Vector3 spawnPosition = new Vector3(-6.5f, 45f, 428f); // 초기 생성 위치
+    public float cubeSize = 1f;         // 큐브 간격 (크기)
+    public Vector3 blockRotation = new Vector3(-46f, 46f, 0f); // 블록 회전 값
 
-    private HashSet<Vector3> spawnedPositions = new HashSet<Vector3>(); 
-    private List<GameObject> spawnedCubes = new List<GameObject>();     
-
-    private void Start()
-    {
-        SpawnTetrisBlock(); 
-    }
-
-    public void OnSpawnButtonClicked()
-    {
-        SpawnTetrisBlock(); 
-    }
+    private HashSet<Vector3> usedPositions = new HashSet<Vector3>();
+    private List<GameObject> spawnedBlocks = new List<GameObject>();
 
     public void SpawnTetrisBlock()
     {
-        spawnedPositions.Clear();
-
         RemoveTetrisBlock();
+        usedPositions.Clear();
+        spawnedBlocks.Clear();
 
         int cubeCount = Random.Range(3, 6);
-
+        Vector3 currentPosition = spawnPosition;
         Quaternion rotation = Quaternion.Euler(blockRotation);
 
-        Vector3 currentPosition = spawnPosition;
         GameObject firstCube = InstantiateCube(currentPosition, rotation);
-        spawnedPositions.Add(currentPosition);
-        spawnedCubes.Add(firstCube);
+        spawnedBlocks.Add(firstCube);
+        usedPositions.Add(currentPosition);
 
-        // 나머지 큐브 생성
         for (int i = 1; i < cubeCount; i++)
         {
             Vector3 newPosition = GetRandomAdjacentPosition(currentPosition, rotation);
-            GameObject cube = InstantiateCube(newPosition, rotation);
-            spawnedPositions.Add(newPosition);
-            spawnedCubes.Add(cube);
+            GameObject newCube = InstantiateCube(newPosition, rotation);
+            spawnedBlocks.Add(newCube);
+            usedPositions.Add(newPosition);
             currentPosition = newPosition;
+        }
+    }
+
+    public void MoveBlockToStore()
+    {
+        if (spawnedBlocks.Count > 0)
+        {
+            foreach (GameObject block in spawnedBlocks)
+            {
+                block.transform.position = new Vector3(118f, 4f, -81.9f);
+            }
+            spawnedBlocks.Clear();
         }
     }
 
     public void RemoveTetrisBlock()
     {
-        foreach (GameObject cube in spawnedCubes)
+        foreach (GameObject block in spawnedBlocks)
         {
-            Destroy(cube);
+            Destroy(block);
         }
-
-        spawnedCubes.Clear();
-        spawnedPositions.Clear();
-
-        Debug.Log("All Tetris Blocks Removed");
+        spawnedBlocks.Clear();
     }
 
     private Vector3 GetRandomAdjacentPosition(Vector3 basePosition, Quaternion rotation)
     {
         Vector3[] localAdjacentPositions = new Vector3[]
         {
-            new Vector3(cubeSize, 0, 0),  // 오른쪽
-            new Vector3(-cubeSize, 0, 0), // 왼쪽
-            new Vector3(0, 0, cubeSize),  // 앞쪽
-            new Vector3(0, 0, -cubeSize)  // 뒤쪽
+            new Vector3(cubeSize, 0, 0),
+            new Vector3(-cubeSize, 0, 0),
+            new Vector3(0, 0, cubeSize),
+            new Vector3(0, 0, -cubeSize)
         };
 
         List<Vector3> validPositions = new List<Vector3>();
@@ -76,30 +72,33 @@ public class RandomTetrisSpawner : MonoBehaviour
         {
             Vector3 worldPosition = rotation * localPosition + basePosition;
 
-            // 사용된 위치인지 확인
-            if (!spawnedPositions.Contains(worldPosition))
+            if (!usedPositions.Contains(worldPosition))
             {
                 validPositions.Add(worldPosition);
             }
         }
 
-        // 유효한 위치가 없으면 기본 위치 반환
-        return validPositions.Count == 0 ? basePosition : validPositions[Random.Range(0, validPositions.Count)];
+        if (validPositions.Count == 0)
+        {
+            return basePosition;
+        }
+
+        return validPositions[Random.Range(0, validPositions.Count)];
     }
 
     private GameObject InstantiateCube(Vector3 position, Quaternion rotation)
     {
-        // 큐브 생성
-        GameObject cube = Instantiate(cubePrefab, position, rotation);
-        return cube;
+        return Instantiate(cubePrefab, position, rotation);
     }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SpawnTetrisBlock();
         }
-        
+
     }
 }
+
+
+
