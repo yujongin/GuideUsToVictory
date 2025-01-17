@@ -43,12 +43,4 @@ public class SkillComponent : MonoBehaviour
             }
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Debug.Log(CurrentSkill.skillData.name);
-        }
-    }
 }

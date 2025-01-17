@@ -16,7 +16,7 @@ public class UnitBase : MonoBehaviour
     public UnitStat magicRegistance;
     public UnitStat attackRange;
     public float detectRange = 10f;
-    public float unitRadius { get; private set; }
+    public float unitRadius { get; protected set; }
     public bool isDead = false;
 
     public Animator animator { get; private set; }
@@ -31,9 +31,10 @@ public class UnitBase : MonoBehaviour
     {
         get
         {
-            return transform.position + Vector3.down * 4f + Vector3.back * 0.005f;
+            return transform.position + AddPos;
         }
     }
+    protected Vector3 AddPos { get; set; } = Vector3.zero;
     public Transform projectileLauncher;
 
 
@@ -43,23 +44,36 @@ public class UnitBase : MonoBehaviour
         get { return lookLeft; }
         set
         {
-            if(lookLeft != value)
+            if (lookLeft != value)
             {
                 lookLeft = value;
                 Flip(value);
+                if (projectileLauncher != null)
+                    projectileLauncher.localPosition = Vector3.Scale(projectileLauncher.localPosition, new Vector3(-1, 1, 1));
             }
         }
     }
 
-    public void Init()
+    public virtual void Init()
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         unitCollider = GetComponent<Collider>();
+        unitRadius = unitCollider.bounds.size.x / 2;
+
         skills = GetComponent<SkillComponent>();
         skills.SetInfo(this);
 
+        StatReset();
 
+        myTeam = LayerMask.LayerToName(gameObject.layer);
+        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
+        enemyLayer = LayerMask.GetMask(enemyTeam);
+
+    }
+
+    public void StatReset()
+    {
         curHp = baseStat.Hp;
         maxHp = new UnitStat(baseStat.Hp);
         speed = new UnitStat(baseStat.Speed);
@@ -69,14 +83,7 @@ public class UnitBase : MonoBehaviour
         abilityPower = new UnitStat(baseStat.AbilityPower);
         magicRegistance = new UnitStat(baseStat.MagicRegistance);
         attackRange = new UnitStat(baseStat.AttackRange);
-        unitRadius = unitCollider.bounds.size.x / 2;
-
-        myTeam = LayerMask.LayerToName(gameObject.layer);
-        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
-        enemyLayer = LayerMask.GetMask(enemyTeam);
-
     }
-
     public void OnDamage(UnitBase attacker)
     {
         if (isDead) return;
@@ -110,7 +117,7 @@ public class UnitBase : MonoBehaviour
 
     public void Flip(bool flag)
     {
-        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
+        spriteRenderer.flipX = flag;
     }
 
     Collider[] detectedEnemies;

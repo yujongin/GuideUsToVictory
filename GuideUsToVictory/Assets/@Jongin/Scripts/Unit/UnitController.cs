@@ -17,6 +17,21 @@ public class UnitController : UnitBase
         SetState(EUnitState.Move);
     }
 
+    public void SetInfo()
+    {
+        curHp = baseStat.Hp;
+        maxHp = new UnitStat(baseStat.Hp);
+        speed = new UnitStat(baseStat.Speed);
+        attackSpeed = new UnitStat(baseStat.AttackSpeed);
+        attackDamage = new UnitStat(baseStat.AttackDamage);
+        armor = new UnitStat(baseStat.Armor);
+        abilityPower = new UnitStat(baseStat.AbilityPower);
+        magicRegistance = new UnitStat(baseStat.MagicRegistance);
+        attackRange = new UnitStat(baseStat.AttackRange);
+
+        isDead = false;
+        //SetState(EUnitState.Move);
+    }
     public void SetState(EUnitState state)
     {
         unitState = state;
@@ -94,20 +109,25 @@ public class UnitController : UnitBase
                 destNode = Managers.Map.GetNodeFromWorldPosition(Target.transform.position);
                 LookAtTarget(Target);
 
-                List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos);
+                List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos, 10);
 
-                if (path.Count < 2) yield break;
-
-                if (next != null) { next.walkable = true; }
-                next = Managers.Map.GetNodeFromCellPosition(path[1]);
-                next.walkable = false;
-                IsLerpCellPosCompleted = false;
+                if (path.Count < 2)
+                {
+                    Debug.Log("NoPath");
+                }
+                else
+                {
+                    if (next != null) { next.walkable = true; }
+                    next = Managers.Map.GetNodeFromCellPosition(path[1]);
+                    next.walkable = false;
+                    IsLerpCellPosCompleted = false;
+                }
             }
             else
             {
                 if (Target != null)
                 {
-                    if (Vector3.Distance(transform.position, Target.transform.position) < baseStat.AttackRange + Target.unitRadius)
+                    if (Vector3.Distance(transform.position, Target.transform.position) < attackRange.Value + Target.unitRadius)
                     {
                         animator.SetTrigger("Idle");
                         SetState(EUnitState.Attack);
@@ -143,30 +163,29 @@ public class UnitController : UnitBase
         {
             next.walkable = true;
         }
-        unitCollider.enabled = false;
         Managers.Resource.Destroy(gameObject, 2f);
     }
 
-    private List<Vector2> debugPath = new List<Vector2>();
+    //private List<Vector2> debugPath = new List<Vector2>();
 
-    void OnDrawGizmos()
-    {
-        // 경로를 시각적으로 확인
-        Gizmos.color = Color.yellow;
+    //void OnDrawGizmos()
+    //{
+    //    // 경로를 시각적으로 확인
+    //    Gizmos.color = Color.yellow;
 
-        if (debugPath != null && debugPath.Count > 1)
-        {
-            for (int i = 0; i < debugPath.Count - 1; i++)
-            {
-                // 각 경로 지점을 선으로 연결
-                Vector3 from = Managers.Map.GetNodeFromCellPosition(debugPath[i]).worldPosition;
-                Vector3 to = Managers.Map.GetNodeFromCellPosition(debugPath[i + 1]).worldPosition;
+    //    if (debugPath != null && debugPath.Count > 1)
+    //    {
+    //        for (int i = 0; i < debugPath.Count - 1; i++)
+    //        {
+    //            // 각 경로 지점을 선으로 연결
+    //            Vector3 from = Managers.Map.GetNodeFromCellPosition(debugPath[i]).worldPosition;
+    //            Vector3 to = Managers.Map.GetNodeFromCellPosition(debugPath[i + 1]).worldPosition;
 
-                Gizmos.DrawLine(from, to);
-            }
-        }
+    //            Gizmos.DrawLine(from, to);
+    //        }
+    //    }
 
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, detectRange);
-    }
+    //    Gizmos.color = Color.magenta;
+    //    Gizmos.DrawWireSphere(transform.position, detectRange);
+    //}
 }

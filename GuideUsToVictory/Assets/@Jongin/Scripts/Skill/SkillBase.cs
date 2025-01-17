@@ -34,12 +34,13 @@ public class SkillBase : MonoBehaviour
             Owner.skills.ActiveSkills.Remove(this);
         }
 
+        if(Owner.animator!=null)
         Owner.animator.SetTrigger(skillData.AnimParam);
     }
 
     protected virtual void GenerateProjectile(UnitBase owner, Vector3 spawnPos)
     {
-        Projectile go = Instantiate(projectile, spawnPos, Quaternion.identity);
-        go.SetSpawnInfo(owner);
+        GameObject go = Managers.Resource.Instantiate(projectile.gameObject, null, true);
+        go.GetComponent<Projectile>().SetSpawnInfo(owner);
     }
 }

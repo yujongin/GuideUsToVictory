@@ -7,12 +7,32 @@ public class Tower : UnitBase
 
     void Start()
     {
-        base.Init();
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
-        lineRenderer.positionCount = 2; // 두 점을 그리기 위한 포인트 수
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        Init();
+    }
+
+    public override void Init()
+    {
+        unitCollider = GetComponent<Collider>();
+        skills = GetComponent<SkillComponent>();
+        skills.SetInfo(this);
+
+
+        curHp = baseStat.Hp;
+        maxHp = new UnitStat(baseStat.Hp);
+        speed = new UnitStat(baseStat.Speed);
+        attackSpeed = new UnitStat(baseStat.AttackSpeed);
+        attackDamage = new UnitStat(baseStat.AttackDamage);
+        armor = new UnitStat(baseStat.Armor);
+        abilityPower = new UnitStat(baseStat.AbilityPower);
+        magicRegistance = new UnitStat(baseStat.MagicRegistance);
+        attackRange = new UnitStat(baseStat.AttackRange);
+        unitRadius = unitCollider.bounds.size.x / 2;
+
+        myTeam = LayerMask.LayerToName(gameObject.layer);
+        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
+        enemyLayer = LayerMask.GetMask(enemyTeam);
+
+        AddPos = Vector3.up * 5f;
         StartCoroutine(AttackTarget());
     }
 
@@ -23,8 +43,24 @@ public class Tower : UnitBase
             Target = DetectTarget();
 
             // 타겟이 있으면 라인 업데이트
+            if (Target != null)
+            {
+                if (Target.isDead)
+                {
+                    yield return null;
+                }
+                //Debug.Log(skills.CurrentSkill.skillData.name);
 
-            yield return new WaitForSeconds(1 / attackSpeed.Value);
+                //animator.SetTrigger("Attack");
+
+                if (Vector3.Distance(Target.transform.position, transform.position) < attackRange.Value)
+                {
+                    skills.CurrentSkill.DoSkill();
+                    yield return new WaitForSeconds(1 / attackSpeed.Value);
+                }
+            }
+
+            yield return null;
         }
     }
 

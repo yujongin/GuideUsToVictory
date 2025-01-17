@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6097272118568363735}
   - component: {fileID: 7739415899574946525}
   m_Layer: 0
-  m_Name: HumansProjectiles_0
+  m_Name: ArcherArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,3 +114,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281924a8366228b4bbf4e7b952d9b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LookAtTarget: 1

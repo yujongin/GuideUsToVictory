@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -6,29 +7,35 @@ public class Projectile : MonoBehaviour
 
     public ProjectileData projectileData;
     private ProjectileMotionBase projectileMotion;
-    
+
     public void SetSpawnInfo(UnitBase owner)
     {
         Owner = owner;
         UnitBase target = Owner.Target;
-        projectileMotion = GetComponent<ProjectileMotionBase>();    
+        projectileMotion = GetComponent<ProjectileMotionBase>();
 
         ParabolaMotion parabolaMotion = projectileMotion as ParabolaMotion;
         if (parabolaMotion != null)
-            parabolaMotion.SetInfo(projectileData,owner.projectileLauncher.position, target, () =>
+            parabolaMotion.SetInfo(projectileData, owner.projectileLauncher.position, target, () =>
             {
-                Owner.Target.OnDamage(Owner);
-                //despawn
-                Destroy(gameObject);
-            });  
-        
+                EndCallback(target);
+            });
+
         StraightMotion straightMotion = projectileMotion as StraightMotion;
         if (straightMotion != null)
-            straightMotion.SetInfo(projectileData,owner.projectileLauncher.position, target, () =>
+            straightMotion.SetInfo(projectileData, owner.projectileLauncher.position, target, () =>
             {
-                Owner.Target.OnDamage(Owner);
-                //despawn
-                Destroy(gameObject);
+                EndCallback(target);
             });
+    }
+
+    public virtual void EndCallback(UnitBase target)
+    {
+        if (target != null)
+        {
+            target.OnDamage(Owner);
+        }
+        //despawn
+        Managers.Resource.Destroy(gameObject);
     }
 }

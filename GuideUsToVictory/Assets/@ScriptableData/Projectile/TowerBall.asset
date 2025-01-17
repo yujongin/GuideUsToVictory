@@ -9,15 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
-  m_Name: Tower
+  m_Script: {fileID: 11500000, guid: a75b5de6dcce31946944d312452ccd67, type: 3}
+  m_Name: TowerBall
   m_EditorClassIdentifier: 
-  Hp: 1000
-  Speed: 0
-  AttackSpeed: 0.5
-  AttackDamage: 20
-  Armor: 10
-  AbilityPower: 10
-  MagicRegistance: 10
-  AttackRange: 40
-  Projectile: {fileID: 0}
+  Name: TowerBall
+  Duration: 0
+  HitSound: 0
+  ProjRange: 0
+  ProjSpeed: 20

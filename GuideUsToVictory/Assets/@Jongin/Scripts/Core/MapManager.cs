@@ -5,7 +5,7 @@ using System;
 
 public class MapManager : MonoBehaviour
 {
-    public float nodeSize = 2.0f;
+    public float nodeSize = 1.0f;
 
     public Node[,] map;
 

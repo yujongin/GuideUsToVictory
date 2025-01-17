@@ -8,7 +8,7 @@ public abstract class ProjectileMotionBase : MonoBehaviour
 
     public Vector3 StartPosition { get; private set; }
     public UnitBase Target {  get; private set; }
-    public bool LookAtTarget { get; private set; }
+    public bool LookAtTarget;
     protected Action EndCallback { get; private set; }
     public ProjectileData ProjectileData { get; private set; }
     protected void SetInfo(ProjectileData projectileData,Vector3 spawnPosition, UnitBase target, Action endCallback = null)
@@ -18,8 +18,8 @@ public abstract class ProjectileMotionBase : MonoBehaviour
         Target = target;
         EndCallback = endCallback;
 
-        //Temp
-        LookAtTarget = true;
+        ////Temp
+        //LookAtTarget = true;
 
         if (launchProjectile != null) 
             StopCoroutine(launchProjectile);
@@ -29,7 +29,8 @@ public abstract class ProjectileMotionBase : MonoBehaviour
 
     protected void LookAtDir(Vector3 dir)
     {
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x)*Mathf.Rad2Deg);
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        transform.rotation = lookRotation * Quaternion.Euler(0, -90f, 0);
     }
     protected abstract IEnumerator LaunchProjectile();
 }

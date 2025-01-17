@@ -21,7 +21,7 @@ public class ResourceManager : MonoBehaviour
 
     public GameObject GetUnitPrefab(string team, string unitName)
     {
-        for(int i = 0; i< Units[team].Count; i++)
+        for (int i = 0; i < Units[team].Count; i++)
         {
             if (Units[team][i].name.Contains(unitName))
             {
@@ -30,12 +30,12 @@ public class ResourceManager : MonoBehaviour
         }
         return null;
     }
-    public void Destroy(GameObject go, float delay)
+    public void Destroy(GameObject go, float delay = 0)
     {
         if (go == null)
             return;
-        
-        StartCoroutine(DelayedPush(go,delay));
+
+        StartCoroutine(DelayedPush(go, delay));
 
     }
     private IEnumerator DelayedPush(GameObject go, float delay)
@@ -57,8 +57,18 @@ public class ResourceManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Instantiate(GetUnitPrefab("Blue", "JuniorKnight"),null,true);
-            Instantiate(GetUnitPrefab("Red", "JuniorKnight"),null,true);
+            //for (int i = 0; i < 100; i++)
+            //{
+            GameObject go = Instantiate(GetUnitPrefab("Blue", "JuniorKnight"), null, true);
+            go.transform.position = new Vector3(200, 6, 0);
+            go.GetComponent<UnitController>().SetInfo();
+            //    Instantiate(GetUnitPrefab("Red", "JuniorKnight"), null, true);
+            //}
+            //Instantiate(GetUnitPrefab("Blue", "EliteArcher"), null, true);
+            //Instantiate(GetUnitPrefab("Blue", "EliteArcher"), null, true);
+            //for (int i = 0; i < 50; i++)
+            //{
+            //}
         }
     }
 }
