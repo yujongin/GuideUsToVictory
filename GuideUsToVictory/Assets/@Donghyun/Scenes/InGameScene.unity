@@ -3303,6 +3303,8 @@ MonoBehaviour:
   Timer: {fileID: 1373857968}
   PriceInputField: {fileID: 1110055000}
   CurrentBidText: {fileID: 678236314}
+  StartingPriceText: {fileID: 1689462759}
+  LastBidderInfo: {fileID: 1672510117}
   tetrisSpawner: {fileID: 1762167086}
 --- !u!1 &472052499
 GameObject:
@@ -11746,12 +11748,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 470454258}
   - {fileID: 1672510116}
   - {fileID: 678236313}
   - {fileID: 359965743}
   - {fileID: 154370185}
   - {fileID: 1689462758}
-  - {fileID: 470454258}
   - {fileID: 1694420331}
   - {fileID: 1110054999}
   m_Father: {fileID: 0}
@@ -12285,6 +12287,8 @@ MonoBehaviour:
   Timer: {fileID: 0}
   PriceInputField: {fileID: 0}
   CurrentBidText: {fileID: 0}
+  StartingPriceText: {fileID: 0}
+  LastBidderInfo: {fileID: 0}
   tetrisSpawner: {fileID: 0}
 --- !u!222 &1373857970
 CanvasRenderer:
@@ -14573,7 +14577,7 @@ GameObject:
   - component: {fileID: 1672510118}
   - component: {fileID: 1672510117}
   m_Layer: 5
-  m_Name: Bidder
+  m_Name: LastBidderInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14618,7 +14622,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD604\uC7AC\uC751\uCC30\uC790:\nplayer1"
+  m_text: "\uC751\uCC30\uC790:\\nNone\\n\uC751\uCC30\uAC00: 0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebb4333ac37f97d49a99b5f84080a886, type: 2}
   m_sharedMaterial: {fileID: -4440981185318580409, guid: ebb4333ac37f97d49a99b5f84080a886, type: 2}
@@ -14795,7 +14799,7 @@ GameObject:
   - component: {fileID: 1689462760}
   - component: {fileID: 1689462759}
   m_Layer: 5
-  m_Name: StartCost
+  m_Name: StartingPrice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14840,7 +14844,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC2DC\uC791\uAC00 : 40 cost"
+  m_text: "\uC2DC\uC791\uAC00: 0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebb4333ac37f97d49a99b5f84080a886, type: 2}
   m_sharedMaterial: {fileID: -4440981185318580409, guid: ebb4333ac37f97d49a99b5f84080a886, type: 2}
@@ -15083,18 +15087,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 470454259}
-        m_TargetAssemblyTypeName: AuctionTimer, Assembly-CSharp
-        m_MethodName: AddTime
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 5
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 470454259}
         m_TargetAssemblyTypeName: AuctionTimer, Assembly-CSharp
         m_MethodName: OnBidButtonClicked
