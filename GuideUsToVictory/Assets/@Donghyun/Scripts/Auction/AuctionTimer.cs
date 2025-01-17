@@ -27,6 +27,7 @@ public class AuctionTimer : MonoBehaviour
     private int player1Gold = 10000; // Player 1의 초기 골드
     private int player2Gold = 10000; // Player 2의 초기 골드
 
+    public BlockManager blockManager; // 소환의땅 블록저장 스크립트 참조
     void Start()
     {
         Debug.Log("AuctionTimer Script Started");
@@ -172,11 +173,6 @@ public class AuctionTimer : MonoBehaviour
     {
         Debug.Log("Timer Ended!");
 
-        // 블록 저장 위치로 이동
-        if (tetrisSpawner != null)
-        {
-            tetrisSpawner.MoveBlockToStore();
-        }
 
         // 마지막 응찰자 정보 출력
         UpdateLastBidderInfo();

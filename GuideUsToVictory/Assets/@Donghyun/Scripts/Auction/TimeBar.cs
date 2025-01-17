@@ -14,7 +14,7 @@ public class TimeBar : MonoBehaviour
        /*
         * if (slTimer.value > 0.0f)
         {
-            // 시간이 변경한 만큼 slider Value 변경을 합니다.
+            // 시간이 변경한 만큼 slider Value 변경
             slTimer.value -= Time.deltaTime;
         }
         else
