@@ -23,4 +23,11 @@ public static class Define
         DefaultSkill,
         ASkill
     }
+
+    public enum EGameState
+    {
+        Ready,
+        Battle,
+        End
+    }
 }

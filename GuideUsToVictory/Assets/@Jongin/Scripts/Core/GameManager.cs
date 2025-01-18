@@ -1,30 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static Define;
 public class GameManager : MonoBehaviour
 {
-    //private HashSet<UnitBase> blueTeamUnits = new HashSet<UnitBase>();
-    //private HashSet<UnitBase> redTeamUnits = new HashSet<UnitBase>();
+    EGameState gameState;
+    public EGameState GameState { get { return gameState; } }
 
-    //public HashSet<UnitBase> GetUnitList(string teamName)
-    //{
-    //    if(teamName == "Blue")
-    //        return blueTeamUnits;
-    //    else
-    //        return redTeamUnits;
-    //}
 
-    //public void AddUnit(UnitBase unit, string teamName)
-    //{
-    //    if (teamName == "Blue")
-    //        blueTeamUnits.Add(unit);
-    //    else
-    //        redTeamUnits.Add(unit);
-    //}
     private void Awake()
-    { 
+    {
+        gameState = EGameState.Ready;
+    }
+
+
+    public void SetState(EGameState state)
+    {
+        gameState = state;
+
+        switch (gameState)
+        {
+            case EGameState.Ready:
+                break;
+            case EGameState.Battle:
+                break;
+            case EGameState.End:
+                break;
+        }
+    }
+
+    void UpdateReady()
+    {
+        //change first 4 block to unit
 
     }
 
+    void UpdateBattle()
+    {
+        //summon Timer
+        
+        //unit production
+
+
+    }
+
+    void UpdateEnd()
+    {
+
+    }
 
 }
