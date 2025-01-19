@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
   m_Name: Waver
   m_EditorClassIdentifier: 
+  Name: Waver
   Hp: 100
   Speed: 3
   AttackSpeed: 0.8
@@ -20,4 +21,4 @@ MonoBehaviour:
   AbilityPower: 50
   MagicRegistance: 30
   AttackRange: 20
-  Projectile: {fileID: 0}
+  Race: 0

@@ -13,20 +13,11 @@ public class UnitController : UnitBase
     private void OnEnable()
     {
         base.Init();
+        AddPos = Vector3.up * -4f;
         SetState(EUnitState.Move);
     }
-    void Start()
-    {
-        //base.Init();
 
 
-    }
-
-    public void SetInfo()
-    {
-        StatReset();
-        Debug.Log(animator);
-    }
     public void SetState(EUnitState state)
     {
         unitState = state;
@@ -41,8 +32,6 @@ public class UnitController : UnitBase
                 break;
             case EUnitState.Attack:
                 StartCoroutine(UpdateAttack(attackSpeed.Value));
-                break;
-            case EUnitState.Skill:
                 break;
             case EUnitState.Dead:
                 break;
@@ -108,7 +97,7 @@ public class UnitController : UnitBase
 
                 if (path.Count < 2)
                 {
-                    Debug.Log("NoPath");
+                    //Debug.Log("NoPath");
                 }
                 else
                 {

@@ -9,6 +9,11 @@ public static class Define
         PercentMult,
     }
 
+    public enum ETeam
+    {
+        Blue,
+        Red
+    }
     public enum EUnitState
     {
         Idle,
@@ -29,5 +34,11 @@ public static class Define
         Ready,
         Battle,
         End
+    }
+
+    public enum ERace
+    {
+        Human,
+        Demon
     }
 }

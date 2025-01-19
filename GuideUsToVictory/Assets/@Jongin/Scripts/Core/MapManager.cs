@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 using System;
+using static Define;
 
 public class MapManager : MonoBehaviour
 {
-  public float nodeSize = 1.0f;
+  public float nodeSize = 2.0f;
 
   public Node[,] map;
 
@@ -16,11 +16,11 @@ public class MapManager : MonoBehaviour
     map = FindFirstObjectByType<GridGenerator>().GenerateGrid(nodeSize);
   }
 
-  public UnitBase GetTower(string team)
+  public UnitBase GetTower(ETeam team)
   {
     for (int i = 0; i < towers.Length; i++)
     {
-      if ((1 << towers[i].layer) == LayerMask.GetMask(team))
+      if ((1 << towers[i].layer) == LayerMask.GetMask(team.ToString()))
       {
         return towers[i].GetComponent<UnitBase>();
       }

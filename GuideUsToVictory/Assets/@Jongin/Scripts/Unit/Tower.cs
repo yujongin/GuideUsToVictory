@@ -7,34 +7,13 @@ public class Tower : UnitBase
 
     void Start()
     {
+
         Init();
-    }
-
-    public override void Init()
-    {
-        unitCollider = GetComponent<Collider>();
-        skills = GetComponent<SkillComponent>();
-        skills.SetInfo(this);
-
-
-        curHp = baseStat.Hp;
-        maxHp = new UnitStat(baseStat.Hp);
-        speed = new UnitStat(baseStat.Speed);
-        attackSpeed = new UnitStat(baseStat.AttackSpeed);
-        attackDamage = new UnitStat(baseStat.AttackDamage);
-        armor = new UnitStat(baseStat.Armor);
-        abilityPower = new UnitStat(baseStat.AbilityPower);
-        magicRegistance = new UnitStat(baseStat.MagicRegistance);
-        attackRange = new UnitStat(baseStat.AttackRange);
-        unitRadius = unitCollider.bounds.size.x / 2;
-
-        myTeam = LayerMask.LayerToName(gameObject.layer);
-        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
-        enemyLayer = LayerMask.GetMask(enemyTeam);
-
         AddPos = Vector3.up * 5f;
         StartCoroutine(AttackTarget());
     }
+
+
 
     IEnumerator AttackTarget()
     {
