@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         GameInit();
+        Managers.UI.Init();
     }
     private void Update()
     {
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        timerText.text = time.ToString("F1");
+        timerText.text = time.ToString("F0");
         blockCountText.text = myTeam.CurBlockCount.ToString();
         unitCountText.text = myTeam.Population.ToString();
     }
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
             }
             teamDatas[i].MaxBlockCount = 4;
             teamDatas[i].CurBlockCount = teamDatas[i].MaxBlockCount;
-            teamDatas[i].Population = teamDatas[i].MaxBlockCount;
+            teamDatas[i].Population = 0;
         }
 
         time = readyTime;

@@ -6,7 +6,7 @@ public class UnitBase : MonoBehaviour
     public UnitBase Target { get; protected set; }
     [HideInInspector]
     public SkillComponent skills;
-    public UnitData baseStat { get; private set; }
+    public UnitData baseStat;
 
     public float curHp;
     public UnitStat maxHp;

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using static Define;
 public class ResourceManager : MonoBehaviour
@@ -10,7 +9,7 @@ public class ResourceManager : MonoBehaviour
 
     public Dictionary<ETeam, List<GameObject>> Units = new Dictionary<ETeam, List<GameObject>>();
 
-    void Start()
+    void Awake()
     {
         Units.Add(ETeam.Blue, blueUnitPrefabs);
         Units.Add(ETeam.Red, redUnitPrefabs);
@@ -25,7 +24,21 @@ public class ResourceManager : MonoBehaviour
 
         return go;
     }
+    public UnitData[] GetUnitsByRace(ETeam team, ERace race)
+    {
+        UnitData[] units = new UnitData[4];
+        foreach(var unit in Units[team])
+        {
+            UnitData data = unit.GetComponent<UnitBase>().baseStat;
+            if(data.Race == race)
+            {
+                units[data.cost - 1] = data;
+            }
+        }
 
+        return units;
+
+    }
     public GameObject GetUnitPrefab(ETeam team, string unitName)
     {
         for (int i = 0; i < Units[team].Count; i++)
