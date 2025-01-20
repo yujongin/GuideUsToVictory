@@ -34,8 +34,8 @@ public class SkillBase : MonoBehaviour
             Owner.skills.ActiveSkills.Remove(this);
         }
 
-        if(Owner.animator!=null)
-        Owner.animator.SetTrigger(skillData.AnimParam);
+        if(Owner.UnitAnimator!=null)
+        Owner.UnitAnimator.SetTrigger(skillData.AnimParam);
     }
 
     protected virtual void GenerateProjectile(UnitBase owner, Vector3 spawnPos)

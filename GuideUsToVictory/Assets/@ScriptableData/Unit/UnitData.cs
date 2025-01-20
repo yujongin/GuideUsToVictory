@@ -12,5 +12,6 @@ public class UnitData : ScriptableObject
     public float AbilityPower;
     public float MagicRegistance;
     public float AttackRange;
+    public int Capacity;
     public ERace Race;
 }

@@ -21,17 +21,41 @@ public class GameManager : MonoBehaviour
     public TeamData enemyTeam;
 
     private float time;
-
+    float readyTime = 10f;
+    float unitSpawnTerm = 20f;
     private void Start()
     {
         GameInit();
     }
-
     private void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.Z))
+        //{
+        //    AddUnit(ETeam.Blue, "EliteArcher");
+        //    AddUnit(ETeam.Blue, "JuniorKnight");
+        //    AddUnit(ETeam.Red, "EliteArcher");
+        //    AddUnit(ETeam.Red, "JuniorKnight");
+        //}
 
+        time -= Time.deltaTime;
+        
+        if (time <= 0)
+        {
+            switch (GameState)
+            {
+                case EGameState.Ready:
+                    SetState(EGameState.Battle);
+                    break;
+                case EGameState.Battle:
+                    SpawnUnits();
+                    break;
+            }
+        }
+
+        timerText.text = time.ToString("F1");
+        blockCountText.text = myTeam.CurBlockCount.ToString();
+        unitCountText.text = myTeam.Population.ToString();
     }
-
     void GameInit()
     {
         ETeam randomTeam = (ETeam)Random.Range(0, 2);
@@ -56,27 +80,39 @@ public class GameManager : MonoBehaviour
             }
             teamDatas[i].MaxBlockCount = 4;
             teamDatas[i].CurBlockCount = teamDatas[i].MaxBlockCount;
+            teamDatas[i].Population = teamDatas[i].MaxBlockCount;
         }
 
+        time = readyTime;
         SetState(EGameState.Ready);
     }
 
-    public void AddUnit(ETeam team, string name)
+    public void AddUnit(ETeam team, UnitData unitData)
     {
         TeamData data = GetTeamData(team);
-        if (data.CurBlockCount == 0) return;
+        if (data.CurBlockCount == 0 || data.CurBlockCount < unitData.Capacity) return;
 
-        data.CurBlockCount--;
-        data.UnitCountDict[name]++;
+        data.CurBlockCount-= unitData.Capacity;
+        data.Population++;
+        data.UnitCountDict[unitData.name]++;
     }
 
-    public void RemoveUnit(ETeam team, string name)
+    public void IncreaseMaxBlock(ETeam team, int count)
     {
         TeamData data = GetTeamData(team);
-        if (data.CurBlockCount == data.MaxBlockCount || data.UnitCountDict[name] == 0) return;
 
-        data.CurBlockCount++;
-        data.UnitCountDict[name]--;
+        data.MaxBlockCount += count;
+        data.CurBlockCount += count;
+    }
+
+    public void RemoveUnit(ETeam team, UnitData unitData)
+    {
+        TeamData data = GetTeamData(team);
+        if (data.CurBlockCount == data.MaxBlockCount || data.UnitCountDict[unitData.name] == 0) return;
+
+        data.CurBlockCount+= unitData.Capacity;
+        data.Population--;
+        data.UnitCountDict[unitData.name]--;
     }
 
     TeamData GetTeamData(ETeam team)
@@ -93,50 +129,16 @@ public class GameManager : MonoBehaviour
     public void SetState(EGameState state)
     {
         gameState = state;
-
-        switch (gameState)
-        {
-            case EGameState.Ready:
-                StartCoroutine(UpdateReady());
-                break;
-            case EGameState.Battle:
-                break;
-            case EGameState.End:
-                break;
-        }
     }
 
-    IEnumerator UpdateReady()
-    {
-        //explain text 
-        CallNoticeTextFade("30초 뒤에 유닛이 생성됩니다.");
-        time = 30;
-        while (gameState == EGameState.Ready)
-        {
-            if (time <= 0)
-            {
-                time = 0;
-                SetState(EGameState.Battle);
-                yield break;
-            }
-
-            time -= Time.deltaTime;
-            timerText.text = time.ToString("F1");
-            yield return null;
-        }
-        //change first 4 block to unit
-
-
-        yield return null;
-    }
-    void UpdateBattle()
+    void SpawnUnits()
     {
         //summon Timer
-        time = 20;
+        time = unitSpawnTerm;
         //unit production
-        while (gameState == EGameState.Battle)
+        for(int i = 0; i < 2;i++)
         {
-
+            Managers.UnitSpawn.SpawnUnits(teamDatas[i]);
         }
     }
     void CallNoticeTextFade(string text)
@@ -153,7 +155,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateEnd()
     {
-
+        //show Win Lose ment 
     }
 
 }

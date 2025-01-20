@@ -13,7 +13,7 @@ public class TowerProjectile : Projectile
     }
     public override void EndCallback(UnitBase target)
     {
-        Collider[] enemies = Physics.OverlapSphere(target.transform.position, detectRange, Owner.enemyLayer);
+        Collider[] enemies = Physics.OverlapSphere(target.transform.position, detectRange, Owner.EnemyLayer);
 
         for(int i = 0; i< enemies.Length; i++)
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static Define;
 public class ResourceManager : MonoBehaviour
@@ -41,8 +42,17 @@ public class ResourceManager : MonoBehaviour
         if (go == null)
             return;
 
-        StartCoroutine(DelayedPush(go, delay));
+        if (delay > 0)
+        {
+            StartCoroutine(DelayedPush(go, delay));
+        }
+        else
+        {
+            if (Managers.Pool.Push(go))
+                return;
 
+            Object.Destroy(go);
+        }
     }
     private IEnumerator DelayedPush(GameObject go, float delay)
     {

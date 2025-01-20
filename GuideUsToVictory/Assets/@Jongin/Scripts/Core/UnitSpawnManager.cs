@@ -6,10 +6,6 @@ public class UnitSpawnManager : MonoBehaviour
     public HashSet<UnitBase> myTeamsSpawned = new HashSet<UnitBase>();
     public HashSet<UnitBase> enemiesSpawned = new HashSet<UnitBase>();
 
-    public void Init()
-    {
-
-    }
     public Transform GetRootTransform(string name)
     {
         GameObject root = GameObject.Find(name);
@@ -26,23 +22,47 @@ public class UnitSpawnManager : MonoBehaviour
     public Transform BlueSpawnPos;
     public Transform RedSpawnPos;
 
-
-    Vector3 GetRandomSpawnPos(ETeam team)
+    public Vector3 GetRandomSpawnPos(ETeam team)
     {
         Transform baseSpawnPos = team == ETeam.Blue ? BlueSpawnPos : RedSpawnPos;
-        float x = Random.Range(-20, 20);
-        float z = Random.Range(-20, 20);
+        float x = Random.Range(-15, 15);
+        float z = Random.Range(-15, 15);
 
         Vector3 spawnPos = baseSpawnPos.position + new Vector3(x, 0, z);
         return spawnPos;
     }
 
-    private void Update()
+    public void SpawnUnits(TeamData teamData)
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        foreach (var unit in teamData.UnitCountDict)
         {
-            GameObject go = Managers.Resource.Instantiate(Managers.Resource.GetUnitPrefab(ETeam.Red, "JuniorKnight"), null, true);
-            go.transform.position = GetRandomSpawnPos(ETeam.Red);
+            GameObject prefab = Managers.Resource.GetUnitPrefab(teamData.Team, unit.Key);
+            for (int i = 0; i < unit.Value; i++)
+            {
+                if (teamData.Team == Managers.Game.myTeam.Team)
+                {
+                    GameObject go = Managers.Resource.Instantiate(prefab, myTeamsRoot, true);
+                    myTeamsSpawned.Add(go.GetComponent<UnitBase>());
+                }
+                else
+                {
+                    GameObject go = Managers.Resource.Instantiate(prefab, enemiesRoot, true);
+                    enemiesSpawned.Add(go.GetComponent<UnitBase>());
+                }
+            }
         }
+    }
+
+    public void DespawnUnit(UnitBase unit)
+    {
+        if(unit.MyTeam == Managers.Game.myTeam.Team)
+        {
+            myTeamsSpawned.Remove(unit);
+        }
+        else
+        {
+            enemiesSpawned.Remove(unit);
+        }
+        Managers.Resource.Destroy(unit.gameObject, 2f);
     }
 }

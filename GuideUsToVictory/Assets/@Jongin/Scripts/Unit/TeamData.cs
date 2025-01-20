@@ -7,9 +7,9 @@ public class TeamData
     public ETeam Team;
     public ERace Race;
     public Dictionary<string, int> UnitCountDict;
-    public float MaxBlockCount;
-    public float CurBlockCount;
-
+    public int MaxBlockCount;
+    public int CurBlockCount;
+    public int Population;
     public TeamData(ETeam team, ERace race)
     {
         this.Team = team;
