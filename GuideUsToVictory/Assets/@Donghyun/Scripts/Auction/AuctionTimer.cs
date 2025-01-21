@@ -4,43 +4,43 @@ using TMPro;
 
 public class AuctionTimer : MonoBehaviour
 {
-    public float auctionTime = 30f; // ±âº» °æ¸Å ½Ã°£
-    private float remainingTime;    // ³²Àº ½Ã°£
-    public Slider TimerBar;         // Å¸ÀÌ¸Ó ½½¶óÀÌ´õ
-    public TextMeshProUGUI Timer;   // Å¸ÀÌ¸Ó ÅØ½ºÆ®
-    public TMP_InputField PriceInputField; // °¡°İ ÀÔ·Â ÇÊµå
-    public TextMeshProUGUI CurrentBidText; // ÇöÀç ÀÀÂû°¡ Ç¥½Ã ÅØ½ºÆ®
-    public TextMeshProUGUI StartingPriceText; // ½ÃÀÛ°¡ ÅØ½ºÆ® UI
-    public TextMeshProUGUI LastBidderInfo; // ¸¶Áö¸· ÀÀÂûÀÚ Á¤º¸ Ç¥½Ã ÅØ½ºÆ®
-    public RandomTetrisSpawner tetrisSpawner; // ºí·Ï ½ºÆ÷³Ê
-    public TextMeshProUGUI PlayerGoldText; // ÇÃ·¹ÀÌ¾î °ñµå Ç¥½Ã UI <Áß¾Ó ÃÖ»ó´Ü>
+    public float auctionTime = 30f; // ê¸°ë³¸ ê²½ë§¤ ì‹œê°„
+    private float remainingTime;    // ë‚¨ì€ ì‹œê°„
+    public Slider TimerBar;         // íƒ€ì´ë¨¸ ìŠ¬ë¼ì´ë”
+    public TextMeshProUGUI Timer;   // íƒ€ì´ë¨¸ í…ìŠ¤íŠ¸
+    public TMP_InputField PriceInputField; // ê°€ê²© ì…ë ¥ í•„ë“œ
+    public TextMeshProUGUI CurrentBidText; // í˜„ì¬ ì‘ì°°ê°€ í‘œì‹œ í…ìŠ¤íŠ¸
+    public TextMeshProUGUI StartingPriceText; // ì‹œì‘ê°€ í…ìŠ¤íŠ¸ UI
+    public TextMeshProUGUI LastBidderInfo; // ë§ˆì§€ë§‰ ì‘ì°°ì ì •ë³´ í‘œì‹œ í…ìŠ¤íŠ¸
+    public RandomTetrisSpawner tetrisSpawner; // ë¸”ë¡ ìŠ¤í¬ë„ˆ
+    public TextMeshProUGUI PlayerGoldText; // í”Œë ˆì´ì–´ ê³¨ë“œ í‘œì‹œ UI <ì¤‘ì•™ ìµœìƒë‹¨>
 
-    private int StartingPrice = 0; // ºí·Ï ½ÃÀÛ°¡°İ
-    private bool isTimerRunning = false; // Å¸ÀÌ¸Ó »óÅÂ
-    private int currentBidPrice = 0;     // ÇöÀç ÀÀÂûµÈ °¡°İ
-    private string lastBidder = "None";  // ¸¶Áö¸· ÀÀÂûÀÚ ÀÌ¸§
-    private bool IsPlayerOneTurn = true;  //ÇÃ·¹ÀÌ¾î 1,2 ¹ø°¥¾Æ °¡±â À§ÇØ bool·Î ¼±¾ğ
+    private int StartingPrice = 0; // ë¸”ë¡ ì‹œì‘ê°€ê²©
+    private bool isTimerRunning = false; // íƒ€ì´ë¨¸ ìƒíƒœ
+    private int currentBidPrice = 0;     // í˜„ì¬ ì‘ì°°ëœ ê°€ê²©
+    private string lastBidder = "None";  // ë§ˆì§€ë§‰ ì‘ì°°ì ì´ë¦„
+    private bool IsPlayerOneTurn = true;  //í”Œë ˆì´ì–´ 1,2 ë²ˆê°ˆì•„ ê°€ê¸° ìœ„í•´ boolë¡œ ì„ ì–¸
 
-    private int AuctionCount = 0;  // °æ¸ÅÁøÇà Ä«¿îÆ® ÃÊ±â
-    private const int MaxAuctionCount = 2;  // ÃÖ´ë °æ¸Å °¡´É È½¼ö °íÁ¤
+    private int AuctionCount = 0;  // ê²½ë§¤ì§„í–‰ ì¹´ìš´íŠ¸ ì´ˆê¸°
+    private const int MaxAuctionCount = 2;  // ìµœëŒ€ ê²½ë§¤ ê°€ëŠ¥ íšŸìˆ˜ ê³ ì •
 
-    private int player1Gold = 10000; // Player 1ÀÇ ÃÊ±â °ñµå
-    private int player2Gold = 10000; // Player 2ÀÇ ÃÊ±â °ñµå
+    private int player1Gold = 10000; // Player 1ì˜ ì´ˆê¸° ê³¨ë“œ
+    private int player2Gold = 10000; // Player 2ì˜ ì´ˆê¸° ê³¨ë“œ
 
-    public BlockManager blockManager; // ¼ÒÈ¯ÀÇ¶¥ ºí·ÏÀúÀå ½ºÅ©¸³Æ® ÂüÁ¶
+    public BlockManager blockManager; // ì†Œí™˜ì˜ë•… ë¸”ë¡ì €ì¥ ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
     void Start()
     {
         Debug.Log("AuctionTimer Script Started");
         UpdateStartingPriceUI();
         UpdatePlayerGoldUI();
-        ResetAuctionValues(); // ÃÊ±âÈ­ °ª ¼³Á¤
+        ResetAuctionValues(); // ì´ˆê¸°í™” ê°’ ì„¤ì •
 
         if (tetrisSpawner != null)
         {
-            tetrisSpawner.SpawnTetrisBlock(); // Ã¹ ºí·Ï »ı¼º
+            tetrisSpawner.SpawnTetrisBlock(); // ì²« ë¸”ë¡ ìƒì„±
         }
 
-        StartTimer(); // Å¸ÀÌ¸Ó ½ÃÀÛ
+        StartTimer(); // íƒ€ì´ë¨¸ ì‹œì‘
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class AuctionTimer : MonoBehaviour
             {
                 remainingTime = 0;
                 isTimerRunning = false;
-                TimerEnded(); // ½Ã°£ÀÌ Á¾·áµÇ¸é È£Ãâ
+                TimerEnded(); // ì‹œê°„ì´ ì¢…ë£Œë˜ë©´ í˜¸ì¶œ
             }
         }
     }
@@ -86,7 +86,7 @@ public class AuctionTimer : MonoBehaviour
     {
         if (StartingPriceText != null)
         {
-            StartingPriceText.text = $"½ÃÀÛ°¡: {StartingPrice} cost";
+            StartingPriceText.text = $"ì‹œì‘ê°€: {StartingPrice} cost";
         }
     }
 
@@ -106,7 +106,7 @@ public class AuctionTimer : MonoBehaviour
 
         if (Timer != null)
         {
-            Timer.text = "½Ã°£: " + Mathf.Ceil(remainingTime).ToString();
+            Timer.text = "ì‹œê°„: " + Mathf.Ceil(remainingTime).ToString();
         }
     }
 
@@ -118,37 +118,37 @@ public class AuctionTimer : MonoBehaviour
 
             if (int.TryParse(inputText, out int bidPrice))
             {
-                // ÇöÀç ÀÀÂû°¡º¸´Ù ³·°Å³ª °°Àº °¡°İÀÎ °æ¿ì ¾Æ¹« ÀÏµµ ÀÏ¾î³ªÁö ¾ÊÀ½
+                // í˜„ì¬ ì‘ì°°ê°€ë³´ë‹¤ ë‚®ê±°ë‚˜ ê°™ì€ ê°€ê²©ì¸ ê²½ìš° ì•„ë¬´ ì¼ë„ ì¼ì–´ë‚˜ì§€ ì•ŠìŒ
                 if (bidPrice <= currentBidPrice)
                 {
                     Debug.LogWarning($"bidPrice ({bidPrice}) <= currentBidPrice ({currentBidPrice}). Returning.");
-                    return; // ¸Ş¼­µå Á¾·á
+                    return; // ë©”ì„œë“œ ì¢…ë£Œ
                 }
 
-                // ÃÖÃÊ ÀÀÂûÀÏ °æ¿ì, ½ÃÀÛ°¡¸¦ ÇöÀç ÀÀÂû°¡¿¡ ´õÇÔ
+                // ìµœì´ˆ ì‘ì°°ì¼ ê²½ìš°, ì‹œì‘ê°€ë¥¼ í˜„ì¬ ì‘ì°°ê°€ì— ë”í•¨
                 if (currentBidPrice == 0)
                 {
                     currentBidPrice = StartingPrice + bidPrice;
                 }
                 else
                 {
-                    currentBidPrice = bidPrice; // ÇöÀç ÀÀÂû °¡°İ ¾÷µ¥ÀÌÆ®
+                    currentBidPrice = bidPrice; // í˜„ì¬ ì‘ì°° ê°€ê²© ì—…ë°ì´íŠ¸
                 }
 
-                // Player Turn¿¡ µû¶ó ¸¶Áö¸· ÀÀÂûÀÚ ¼³Á¤
+                // Player Turnì— ë”°ë¼ ë§ˆì§€ë§‰ ì‘ì°°ì ì„¤ì •
                 lastBidder = IsPlayerOneTurn ? "Player 1" : "Player 2";
-                IsPlayerOneTurn = !IsPlayerOneTurn; // ÅÏ º¯°æ
+                IsPlayerOneTurn = !IsPlayerOneTurn; // í„´ ë³€ê²½
 
-                Debug.Log($"ÀÔ·ÂµÈ °¡°İ: {currentBidPrice} by {lastBidder}");
+                Debug.Log($"ì…ë ¥ëœ ê°€ê²©: {currentBidPrice} by {lastBidder}");
 
-                AddTime(1f); // ½Ã°£ ¿¬Àå
+                AddTime(2f);
 
-                UpdateCurrentBidUI(); // UI ¾÷µ¥ÀÌÆ®
-                UpdateLastBidderInfo(); // ¸¶Áö¸· ÀÀÂûÀÚ Á¤º¸ ¾÷µ¥ÀÌÆ®
+                UpdateCurrentBidUI(); // UI ì—…ë°ì´íŠ¸
+                UpdateLastBidderInfo(); // ë§ˆì§€ë§‰ ì‘ì°°ì ì •ë³´ ì—…ë°ì´íŠ¸
             }
             else
             {
-                Debug.LogWarning("À¯È¿ÇÑ ¼ıÀÚ°¡ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+                Debug.LogWarning("ìœ íš¨í•œ ìˆ«ìê°€ ì…ë ¥ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             }
         }
     }
@@ -174,49 +174,49 @@ public class AuctionTimer : MonoBehaviour
         Debug.Log("Timer Ended!");
 
 
-        // ¸¶Áö¸· ÀÀÂûÀÚ Á¤º¸ Ãâ·Â
+        // ë§ˆì§€ë§‰ ì‘ì°°ì ì •ë³´ ì¶œë ¥
         UpdateLastBidderInfo();
 
-        // ¸¶Áö¸· ÀÀÂûÀÚ Á¤º¸ Ãâ·Â ¹× °ñµå Â÷°¨
+        // ë§ˆì§€ë§‰ ì‘ì°°ì ì •ë³´ ì¶œë ¥ ë° ê³¨ë“œ ì°¨ê°
         if (currentBidPrice > 0)
         {
-            DeductGold(); // °ñµå Â÷°¨
+            DeductGold(); // ê³¨ë“œ ì°¨ê°
         }
 
-        AuctionCount++;   // °æ¸ÅÈ½¼ö 1È¸ Ãß°¡
+        AuctionCount++;   // ê²½ë§¤íšŸìˆ˜ 1íšŒ ì¶”ê°€
 
         if (AuctionCount >= MaxAuctionCount)
         {
-            Debug.Log("°æ¸Å Á¾·á");
+            Debug.Log("ê²½ë§¤ ì¢…ë£Œ");
             EndAuction();
             return;
         }
 
-        ResetAuctionValues(); // µÎ¹øÂ° ºí·Ï °æ¸Å·Î ³Ñ¾î°¥ ½Ã ¸ğµç °ª ÃÊ±âÈ­
+        ResetAuctionValues(); // ë‘ë²ˆì§¸ ë¸”ë¡ ê²½ë§¤ë¡œ ë„˜ì–´ê°ˆ ì‹œ ëª¨ë“  ê°’ ì´ˆê¸°í™”
 
-        // »õ·Î¿î ºí·Ï »ı¼º
+        // ìƒˆë¡œìš´ ë¸”ë¡ ìƒì„±
         if (tetrisSpawner != null)
         {
             tetrisSpawner.SpawnTetrisBlock();
         }
 
-        StartTimer(); // Å¸ÀÌ¸Ó Àç½ÃÀÛ
+        StartTimer(); // íƒ€ì´ë¨¸ ì¬ì‹œì‘
     }
 
     private void EndAuction()
     {
         isTimerRunning = false;
-        Debug.Log("ÀÌ¹ø °æ¸Å´Â Á¾·áµÇ¾ú½À´Ï´Ù.");
+        Debug.Log("ì´ë²ˆ ê²½ë§¤ëŠ” ì¢…ë£Œ");
     }
 
     private void ResetAuctionValues()
     {
-        StartingPrice = Random.Range(2, 21) * 5; // ½ÃÀÛ°¡¸¦ 5ÀÇ ¹è¼ö·Î ·£´ı ÃÊ±âÈ­
-        currentBidPrice = 0; // ÇöÀç ÀÀÂû°¡ ÃÊ±âÈ­
-        lastBidder = "None"; // ¸¶Áö¸· ÀÀÂûÀÚ ÃÊ±âÈ­
+        StartingPrice = Random.Range(2, 21) * 5; // ì‹œì‘ê°€ë¥¼ 5ì˜ ë°°ìˆ˜ë¡œ ëœë¤ ì´ˆê¸°í™”
+        currentBidPrice = 0; // í˜„ì¬ ì‘ì°°ê°€ ì´ˆê¸°í™”
+        lastBidder = "None"; // ë§ˆì§€ë§‰ ì‘ì°°ì ì´ˆê¸°í™”
 
-        // UI ÃÊ±âÈ­
-        UpdateStartingPriceUI(); // ½ÃÀÛ°¡ UI ¾÷µ¥ÀÌÆ®
+        // UI ì´ˆê¸°í™”
+        UpdateStartingPriceUI(); // ì‹œì‘ê°€ UI ì—…ë°ì´íŠ¸
         UpdateCurrentBidUI();
         UpdateLastBidderInfo();
 
@@ -227,7 +227,7 @@ public class AuctionTimer : MonoBehaviour
     {
         if (CurrentBidText != null)
         {
-            CurrentBidText.text = $"ÇöÀç ÀÀÂû°¡:\n{currentBidPrice}";
+            CurrentBidText.text = $"í˜„ì¬ ì‘ì°°ê°€:\n{currentBidPrice}";
         }
     }
 
@@ -235,7 +235,7 @@ public class AuctionTimer : MonoBehaviour
     {
         if (LastBidderInfo != null)
         {
-            LastBidderInfo.text = $"ÀÀÂûÀÚ:\n{lastBidder}\nÀÀÂû°¡: {currentBidPrice}";
+            LastBidderInfo.text = $"ì‘ì°°ì:\n{lastBidder}\nì‘ì°°ê°€: {currentBidPrice}";
         }
     }
 }

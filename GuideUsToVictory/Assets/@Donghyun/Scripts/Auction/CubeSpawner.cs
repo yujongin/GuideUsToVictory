@@ -3,30 +3,30 @@ using System.Collections.Generic;
 
 public class CubeSpawner : MonoBehaviour
 {
-    public GameObject cubePrefab;       // Å¥ºê ÇÁ¸®ÆÕ
-    public Transform spawnCenter;       // »ı¼º Áß½É À§Ä¡
-    public float cubeSize = 1f;         // Å¥ºê °£°İ (Å©±â)
+    public GameObject cubePrefab;       // íë¸Œ í”„ë¦¬íŒ¹
+    public Transform spawnCenter;       // ìƒì„± ì¤‘ì‹¬ ìœ„ì¹˜
+    public float cubeSize = 1f;         // íë¸Œ ê°„ê²© (í¬ê¸°)
 
-    private List<Vector3[]> possibleShapes = new List<Vector3[]>(); // °¡´ÉÇÑ Å¥ºê Á¶ÇÕ
+    private List<Vector3[]> possibleShapes = new List<Vector3[]>(); // ê°€ëŠ¥í•œ íë¸Œ ì¡°í•©
 
     void Start()
     {
-        // °¡´ÉÇÑ Á¶ÇÕ Á¤ÀÇ
+        // ê°€ëŠ¥í•œ ì¡°í•© ì •ì˜
         DefineShapes();
     }
 
     public void SpawnCubes()
     {
-        // ±âÁ¸ Å¥ºê »èÁ¦
+        // ê¸°ì¡´ íë¸Œ ì‚­ì œ
         foreach (Transform child in spawnCenter)
         {
             Destroy(child.gameObject);
         }
 
-        // ·£´ıÀ¸·Î ÇÏ³ªÀÇ Á¶ÇÕ ¼±ÅÃ
+        // ëœë¤ìœ¼ë¡œ í•˜ë‚˜ì˜ ì¡°í•© ì„ íƒ
         Vector3[] selectedShape = possibleShapes[Random.Range(0, possibleShapes.Count)];
 
-        // ¼±ÅÃµÈ Á¶ÇÕ¿¡ µû¶ó Å¥ºê »ı¼º
+        // ì„ íƒëœ ì¡°í•©ì— ë”°ë¼ íë¸Œ ìƒì„±
         foreach (Vector3 localPosition in selectedShape)
         {
             InstantiateCube(localPosition);
@@ -35,31 +35,31 @@ public class CubeSpawner : MonoBehaviour
 
     private void InstantiateCube(Vector3 localPosition)
     {
-        // ·ÎÄÃ ÁÂÇ¥¸¦ ¿ùµå ÁÂÇ¥·Î º¯È¯
+        // ë¡œì»¬ ì¢Œí‘œë¥¼ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜
         Vector3 worldPosition = spawnCenter.TransformPoint(localPosition * cubeSize);
 
-        // Y ÁÂÇ¥¸¦ °íÁ¤ (SpawnCenterÀÇ Y°ª »ç¿ë)
+        // Y ì¢Œí‘œë¥¼ ê³ ì • (SpawnCenterì˜ Yê°’ ì‚¬ìš©)
         worldPosition.y = spawnCenter.position.y;
 
-        // Å¥ºê »ı¼º
+        // íë¸Œ ìƒì„±
         GameObject newCube = Instantiate(cubePrefab, worldPosition, Quaternion.identity);
         newCube.transform.SetParent(spawnCenter);
     }
 
     private void DefineShapes()
     {
-        // 3°³ Á¶ÇÕ (¤¡, ¤¤, ¤Ñ)
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up });       // ¤¡ÀÚ
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.forward }); // ¤¤ÀÚ
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.left });    // ¤ÑÀÚ
+        // 3ê°œ ì¡°í•© (ã„±, ã„´, ã…¡)
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up });       // ã„±ì
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.forward }); // ã„´ì
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.left });    // ã…¡ì
 
-        // 4°³ Á¶ÇÕ (¤±, ¤¡, ¤Ç)
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up, Vector3.up + Vector3.right }); // ¤±ÀÚ
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up, Vector3.up + Vector3.forward }); // ¤¡ÀÚ º¯Çü
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.up, Vector3.right, Vector3.left }); // ¤ÇÀÚ
+        // 4ê°œ ì¡°í•© (ã…, ã„±, ã…—)
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up, Vector3.up + Vector3.right }); // ã…ì
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up, Vector3.up + Vector3.forward }); // ã„±ì ë³€í˜•
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.up, Vector3.right, Vector3.left }); // ã…—ì
 
-        // 5°³ Á¶ÇÕ (º¹ÀâÇÑ ±¸Á¶)
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up, Vector3.forward, Vector3.left }); // ½ÊÀÚ ¸ğ¾ç
-        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.right + Vector3.up, Vector3.up, Vector3.forward }); // ¤±ÀÚ º¯Çü
+        // 5ê°œ ì¡°í•© (ë³µì¡í•œ êµ¬ì¡°)
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.up, Vector3.forward, Vector3.left }); // ì‹­ì ëª¨ì–‘
+        possibleShapes.Add(new Vector3[] { Vector3.zero, Vector3.right, Vector3.right + Vector3.up, Vector3.up, Vector3.forward }); // ã…ì ë³€í˜•
     }
 }

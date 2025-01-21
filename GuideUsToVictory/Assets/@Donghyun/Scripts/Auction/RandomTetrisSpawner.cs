@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class RandomTetrisSpawner : MonoBehaviour
 {
-    public GameObject cubePrefab;       // Å¥ºê ÇÁ¸®ÆÕ
-    public Vector3 spawnPosition = new Vector3(-6.5f, 45f, 428f); // ÃÊ±â »ı¼º À§Ä¡
-    public float cubeSize = 1f;         // Å¥ºê °£°İ (Å©±â)
-    public Vector3 blockRotation = new Vector3(-46f, 46f, 0f); // ºí·Ï È¸Àü °ª
+    public GameObject cubePrefab;       // íë¸Œ í”„ë¦¬íŒ¹
+    public Vector3 spawnPosition = new Vector3(55.7f, 28.1f, -160.7f); // ì´ˆê¸° ìƒì„± ìœ„ì¹˜
+    public float cubeSize = 1f;         // íë¸Œ ê°„ê²© (í¬ê¸°)
+
+    public AuctionTimer auctionTimer;
+    // public Vector3 blockRotation = new Vector3(-46f, 46f, 0f); // ë¸”ë¡ íšŒì „ ê°’
 
     private HashSet<Vector3> usedPositions = new HashSet<Vector3>();
     private List<GameObject> spawnedBlocks = new List<GameObject>();
@@ -19,16 +22,16 @@ public class RandomTetrisSpawner : MonoBehaviour
 
         int cubeCount = Random.Range(3, 6);
         Vector3 currentPosition = spawnPosition;
-        Quaternion rotation = Quaternion.Euler(blockRotation);
 
-        GameObject firstCube = InstantiateCube(currentPosition, rotation);
+
+        GameObject firstCube = InstantiateCube(currentPosition, Quaternion.identity);
         spawnedBlocks.Add(firstCube);
         usedPositions.Add(currentPosition);
 
         for (int i = 1; i < cubeCount; i++)
         {
-            Vector3 newPosition = GetRandomAdjacentPosition(currentPosition, rotation);
-            GameObject newCube = InstantiateCube(newPosition, rotation);
+            Vector3 newPosition = GetRandomAdjacentPosition(currentPosition);
+            GameObject newCube = InstantiateCube(newPosition, Quaternion.identity);
             spawnedBlocks.Add(newCube);
             usedPositions.Add(newPosition);
             currentPosition = newPosition;
@@ -56,7 +59,7 @@ public class RandomTetrisSpawner : MonoBehaviour
         spawnedBlocks.Clear();
     }
 
-    private Vector3 GetRandomAdjacentPosition(Vector3 basePosition, Quaternion rotation)
+    private Vector3 GetRandomAdjacentPosition(Vector3 basePosition)
     {
         Vector3[] localAdjacentPositions = new Vector3[]
         {
@@ -70,7 +73,7 @@ public class RandomTetrisSpawner : MonoBehaviour
 
         foreach (Vector3 localPosition in localAdjacentPositions)
         {
-            Vector3 worldPosition = rotation * localPosition + basePosition;
+            Vector3 worldPosition = localPosition + basePosition;
 
             if (!usedPositions.Contains(worldPosition))
             {
@@ -99,6 +102,3 @@ public class RandomTetrisSpawner : MonoBehaviour
 
     }
 }
-
-
-
