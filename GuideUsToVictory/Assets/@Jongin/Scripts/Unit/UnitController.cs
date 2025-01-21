@@ -10,44 +10,28 @@ public class UnitController : UnitBase
     Node destNode;
     List<Vector2> path;
 
-    void Start()
+    private void OnEnable()
     {
         base.Init();
-
+        transform.position = Managers.UnitSpawn.GetRandomSpawnPos(MyTeam);
         SetState(EUnitState.Move);
     }
 
-    public void SetInfo()
-    {
-        curHp = baseStat.Hp;
-        maxHp = new UnitStat(baseStat.Hp);
-        speed = new UnitStat(baseStat.Speed);
-        attackSpeed = new UnitStat(baseStat.AttackSpeed);
-        attackDamage = new UnitStat(baseStat.AttackDamage);
-        armor = new UnitStat(baseStat.Armor);
-        abilityPower = new UnitStat(baseStat.AbilityPower);
-        magicRegistance = new UnitStat(baseStat.MagicRegistance);
-        attackRange = new UnitStat(baseStat.AttackRange);
 
-        isDead = false;
-        //SetState(EUnitState.Move);
-    }
     public void SetState(EUnitState state)
     {
         unitState = state;
         switch (unitState)
         {
             case EUnitState.Idle:
-                animator.SetTrigger("Idle");
+                UnitAnimator.SetTrigger("Idle");
                 break;
             case EUnitState.Move:
-                animator.SetTrigger("Move");
+                UnitAnimator.SetTrigger("Move");
                 StartCoroutine(UpdateMove(speed.Value));
                 break;
             case EUnitState.Attack:
                 StartCoroutine(UpdateAttack(attackSpeed.Value));
-                break;
-            case EUnitState.Skill:
                 break;
             case EUnitState.Dead:
                 break;
@@ -58,7 +42,7 @@ public class UnitController : UnitBase
     Node next;
     IEnumerator UpdateAttack(float attackSpeed)
     {
-        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        AnimationClip[] clips = UnitAnimator.runtimeAnimatorController.animationClips;
         float animationLength = 0;
         foreach (var clip in clips)
         {
@@ -103,17 +87,22 @@ public class UnitController : UnitBase
                 Target = DetectTarget();
                 if (Target == null)
                 {
-                    Target = Managers.Map.GetTower(enemyTeam);
-                }
+                    Target = Managers.Map.GetTower(EnemyTeam);
 
-                destNode = Managers.Map.GetNodeFromWorldPosition(Target.transform.position);
+                    float z = Mathf.Clamp(transform.position.z, -10, 10);
+                    destNode = Managers.Map.GetNodeFromWorldPosition(new Vector3(Target.transform.position.x,Target.transform.position.y,z));
+                }
+                else
+                {
+                    destNode = Managers.Map.GetNodeFromWorldPosition(Target.transform.position);
+                }
                 LookAtTarget(Target);
 
                 List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos, 10);
 
                 if (path.Count < 2)
                 {
-                    Debug.Log("NoPath");
+                    //Debug.Log("NoPath");
                 }
                 else
                 {
@@ -127,9 +116,9 @@ public class UnitController : UnitBase
             {
                 if (Target != null)
                 {
-                    if (Vector3.Distance(transform.position, Target.transform.position) < attackRange.Value + Target.unitRadius)
+                    if (Vector3.Distance(transform.position, Target.transform.position) < attackRange.Value + Target.UnitRadius)
                     {
-                        animator.SetTrigger("Idle");
+                        UnitAnimator.SetTrigger("Idle");
                         SetState(EUnitState.Attack);
                         yield break;
                     }
@@ -157,13 +146,13 @@ public class UnitController : UnitBase
     public override void OnDead()
     {
         base.OnDead();
-        animator.SetTrigger("Dead");
+        UnitAnimator.SetTrigger("Dead");
         SetState(EUnitState.Dead);
         if (next != null)
         {
             next.walkable = true;
         }
-        Managers.Resource.Destroy(gameObject, 2f);
+        Managers.UnitSpawn.DespawnUnit(this);
     }
 
     //private List<Vector2> debugPath = new List<Vector2>();

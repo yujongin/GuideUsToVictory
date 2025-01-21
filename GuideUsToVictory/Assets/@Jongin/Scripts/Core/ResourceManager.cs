@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static Define;
 public class ResourceManager : MonoBehaviour
 {
     public List<GameObject> blueUnitPrefabs;
     public List<GameObject> redUnitPrefabs;
 
-    public Dictionary<string, List<GameObject>> Units = new Dictionary<string, List<GameObject>>();
+    public Dictionary<ETeam, List<GameObject>> Units = new Dictionary<ETeam, List<GameObject>>();
+
+    void Awake()
+    {
+        Units.Add(ETeam.Blue, blueUnitPrefabs);
+        Units.Add(ETeam.Red, redUnitPrefabs);
+    }
     public GameObject Instantiate(GameObject prefab, Transform parent = null, bool pooling = false)
     {
         if (pooling)
@@ -18,8 +24,22 @@ public class ResourceManager : MonoBehaviour
 
         return go;
     }
+    public UnitData[] GetUnitsByRace(ETeam team, ERace race)
+    {
+        UnitData[] units = new UnitData[4];
+        foreach(var unit in Units[team])
+        {
+            UnitData data = unit.GetComponent<UnitBase>().baseStat;
+            if(data.Race == race)
+            {
+                units[data.cost - 1] = data;
+            }
+        }
 
-    public GameObject GetUnitPrefab(string team, string unitName)
+        return units;
+
+    }
+    public GameObject GetUnitPrefab(ETeam team, string unitName)
     {
         for (int i = 0; i < Units[team].Count; i++)
         {
@@ -35,8 +55,17 @@ public class ResourceManager : MonoBehaviour
         if (go == null)
             return;
 
-        StartCoroutine(DelayedPush(go, delay));
+        if (delay > 0)
+        {
+            StartCoroutine(DelayedPush(go, delay));
+        }
+        else
+        {
+            if (Managers.Pool.Push(go))
+                return;
 
+            Object.Destroy(go);
+        }
     }
     private IEnumerator DelayedPush(GameObject go, float delay)
     {
@@ -47,27 +76,23 @@ public class ResourceManager : MonoBehaviour
 
         Object.Destroy(go);
     }
-    void Start()
-    {
-        Units.Add("Blue", blueUnitPrefabs);
-        Units.Add("Red", redUnitPrefabs);
-    }
+
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            //for (int i = 0; i < 100; i++)
-            //{
-            GameObject go = Instantiate(GetUnitPrefab("Blue", "JuniorKnight"), null, true);
-            go.transform.position = new Vector3(200, 6, 0);
-            go.GetComponent<UnitController>().SetInfo();
-            //    Instantiate(GetUnitPrefab("Red", "JuniorKnight"), null, true);
-            //}
-            //Instantiate(GetUnitPrefab("Blue", "EliteArcher"), null, true);
-            //Instantiate(GetUnitPrefab("Blue", "EliteArcher"), null, true);
             //for (int i = 0; i < 50; i++)
             //{
+            //    GameObject go = Instantiate(GetUnitPrefab("Blue", "JuniorKnight"), null, true);
+            //    // go.transform.position = new Vector3(200, 6, 0);
+            //    // go.GetComponent<UnitController>().SetInfo();
+            //    Instantiate(GetUnitPrefab("Red", "JuniorKnight"), null, true);
+            //}
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Instantiate(GetUnitPrefab("Blue", "EliteArcher"), null, true);
+            //    // Instantiate(GetUnitPrefab("Red", "EliteArcher"), null, true);
             //}
         }
     }

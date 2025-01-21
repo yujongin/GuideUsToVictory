@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using static Define;
 public class UnitBase : MonoBehaviour
 {
     public UnitBase Target { get; protected set; }
@@ -16,16 +18,16 @@ public class UnitBase : MonoBehaviour
     public UnitStat magicRegistance;
     public UnitStat attackRange;
     public float detectRange = 10f;
-    public float unitRadius { get; protected set; }
+    public float UnitRadius { get; protected set; }
     public bool isDead = false;
 
-    public Animator animator { get; private set; }
+    public Animator UnitAnimator { get; private set; }
     protected SpriteRenderer spriteRenderer;
     protected Collider unitCollider;
 
-    protected string myTeam;
-    protected string enemyTeam;
-    public LayerMask enemyLayer;
+    public ETeam MyTeam { get; private set; }
+    public ETeam EnemyTeam { get; private set; }
+    public LayerMask EnemyLayer { get; private set; }
 
     public Vector3 CenterPosition
     {
@@ -54,22 +56,33 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    public virtual void Init()
+    bool isInit = false;
+    public void Init()
     {
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        unitCollider = GetComponent<Collider>();
-        unitRadius = unitCollider.bounds.size.x / 2;
+        if (!isInit)
+        {
+            if (TryGetComponent<Animator>(out Animator animator))
+            {
+                this.UnitAnimator = animator;
+            }
+            if (TryGetComponent<SpriteRenderer>(out SpriteRenderer spriteRenderer))
+            {
+                this.spriteRenderer = spriteRenderer;
+            }
+            unitCollider = GetComponent<Collider>();
+            UnitRadius = unitCollider.bounds.size.x / 2;
 
-        skills = GetComponent<SkillComponent>();
-        skills.SetInfo(this);
+            skills = GetComponent<SkillComponent>();
+            skills.SetInfo(this);
 
+            MyTeam = (ETeam)Enum.Parse(typeof(ETeam), LayerMask.LayerToName(gameObject.layer));
+            EnemyTeam = MyTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
+            EnemyLayer = LayerMask.GetMask(EnemyTeam.ToString());
+            AddPos = Vector3.up * -4f;
+
+            isInit = true;
+        }
         StatReset();
-
-        myTeam = LayerMask.LayerToName(gameObject.layer);
-        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
-        enemyLayer = LayerMask.GetMask(enemyTeam);
-
     }
 
     public void StatReset()
@@ -83,6 +96,8 @@ public class UnitBase : MonoBehaviour
         abilityPower = new UnitStat(baseStat.AbilityPower);
         magicRegistance = new UnitStat(baseStat.MagicRegistance);
         attackRange = new UnitStat(baseStat.AttackRange);
+
+        isDead = false;
     }
     public void OnDamage(UnitBase attacker)
     {
@@ -123,12 +138,12 @@ public class UnitBase : MonoBehaviour
     Collider[] detectedEnemies;
     public UnitBase DetectTarget()
     {
-        detectedEnemies = Physics.OverlapSphere(transform.position, detectRange, enemyLayer);
+        detectedEnemies = Physics.OverlapSphere(transform.position, detectRange, EnemyLayer);
 
         if (detectedEnemies != null && detectedEnemies.Length > 0)
         {
             float minDist = float.MaxValue;
-            int minIndex = 0;
+            int minIndex = -1;
             for (int i = 0; i < detectedEnemies.Length; i++)
             {
                 float dist = Vector3.Distance(transform.position, detectedEnemies[i].transform.position);
@@ -139,7 +154,8 @@ public class UnitBase : MonoBehaviour
                     minIndex = i;
                 }
             }
-            return detectedEnemies[minIndex].GetComponent<UnitBase>();
+            if (minIndex != -1)
+                return detectedEnemies[minIndex].GetComponent<UnitBase>();
         }
         return null;
     }

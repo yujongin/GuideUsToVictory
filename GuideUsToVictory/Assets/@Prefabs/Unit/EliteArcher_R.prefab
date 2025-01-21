@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3336212994116611586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -180, y: 6, z: 0}
+  m_LocalPosition: {x: 188, y: 6, z: 10}
   m_LocalScale: {x: 40, y: 40, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -156,9 +156,6 @@ MonoBehaviour:
   curHp: 0
   detectRange: 30
   isDead: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
   projectileLauncher: {fileID: 6500787115489277028}
 --- !u!114 &9190848611142719991
 MonoBehaviour:

@@ -1,8 +1,10 @@
 using UnityEngine;
-
+using static Define;
 [CreateAssetMenu(fileName = "UnitData", menuName = "Scriptable Objects/UnitData")]
 public class UnitData : ScriptableObject
 {
+    public int cost;
+    public string Name;
     public float Hp;
     public float Speed;
     public float AttackSpeed;
@@ -11,6 +13,9 @@ public class UnitData : ScriptableObject
     public float AbilityPower;
     public float MagicRegistance;
     public float AttackRange;
-
-    public GameObject Projectile;
+    public int Capacity;
+    public ERace Race;
+    public Sprite BlueUnitIcon;
+    public Sprite RedUnitIcon;
+    public Sprite UnitLockedIcon;
 }

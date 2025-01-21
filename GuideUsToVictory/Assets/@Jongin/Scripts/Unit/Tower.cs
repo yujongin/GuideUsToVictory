@@ -1,45 +1,28 @@
 using System.Collections;
 using UnityEngine;
-
+using DG.Tweening;
 public class Tower : UnitBase
 {
     LineRenderer lineRenderer;
-
+    public GameObject destroyEffect;
     void Start()
     {
         Init();
-    }
-
-    public override void Init()
-    {
-        unitCollider = GetComponent<Collider>();
-        skills = GetComponent<SkillComponent>();
-        skills.SetInfo(this);
-
-
-        curHp = baseStat.Hp;
-        maxHp = new UnitStat(baseStat.Hp);
-        speed = new UnitStat(baseStat.Speed);
-        attackSpeed = new UnitStat(baseStat.AttackSpeed);
-        attackDamage = new UnitStat(baseStat.AttackDamage);
-        armor = new UnitStat(baseStat.Armor);
-        abilityPower = new UnitStat(baseStat.AbilityPower);
-        magicRegistance = new UnitStat(baseStat.MagicRegistance);
-        attackRange = new UnitStat(baseStat.AttackRange);
-        unitRadius = unitCollider.bounds.size.x / 2;
-
-        myTeam = LayerMask.LayerToName(gameObject.layer);
-        enemyTeam = myTeam == "Blue" ? "Red" : "Blue";
-        enemyLayer = LayerMask.GetMask(enemyTeam);
-
         AddPos = Vector3.up * 5f;
         StartCoroutine(AttackTarget());
     }
+
+
 
     IEnumerator AttackTarget()
     {
         while (true)
         {
+            if (isDead)
+            {
+                TowerCollapseSequence();
+                yield break;
+            }
             Target = DetectTarget();
 
             // 타겟이 있으면 라인 업데이트
@@ -49,17 +32,15 @@ public class Tower : UnitBase
                 {
                     yield return null;
                 }
-                //Debug.Log(skills.CurrentSkill.skillData.name);
-
-                //animator.SetTrigger("Attack");
-
-                if (Vector3.Distance(Target.transform.position, transform.position) < attackRange.Value)
+                else
                 {
-                    skills.CurrentSkill.DoSkill();
-                    yield return new WaitForSeconds(1 / attackSpeed.Value);
+                    if (Vector3.Distance(Target.transform.position, transform.position) < attackRange.Value)
+                    {
+                        skills.CurrentSkill.DoSkill();
+                        yield return new WaitForSeconds(1 / attackSpeed.Value);
+                    }
                 }
             }
-
             yield return null;
         }
     }
@@ -79,8 +60,13 @@ public class Tower : UnitBase
             lineRenderer.enabled = false; // 타겟이 없으면 라인 비활성화
         }
     }
-    void Update()
+
+    public void TowerCollapseSequence()
     {
-        //UpdateLine();
+        destroyEffect.SetActive(true);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOMoveY(-46f, 5f).SetEase(Ease.Linear));
+        sequence.Join(transform.parent.DOShakePosition(5f,new Vector3(0.5f,0,0.5f),20,90,false,false,ShakeRandomnessMode.Full));
+        sequence.Append(destroyEffect.transform.DOScale(Vector3.zero, 1f));
     }
 }
