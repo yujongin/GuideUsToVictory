@@ -10,6 +10,8 @@ public class TeamData
     public int MaxBlockCount;
     public int CurBlockCount;
     public int Population;
+    public float Faith;
+    public float AddFaith;
     public TeamData(ETeam team, ERace race)
     {
         this.Team = team;

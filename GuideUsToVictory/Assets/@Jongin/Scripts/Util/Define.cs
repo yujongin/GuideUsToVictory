@@ -20,6 +20,7 @@ public static class Define
         Move,
         Attack,
         Skill,
+        Stun,
         Dead
     }
 
@@ -40,5 +41,12 @@ public static class Define
     {
         Human,
         Demon
+    }
+
+    public enum EEffectType
+    {
+        Buff,
+        Debuff,
+        CrowdControl,
     }
 }

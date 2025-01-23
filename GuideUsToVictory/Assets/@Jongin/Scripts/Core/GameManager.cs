@@ -15,14 +15,16 @@ public class GameManager : MonoBehaviour
     public TMP_Text noticeText;
     public TMP_Text blockCountText;
     public TMP_Text unitCountText;
+    public TMP_Text faithText;
 
     public TeamData[] teamDatas = new TeamData[2];
     public TeamData myTeam;
     public TeamData enemyTeam;
 
     private float time;
-    float readyTime = 10f;
+    float readyTime = 5f;
     float unitSpawnTerm = 20f;
+
     private void Start()
     {
         GameInit();
@@ -56,10 +58,12 @@ public class GameManager : MonoBehaviour
         timerText.text = time.ToString("F0");
         blockCountText.text = myTeam.CurBlockCount.ToString();
         unitCountText.text = myTeam.Population.ToString();
+        faithText.text = myTeam.Faith.ToString();
     }
     void GameInit()
     {
         ETeam randomTeam = (ETeam)Random.Range(0, 2);
+        //ETeam randomTeam = ETeam.Red;
         ETeam otherTeam = randomTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
         ERace tempRace = ERace.Human;
         myTeam = new TeamData(randomTeam, tempRace);
@@ -76,24 +80,31 @@ public class GameManager : MonoBehaviour
                 UnitBase unit = units[j].GetComponent<UnitBase>();
                 if (unit.baseStat.Race == teamDatas[i].Race)
                 {
-                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 0);
+                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 2);
                 }
             }
             teamDatas[i].MaxBlockCount = 4;
             teamDatas[i].CurBlockCount = teamDatas[i].MaxBlockCount;
             teamDatas[i].Population = 0;
+            teamDatas[i].Faith = 400;
+            teamDatas[i].AddFaith = 5;
         }
 
         time = readyTime;
         SetState(EGameState.Ready);
     }
 
+
     public void AddUnit(ETeam team, UnitData unitData)
     {
         TeamData data = GetTeamData(team);
+        // over than max population or less than unit Capacity
         if (data.CurBlockCount == 0 || data.CurBlockCount < unitData.Capacity) return;
+        // lack of money
+        if (data.Faith < unitData.PriceFaith) return;
 
         data.CurBlockCount-= unitData.Capacity;
+        data.Faith -= unitData.PriceFaith;
         data.Population++;
         data.UnitCountDict[unitData.name]++;
     }
@@ -112,6 +123,7 @@ public class GameManager : MonoBehaviour
         if (data.CurBlockCount == data.MaxBlockCount || data.UnitCountDict[unitData.name] == 0) return;
 
         data.CurBlockCount+= unitData.Capacity;
+        data.Faith += unitData.PriceFaith;
         data.Population--;
         data.UnitCountDict[unitData.name]--;
     }

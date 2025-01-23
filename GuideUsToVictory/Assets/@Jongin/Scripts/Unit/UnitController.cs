@@ -4,22 +4,27 @@ using UnityEngine;
 using static Define;
 public class UnitController : UnitBase
 {
-    EUnitState unitState;
+    public EUnitState unitState;
 
     Node startNode;
     Node destNode;
     List<Vector2> path;
 
+    EUnitState lastState;
     private void OnEnable()
     {
         base.Init();
+        spriteRenderer.color = Color.white;
         transform.position = Managers.UnitSpawn.GetRandomSpawnPos(MyTeam);
         SetState(EUnitState.Move);
     }
 
 
-    public void SetState(EUnitState state)
+    public void SetState(EUnitState state, float stunTime = 0)
     {
+        if(isDead) return;
+
+        lastState = unitState;
         unitState = state;
         switch (unitState)
         {
@@ -33,36 +38,65 @@ public class UnitController : UnitBase
             case EUnitState.Attack:
                 StartCoroutine(UpdateAttack(attackSpeed.Value));
                 break;
-            case EUnitState.Dead:
+            case EUnitState.Skill:
+                break;
+            case EUnitState.Stun:
+                //if (stun != null)
+                //{
+                //    StopCoroutine(UpdateStun(stunTime));
+                //}
+                //stun = StartCoroutine(UpdateStun(stunTime));
                 break;
         }
     }
-
-    bool IsLerpCellPosCompleted = true;
-    Node next;
+    Coroutine stun;
+    IEnumerator UpdateStun(float stunTime)
+    {
+        if (isDead) yield break;
+        UnitAnimator.SetTrigger("Idle");
+        GameObject prefab = Managers.Resource.effects["StunEffect"];
+        GameObject go = Managers.Resource.Instantiate(prefab, null, true);
+        go.transform.SetParent(transform);
+        go.transform.localPosition = Vector3.zero;
+        yield return new WaitForSeconds(stunTime);
+        Managers.Resource.Destroy(go);
+        if (!isDead)
+        {
+            SetState(EUnitState.Move);
+        }
+    }
+    IEnumerator DamageEffect()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            spriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
     IEnumerator UpdateAttack(float attackSpeed)
     {
         AnimationClip[] clips = UnitAnimator.runtimeAnimatorController.animationClips;
         float animationLength = 0;
-        foreach (var clip in clips)
-        {
-            if (clip.name.Contains(skills.CurrentSkill.skillData.AnimParam))
-            {
-                animationLength = clip.length;
-            }
-        }
         while (unitState == EUnitState.Attack)
         {
+            if(isDead) yield break;
+
+            foreach (var clip in clips)
+            {
+                if (clip.name.Contains(skills.CurrentSkill.skillData.AnimParam))
+                {
+                    animationLength = clip.length;
+                }
+            }
             if (Target != null)
             {
-                if (Target.isDead)
+                if (Target.isDead || Vector3.Distance(transform.position, Target.transform.position) > attackRange.Value + Target.UnitRadius)
                 {
                     SetState(EUnitState.Move);
                     yield break;
                 }
-                //Debug.Log(skills.CurrentSkill.skillData.name);
-
-                //animator.SetTrigger("Attack");
 
                 skills.CurrentSkill.DoSkill();
                 yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
@@ -74,12 +108,15 @@ public class UnitController : UnitBase
         }
         yield break;
     }
-
+    bool IsLerpCellPosCompleted = true;
+    Node next;
     IEnumerator UpdateMove(float moveSpeed)
     {
         IsLerpCellPosCompleted = true;
         while (unitState == EUnitState.Move)
         {
+            if(isDead) yield break;
+
             if (IsLerpCellPosCompleted)
             {
                 startNode = Managers.Map.GetNodeFromWorldPosition(transform.position);
@@ -90,7 +127,7 @@ public class UnitController : UnitBase
                     Target = Managers.Map.GetTower(EnemyTeam);
 
                     float z = Mathf.Clamp(transform.position.z, -10, 10);
-                    destNode = Managers.Map.GetNodeFromWorldPosition(new Vector3(Target.transform.position.x,Target.transform.position.y,z));
+                    destNode = Managers.Map.GetNodeFromWorldPosition(new Vector3(Target.transform.position.x, Target.transform.position.y, z));
                 }
                 else
                 {
@@ -116,9 +153,8 @@ public class UnitController : UnitBase
             {
                 if (Target != null)
                 {
-                    if (Vector3.Distance(transform.position, Target.transform.position) < attackRange.Value + Target.UnitRadius)
+                    if (Vector3.Distance(transform.position, Target.transform.position) <= attackRange.Value + Target.UnitRadius)
                     {
-                        UnitAnimator.SetTrigger("Idle");
                         SetState(EUnitState.Attack);
                         yield break;
                     }
@@ -143,6 +179,21 @@ public class UnitController : UnitBase
     {
         Target.OnDamage(this);
     }
+
+    private Coroutine damageEffectCoroutine;
+    public override void OnDamage(UnitBase attacker)
+    {
+        if(isDead) return;
+        if (spriteRenderer != null)
+        {
+            if (damageEffectCoroutine != null)
+            {
+                StopCoroutine(damageEffectCoroutine);
+            }
+            damageEffectCoroutine = StartCoroutine(DamageEffect());
+        }
+        base.OnDamage(attacker);
+    }
     public override void OnDead()
     {
         base.OnDead();
@@ -154,6 +205,7 @@ public class UnitController : UnitBase
         }
         Managers.UnitSpawn.DespawnUnit(this);
     }
+
 
     //private List<Vector2> debugPath = new List<Vector2>();
 

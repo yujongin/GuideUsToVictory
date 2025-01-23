@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5299642383663043490}
   - component: {fileID: 1241836373146879249}
   - component: {fileID: 848649970612549163}
+  - component: {fileID: -4795734306588637458}
   m_Layer: 10
   m_Name: EliteArcher_B
   m_TagString: Untagged
@@ -131,7 +132,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -157,6 +158,7 @@ MonoBehaviour:
   detectRange: 30
   isDead: 0
   projectileLauncher: {fileID: 3086001397214112218}
+  unitState: 0
 --- !u!114 &5299642383663043490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +198,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e2170a25cf465439109dccf800c009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &-4795734306588637458
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853830086771883477}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8261343858555224800
 GameObject:
   m_ObjectHideFlags: 0

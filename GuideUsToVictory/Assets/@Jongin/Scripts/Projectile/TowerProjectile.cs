@@ -11,6 +11,8 @@ public class TowerProjectile : Projectile
         explosion.SetActive(false);
         orb.SetActive(true);
     }
+
+    Vector3 subValue = Vector3.zero;
     public override void EndCallback(UnitBase target)
     {
         Collider[] enemies = Physics.OverlapSphere(target.transform.position, detectRange, Owner.EnemyLayer);
@@ -20,15 +22,10 @@ public class TowerProjectile : Projectile
             enemies[i].GetComponent<UnitBase>().OnDamage(Owner);
         }
         orb.SetActive(false);
-        explosion.transform.position = target.transform.position - new Vector3(0,6f,0.1f);
+        subValue.Set(0, 6f, 0.1f);
+        explosion.transform.position = target.transform.position - subValue;
         explosion.SetActive(true);
         //despawn
         Managers.Resource.Destroy(gameObject, 1f);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, detectRange);
     }
 }

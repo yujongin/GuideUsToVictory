@@ -5,7 +5,7 @@ using UnityEngine;
 public class ParabolaMotion : ProjectileMotionBase
 {
     public float HeightArc { get; private set; } = 1;
-
+    Vector3 nextPos = Vector3.zero;
     public new void SetInfo(ProjectileData projectileData, Vector3 startPosition, UnitBase target, Action endCallback = null)
     {
         base.SetInfo(projectileData, startPosition, target, endCallback);
@@ -32,7 +32,7 @@ public class ParabolaMotion : ProjectileMotionBase
 
             float y = baseY + arc;
 
-            var nextPos = new Vector3(x, y, z);
+            nextPos.Set(x, y, z);
 
             if(LookAtTarget)
             {

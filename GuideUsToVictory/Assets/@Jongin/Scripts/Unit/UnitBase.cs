@@ -3,7 +3,7 @@ using UnityEngine;
 using static Define;
 public class UnitBase : MonoBehaviour
 {
-    public UnitBase Target { get; protected set; }
+    public UnitBase Target;
     [HideInInspector]
     public SkillComponent skills;
     public UnitData baseStat;
@@ -59,6 +59,8 @@ public class UnitBase : MonoBehaviour
     bool isInit = false;
     public void Init()
     {
+        StatReset();
+
         if (!isInit)
         {
             if (TryGetComponent<Animator>(out Animator animator))
@@ -82,11 +84,11 @@ public class UnitBase : MonoBehaviour
 
             isInit = true;
         }
-        StatReset();
     }
 
     public void StatReset()
     {
+        
         curHp = baseStat.Hp;
         maxHp = new UnitStat(baseStat.Hp);
         speed = new UnitStat(baseStat.Speed);
@@ -99,7 +101,7 @@ public class UnitBase : MonoBehaviour
 
         isDead = false;
     }
-    public void OnDamage(UnitBase attacker)
+    public virtual void OnDamage(UnitBase attacker)
     {
         if (isDead) return;
 
