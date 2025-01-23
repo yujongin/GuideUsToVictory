@@ -15,7 +15,7 @@ MonoBehaviour:
   cost: 2
   Name: EliteArcher
   Hp: 70
-  Speed: 5
+  Speed: 10
   AttackSpeed: 1.5
   AttackDamage: 20
   Armor: 10

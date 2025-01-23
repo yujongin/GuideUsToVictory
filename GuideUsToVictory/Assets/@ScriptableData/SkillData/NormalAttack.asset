@@ -19,3 +19,4 @@ MonoBehaviour:
   DamageMultiplier: 0
   AnimParam: Attack
   SkillSlot: 0
+  SkillType: 1

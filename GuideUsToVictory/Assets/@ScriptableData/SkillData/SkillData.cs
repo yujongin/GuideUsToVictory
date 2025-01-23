@@ -11,4 +11,5 @@ public class SkillData : ScriptableObject
     public float DamageMultiplier;
     public string AnimParam;
     public ESkillSlot SkillSlot;
+    public ESkillType SkillType;
 }

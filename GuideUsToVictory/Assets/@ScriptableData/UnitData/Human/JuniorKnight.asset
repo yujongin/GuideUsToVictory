@@ -15,7 +15,7 @@ MonoBehaviour:
   cost: 1
   Name: JuniorKnight
   Hp: 50
-  Speed: 5
+  Speed: 8
   AttackSpeed: 1
   AttackDamage: 15
   Armor: 15

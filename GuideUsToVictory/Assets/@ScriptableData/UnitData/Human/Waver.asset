@@ -15,7 +15,7 @@ MonoBehaviour:
   cost: 4
   Name: Waver
   Hp: 100
-  Speed: 10
+  Speed: 8
   AttackSpeed: 0.8
   AttackDamage: 0
   Armor: 10

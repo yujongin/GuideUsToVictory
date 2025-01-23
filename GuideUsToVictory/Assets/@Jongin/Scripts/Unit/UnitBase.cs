@@ -101,14 +101,14 @@ public class UnitBase : MonoBehaviour
 
         isDead = false;
     }
-    public virtual void OnDamage(UnitBase attacker)
+    public virtual void OnDamage(UnitBase attacker, float damageMultiplier)
     {
         if (isDead) return;
 
         UnitStat damage = attacker.attackDamage.Value >= attacker.abilityPower.Value ? attacker.attackDamage : attacker.abilityPower;
         UnitStat defense = damage == attacker.attackDamage ? armor : magicRegistance;
 
-        float finalDamage = (100 / (100 + defense.Value)) * damage.Value;
+        float finalDamage = (100 / (100 + defense.Value)) * (damage.Value * damageMultiplier);
         curHp -= finalDamage;
 
         if (curHp < 0)

@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
     {
         if (target != null)
         {
-            target.OnDamage(Owner);
+            target.OnDamage(Owner, 1);
         }
         //despawn
         Managers.Resource.Destroy(gameObject);

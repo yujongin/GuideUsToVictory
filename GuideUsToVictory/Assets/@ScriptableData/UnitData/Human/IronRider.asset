@@ -15,7 +15,7 @@ MonoBehaviour:
   cost: 3
   Name: IronRider
   Hp: 100
-  Speed: 8
+  Speed: 12
   AttackSpeed: 1
   AttackDamage: 35
   Armor: 25

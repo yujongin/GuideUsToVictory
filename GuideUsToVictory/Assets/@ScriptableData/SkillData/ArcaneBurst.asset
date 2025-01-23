@@ -16,6 +16,7 @@ MonoBehaviour:
   CoolTime: 8
   Duration: 0
   SkillRange: 0
-  DamageMultiplier: 1.5
+  DamageMultiplier: 0.8
   AnimParam: ActiveSkill
   SkillSlot: 1
+  SkillType: 1

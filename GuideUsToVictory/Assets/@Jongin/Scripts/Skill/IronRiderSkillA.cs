@@ -40,7 +40,6 @@ public class IronRiderSkillA : SkillBase
         dustEffect.SetActive(true);
         controll = Owner.GetComponent<UnitController>();
 
-        controll.SetState(Define.EUnitState.Skill);
         Owner.UnitAnimator.SetTrigger(skillData.AnimParam);
         coroutine = StartCoroutine(RunToTarget());
     }
@@ -73,6 +72,7 @@ public class IronRiderSkillA : SkillBase
                     next.walkable = false;
                     IsLerpCellPosCompleted = false;
                 }
+                Owner.LookAtTarget(Owner.Target);
             }
             else
             {
@@ -108,8 +108,13 @@ public class IronRiderSkillA : SkillBase
             if (isDoing)
             {
                 isDoing = false;
+
                 //stop coroutine 
                 StopCoroutine(coroutine);
+
+
+                Owner.UnitAnimator.SetTrigger("Idle");
+
                 // remove stat modifiy
                 Owner.detectRange = 30f;
                 Owner.attackRange.RemoveModifier(addAR);
@@ -119,22 +124,23 @@ public class IronRiderSkillA : SkillBase
                 dustEffect.SetActive(false);
 
                 //damage to target
-                Owner.Target.OnDamage(Owner);
-
-                if (controll.unitState != Define.EUnitState.Stun)
-                {
-                    controll.SetState(Define.EUnitState.Move);
-                }
+                Owner.Target.OnDamage(Owner, skillData.DamageMultiplier);
 
                 if (Owner.Target.GetComponent<UnitController>() != null)
                 {
                     Vector3 dir = Owner.Target.transform.position - transform.position;
                     float x = dir.normalized.x * 10f;
                     Owner.Target.transform.DOMoveX(Owner.Target.transform.position.x + x, 0.1f).SetEase(Ease.OutSine);
-                    //if (Owner.Target.isDead) return;
-                    //Owner.Target.GetComponent<UnitController>().SetState(Define.EUnitState.Stun, 1f);
                 }
+                StartCoroutine(DelayToNextState());
             }
         }
     }
+
+    IEnumerator DelayToNextState()
+    {
+        yield return new WaitForSeconds(1 / Owner.attackSpeed.Value);
+        controll.SetState(Define.EUnitState.Idle);
+    }
+
 }

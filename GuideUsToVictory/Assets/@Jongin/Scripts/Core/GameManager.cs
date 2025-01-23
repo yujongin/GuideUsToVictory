@@ -21,8 +21,9 @@ public class GameManager : MonoBehaviour
     public TeamData myTeam;
     public TeamData enemyTeam;
 
+    public GameObject resultImage;
     private float time;
-    float readyTime = 5f;
+    float readyTime = 30f;
     float unitSpawnTerm = 20f;
 
     private void Start()
@@ -32,13 +33,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    AddUnit(ETeam.Blue, "EliteArcher");
-        //    AddUnit(ETeam.Blue, "JuniorKnight");
-        //    AddUnit(ETeam.Red, "EliteArcher");
-        //    AddUnit(ETeam.Red, "JuniorKnight");
-        //}
 
         time -= Time.deltaTime;
         
@@ -52,8 +46,12 @@ public class GameManager : MonoBehaviour
                 case EGameState.Battle:
                     SpawnUnits();
                     break;
+                case EGameState.End:
+                    break;
+
             }
         }
+        if (GameState == EGameState.End) return;
 
         timerText.text = time.ToString("F0");
         blockCountText.text = myTeam.CurBlockCount.ToString();
@@ -63,7 +61,6 @@ public class GameManager : MonoBehaviour
     void GameInit()
     {
         ETeam randomTeam = (ETeam)Random.Range(0, 2);
-        //ETeam randomTeam = ETeam.Red;
         ETeam otherTeam = randomTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
         ERace tempRace = ERace.Human;
         myTeam = new TeamData(randomTeam, tempRace);
@@ -80,7 +77,7 @@ public class GameManager : MonoBehaviour
                 UnitBase unit = units[j].GetComponent<UnitBase>();
                 if (unit.baseStat.Race == teamDatas[i].Race)
                 {
-                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 2);
+                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 0);
                 }
             }
             teamDatas[i].MaxBlockCount = 4;
@@ -94,6 +91,10 @@ public class GameManager : MonoBehaviour
         SetState(EGameState.Ready);
     }
 
+    public void AddFaith(ETeam team, float price)
+    {
+        GetTeamData(team).Faith += price;
+    }
 
     public void AddUnit(ETeam team, UnitData unitData)
     {
@@ -143,7 +144,12 @@ public class GameManager : MonoBehaviour
     {
         gameState = state;
     }
-
+    public void GameEnd(ETeam loseTeam)
+    {
+        SetState(EGameState.End);
+        string text = loseTeam == myTeam.Team ? "Lose" : "Win";
+        resultImage.transform.Find(myTeam.Team.ToString() + text).gameObject.SetActive(true);
+    }
     void SpawnUnits()
     {
         //summon Timer

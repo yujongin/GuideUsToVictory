@@ -27,7 +27,6 @@ public class WaverSkillA : SkillBase
         yield return new WaitForSeconds(0.4f);
         GameObject go = Managers.Resource.Instantiate(magicOrb, null, true);
         go.transform.position = Owner.Target.transform.position - Vector3.up * 6;
-        yield return new WaitForSeconds(3f);
         go.GetComponent<WaverMagicOrb>().AreaOfEffect(skillData,Owner,Owner.Target);
     }
 }

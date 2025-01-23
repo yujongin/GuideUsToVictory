@@ -29,6 +29,12 @@ public static class Define
         DefaultSkill,
         ASkill
     }
+    public enum ESkillType
+    {
+        PassiveSkill,
+        ActiveSkill,
+        ContinuousSkill
+    }
 
     public enum EGameState
     {

@@ -41,8 +41,7 @@ public class SkillBase : MonoBehaviour
         if (skillData.CoolTime > 0)
         {
             if(countdown != null)
-                StopCoroutine(countdown);   
-
+                StopCoroutine(countdown);
             countdown = StartCoroutine(CountdownCoolTime());
         }
     }

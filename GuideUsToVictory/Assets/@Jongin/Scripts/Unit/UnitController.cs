@@ -16,55 +16,169 @@ public class UnitController : UnitBase
         base.Init();
         spriteRenderer.color = Color.white;
         transform.position = Managers.UnitSpawn.GetRandomSpawnPos(MyTeam);
-        SetState(EUnitState.Move);
+        SetState(EUnitState.Idle);
+    }
+
+    private void Update()
+    {
+        switch (unitState)
+        {
+            case EUnitState.Idle:
+                UpdateIdle();
+                break;
+            case EUnitState.Move:
+                UpdateMove();
+                break;
+            case EUnitState.Attack:
+                UpdateAttack();
+                break;
+            case EUnitState.Skill:
+                break;
+            case EUnitState.Dead:
+                break;
+        }
+    }
+
+    void UpdateIdle()
+    {
+        if (Managers.Game.GameState == EGameState.End) return;
+
+        Target = DetectTarget();
+        if (Target == null)
+        {
+            Target = Managers.Map.GetTower(EnemyTeam);
+        }
+
+        if (Vector3.Distance(transform.position, Target.transform.position) > attackRange.Value + Target.UnitRadius)
+        {
+            IsLerpCellPosCompleted = true;
+            UnitAnimator.SetTrigger("Move");
+            SetState(EUnitState.Move);
+        }
+        else
+        {
+            isAttack = false;
+            SetState(EUnitState.Attack);
+        }
+    }
+    bool IsLerpCellPosCompleted = true;
+    Node next;
+    void UpdateMove()
+    {
+        if (IsLerpCellPosCompleted)
+        {
+            startNode = Managers.Map.GetNodeFromWorldPosition(transform.position);
+            Target = DetectTarget();
+            if (Target == null)
+            {
+                Target = Managers.Map.GetTower(EnemyTeam);
+
+                float z = Mathf.Clamp(transform.position.z, -10, 10);
+                destNode = Managers.Map.GetNodeFromWorldPosition(new Vector3(Target.transform.position.x, Target.transform.position.y, z));
+            }
+            else
+            {
+                destNode = Managers.Map.GetNodeFromWorldPosition(Target.transform.position);
+            }
+            LookAtTarget(Target);
+
+            path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos, 10);
+
+            if (path.Count >= 2)
+            {
+                if (next != null) { next.walkable = true; }
+                next = Managers.Map.GetNodeFromCellPosition(path[1]);
+                next.walkable = false;
+                IsLerpCellPosCompleted = false;
+
+            }
+        }
+        else
+        {
+            if (Target != null)
+            {
+                if (Vector3.Distance(transform.position, Target.transform.position) <= attackRange.Value + Target.UnitRadius)
+                {
+                    SetState(EUnitState.Idle);
+                    UnitAnimator.SetTrigger("Idle");
+                    return;
+                }
+            }
+            Vector3 dirVec = new Vector3(next.worldPosition.x, transform.position.y, next.worldPosition.z) - transform.position;
+            if (dirVec.magnitude < 0.01f)
+            {
+                transform.position = new Vector3(next.worldPosition.x, transform.position.y, next.worldPosition.z);
+                IsLerpCellPosCompleted = true;
+            }
+
+            float moveDist = Mathf.Min(dirVec.magnitude, speed.Value * Time.deltaTime);
+            transform.position += dirVec.normalized * moveDist;
+        }
+    }
+
+
+    float attackDelay = 0;
+    bool isAttack = false;
+    void UpdateAttack()
+    {
+        if (skills.CurrentSkill.skillData.SkillType == ESkillType.ActiveSkill)
+        {
+            float animationLength = 0;
+            AnimationClip[] clips = UnitAnimator.runtimeAnimatorController.animationClips;
+            foreach (var clip in clips)
+            {
+                if (clip.name.Contains(skills.CurrentSkill.skillData.AnimParam))
+                {
+                    animationLength = clip.length;
+                }
+            }
+            if (!isAttack)
+            {
+                skills.CurrentSkill.DoSkill();
+                isAttack = true;
+            }
+             
+            if (attackDelay > animationLength + 1 / attackSpeed.Value)
+            {
+                attackDelay = 0;
+                SetState(EUnitState.Idle);
+                return;
+            }
+            attackDelay += Time.deltaTime;
+        }
+        else if(skills.CurrentSkill.skillData.SkillType == ESkillType.ContinuousSkill)
+        {
+            if (!isAttack)
+            {
+                SetState(EUnitState.Skill);
+                skills.CurrentSkill.DoSkill();
+                isAttack = true;
+            }
+        }
     }
 
 
     public void SetState(EUnitState state, float stunTime = 0)
     {
-        if(isDead) return;
-
         lastState = unitState;
         unitState = state;
-        switch (unitState)
-        {
-            case EUnitState.Idle:
-                UnitAnimator.SetTrigger("Idle");
-                break;
-            case EUnitState.Move:
-                UnitAnimator.SetTrigger("Move");
-                StartCoroutine(UpdateMove(speed.Value));
-                break;
-            case EUnitState.Attack:
-                StartCoroutine(UpdateAttack(attackSpeed.Value));
-                break;
-            case EUnitState.Skill:
-                break;
-            case EUnitState.Stun:
-                //if (stun != null)
-                //{
-                //    StopCoroutine(UpdateStun(stunTime));
-                //}
-                //stun = StartCoroutine(UpdateStun(stunTime));
-                break;
-        }
     }
-    Coroutine stun;
-    IEnumerator UpdateStun(float stunTime)
-    {
-        if (isDead) yield break;
-        UnitAnimator.SetTrigger("Idle");
-        GameObject prefab = Managers.Resource.effects["StunEffect"];
-        GameObject go = Managers.Resource.Instantiate(prefab, null, true);
-        go.transform.SetParent(transform);
-        go.transform.localPosition = Vector3.zero;
-        yield return new WaitForSeconds(stunTime);
-        Managers.Resource.Destroy(go);
-        if (!isDead)
-        {
-            SetState(EUnitState.Move);
-        }
-    }
+    //Coroutine stun;
+    //IEnumerator UpdateStun(float stunTime)
+    //{
+    //    if (isDead) yield break;
+    //    UnitAnimator.SetTrigger("Idle");
+    //    GameObject prefab = Managers.Resource.effects["StunEffect"];
+    //    GameObject go = Managers.Resource.Instantiate(prefab, null, true);
+    //    go.transform.SetParent(transform);
+    //    go.transform.localPosition = Vector3.zero;
+    //    yield return new WaitForSeconds(stunTime);
+    //    Managers.Resource.Destroy(go);
+    //    if (!isDead)
+    //    {
+    //        SetState(EUnitState.Move);
+    //    }
+    //}
     IEnumerator DamageEffect()
     {
         for (int i = 0; i < 2; i++)
@@ -75,115 +189,16 @@ public class UnitController : UnitBase
             yield return new WaitForSeconds(0.1f);
         }
     }
-    IEnumerator UpdateAttack(float attackSpeed)
-    {
-        AnimationClip[] clips = UnitAnimator.runtimeAnimatorController.animationClips;
-        float animationLength = 0;
-        while (unitState == EUnitState.Attack)
-        {
-            if(isDead) yield break;
-
-            foreach (var clip in clips)
-            {
-                if (clip.name.Contains(skills.CurrentSkill.skillData.AnimParam))
-                {
-                    animationLength = clip.length;
-                }
-            }
-            if (Target != null)
-            {
-                if (Target.isDead || Vector3.Distance(transform.position, Target.transform.position) > attackRange.Value + Target.UnitRadius)
-                {
-                    SetState(EUnitState.Move);
-                    yield break;
-                }
-
-                skills.CurrentSkill.DoSkill();
-                yield return new WaitForSeconds(animationLength + 1 / attackSpeed);
-            }
-            else
-            {
-                SetState(EUnitState.Move);
-            }
-        }
-        yield break;
-    }
-    bool IsLerpCellPosCompleted = true;
-    Node next;
-    IEnumerator UpdateMove(float moveSpeed)
-    {
-        IsLerpCellPosCompleted = true;
-        while (unitState == EUnitState.Move)
-        {
-            if(isDead) yield break;
-
-            if (IsLerpCellPosCompleted)
-            {
-                startNode = Managers.Map.GetNodeFromWorldPosition(transform.position);
-
-                Target = DetectTarget();
-                if (Target == null)
-                {
-                    Target = Managers.Map.GetTower(EnemyTeam);
-
-                    float z = Mathf.Clamp(transform.position.z, -10, 10);
-                    destNode = Managers.Map.GetNodeFromWorldPosition(new Vector3(Target.transform.position.x, Target.transform.position.y, z));
-                }
-                else
-                {
-                    destNode = Managers.Map.GetNodeFromWorldPosition(Target.transform.position);
-                }
-                LookAtTarget(Target);
-
-                List<Vector2> path = Managers.Map.FindPath(startNode.cellPos, destNode.cellPos, 10);
-
-                if (path.Count < 2)
-                {
-                    //Debug.Log("NoPath");
-                }
-                else
-                {
-                    if (next != null) { next.walkable = true; }
-                    next = Managers.Map.GetNodeFromCellPosition(path[1]);
-                    next.walkable = false;
-                    IsLerpCellPosCompleted = false;
-                }
-            }
-            else
-            {
-                if (Target != null)
-                {
-                    if (Vector3.Distance(transform.position, Target.transform.position) <= attackRange.Value + Target.UnitRadius)
-                    {
-                        SetState(EUnitState.Attack);
-                        yield break;
-                    }
-                }
-                Vector3 dirVec = new Vector3(next.worldPosition.x, transform.position.y, next.worldPosition.z) - transform.position;
-                if (dirVec.magnitude < 0.01f)
-                {
-                    transform.position = new Vector3(next.worldPosition.x, transform.position.y, next.worldPosition.z);
-                    IsLerpCellPosCompleted = true;
-                }
-
-                float moveDist = Mathf.Min(dirVec.magnitude, moveSpeed * Time.deltaTime);
-                transform.position += dirVec.normalized * moveDist;
-            }
-
-            yield return null;
-        }
-        yield break;
-    }
-
     public void DamageToEnemy()
     {
-        Target.OnDamage(this);
+        if (Target != null)
+            Target.OnDamage(this, 1);
     }
 
     private Coroutine damageEffectCoroutine;
-    public override void OnDamage(UnitBase attacker)
+    public override void OnDamage(UnitBase attacker, float damageMultiplier)
     {
-        if(isDead) return;
+        if (isDead) return;
         if (spriteRenderer != null)
         {
             if (damageEffectCoroutine != null)
@@ -192,17 +207,20 @@ public class UnitController : UnitBase
             }
             damageEffectCoroutine = StartCoroutine(DamageEffect());
         }
-        base.OnDamage(attacker);
+        base.OnDamage(attacker, damageMultiplier);
     }
+
+
     public override void OnDead()
     {
-        base.OnDead();
         UnitAnimator.SetTrigger("Dead");
         SetState(EUnitState.Dead);
+        base.OnDead();
         if (next != null)
         {
             next.walkable = true;
         }
+        Managers.Game.AddFaith(EnemyTeam, baseStat.PriceFaith * 0.5f);
         Managers.UnitSpawn.DespawnUnit(this);
     }
 

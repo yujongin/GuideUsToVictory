@@ -19,7 +19,7 @@ public class TowerProjectile : Projectile
 
         for(int i = 0; i< enemies.Length; i++)
         {
-            enemies[i].GetComponent<UnitBase>().OnDamage(Owner);
+            enemies[i].GetComponent<UnitBase>().OnDamage(Owner,1);
         }
         orb.SetActive(false);
         subValue.Set(0, 6f, 0.1f);
