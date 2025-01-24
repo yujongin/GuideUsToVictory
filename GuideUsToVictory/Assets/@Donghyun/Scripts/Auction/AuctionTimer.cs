@@ -119,21 +119,23 @@ public class AuctionTimer : MonoBehaviour
             if (int.TryParse(inputText, out int bidPrice))
             {
                 // 현재 응찰가보다 낮거나 같은 가격인 경우 아무 일도 일어나지 않음
-                if (bidPrice <= currentBidPrice)
+                if (bidPrice < StartingPrice)
                 {
                     Debug.LogWarning($"bidPrice ({bidPrice}) <= currentBidPrice ({currentBidPrice}). Returning.");
                     return; // 메서드 종료
                 }
 
+                
                 // 최초 응찰일 경우, 시작가를 현재 응찰가에 더함
                 if (currentBidPrice == 0)
                 {
-                    currentBidPrice = StartingPrice + bidPrice;
+                    currentBidPrice = bidPrice;
                 }
                 else
                 {
                     currentBidPrice = bidPrice; // 현재 응찰 가격 업데이트
                 }
+                
 
                 // Player Turn에 따라 마지막 응찰자 설정
                 lastBidder = IsPlayerOneTurn ? "Player 1" : "Player 2";
