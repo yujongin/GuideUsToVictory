@@ -1,13 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaceBlocks : MonoBehaviour
 {
     BlockNode[,] blockNodes;
-    public GameObject target;
+    public GameObject target; 
     public BlockNodeGenerator blockNodeGenerator;
+
+    public Material defaultMaterial; 
+    public Material overlapMaterial; 
+
+    private List<Vector3> existingBlocks = new List<Vector3>(); 
+    public GameObject StartingCube; 
+
     private void Start()
     {
         blockNodes = blockNodeGenerator.GenerateGrid(1f);
+
+       
+        foreach (Transform child in StartingCube.transform)
+        {
+            existingBlocks.Add(child.position);
+        }
     }
 
     private void Update()
@@ -15,45 +29,123 @@ public class PlaceBlocks : MonoBehaviour
         if (target != null)
         {
             Vector3 screenPos = Input.mousePosition;
-
             Ray ray = Camera.main.ScreenPointToRay(screenPos);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Vector3 hitPoint = hit.point;
                 BlockNode nearestNode = null;
-                float tempdist = float.MaxValue;
+                float tempDist = float.MaxValue;
+
                 foreach (BlockNode node in blockNodes)
                 {
                     float dist = Vector3.Distance(node.worldPosition, hitPoint);
-                    if (dist < tempdist)
+                    if (dist < tempDist)
                     {
-                        tempdist = dist;
+                        tempDist = dist;
                         nearestNode = node;
                     }
                 }
 
                 if (nearestNode != null)
+                {
                     target.transform.position = nearestNode.worldPosition;
-                //1. 내 팀이랑 블럭이 붙어있는지 확인
-                //2. 다른 블럭이 있는지 만약에 있으면 블럭 머테리얼 보라색으로 겹치는 애만
-                //3. 회전 했을 때 다시 계산
+                    UpdateOverlapState(nearestNode.worldPosition); 
+                }
             }
 
             if (Input.GetMouseButtonDown(0))
             {
-                target = null;
+                Vector3 targetPosition = target.transform.position;
 
-                //gamemanager랑 연결 
+               
+                if (CheckAdjacent(targetPosition) && !IsOverlapping(targetPosition))
+                {
+                    existingBlocks.Add(targetPosition); 
+                    ResetMaterials(); 
+                    target = null; 
+                    Debug.Log("Block placed successfully!");
+                }
+                else
+                {
+                    Debug.LogWarning("Cannot place block: Overlapping or not adjacent!");
+                }
+            }
+        }
+    }
+
+    private void UpdateOverlapState(Vector3 position)
+    {
+        ResetMaterials(); 
+        bool isOverlapping = false;
+
+        foreach (Vector3 blockPos in existingBlocks)
+        {
+            float distance = Vector3.Distance(blockPos, position);
+            if (distance < 0.1f) 
+            {
+                isOverlapping = true;
+
+                Collider[] colliders = Physics.OverlapSphere(blockPos, 0.1f);
+                foreach (Collider collider in colliders)
+                {
+                    if (collider.gameObject.TryGetComponent<Renderer>(out Renderer renderer))
+                    {
+                        renderer.material = overlapMaterial; 
+                    }
+                }
             }
         }
 
-        //BlockNode GetNodeFromWolrdPos(Vector3 worldPos)
-        //{
-
-            
-        //}
+        if (!isOverlapping)
+        {
+            Debug.Log("Valid position for block placement.");
+        }
     }
 
+    private bool CheckAdjacent(Vector3 position)
+    {
+        foreach (Vector3 blockPos in existingBlocks)
+        {
+            if (Mathf.Approximately(Vector3.Distance(blockPos, position), 1f)) 
+            {
+                return true;
+            }
+        }
+        return false; 
+    }
+
+    private bool IsOverlapping(Vector3 position)
+    {
+        foreach (Vector3 blockPos in existingBlocks)
+        {
+            if (Vector3.Distance(blockPos, position) < 0.1f) 
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void ResetMaterials()
+    {
+        foreach (Vector3 blockPos in existingBlocks)
+        {
+            Collider[] colliders = Physics.OverlapSphere(blockPos, 0.1f);
+            foreach (Collider collider in colliders)
+            {
+                if (collider.gameObject.TryGetComponent<Renderer>(out Renderer renderer))
+                {
+                    renderer.material = defaultMaterial; 
+                }
+            }
+        }
+    }
+
+    //BlockNode GetNodeFromWolrdPos(Vector3 worldPos)
+    //{
+
+
+    //}
 
 }

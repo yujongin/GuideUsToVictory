@@ -9,7 +9,7 @@ public class RandomTetrisSpawner : MonoBehaviour
     public float cubeSize = 1f;         // 큐브 간격 (크기)
 
     public AuctionTimer auctionTimer;
-    public Vector3 blockRotation = new Vector3(0f, 0f, 0f); // 블록 회전 값
+    public Vector3 blockRotation = new Vector3(0f, 0f, 30f); // 블록 회전 값
 
     private HashSet<Vector3> usedPositions = new HashSet<Vector3>();
     private List<GameObject> spawnedBlocks = new List<GameObject>();
@@ -21,17 +21,17 @@ public class RandomTetrisSpawner : MonoBehaviour
         spawnedBlocks.Clear();
 
         int cubeCount = Random.Range(3, 6);
-        Vector3 currentPosition = spawnPosition;
-        Quaternion rotation = Quaternion.Euler(blockRotation);
+        Vector3 centerPosition = spawnPosition;
+        Vector3 currentPosition = Vector3.zero;
 
-        GameObject firstCube = InstantiateCube(currentPosition, rotation);
+        GameObject firstCube = InstantiateCube(centerPosition, currentPosition);
         spawnedBlocks.Add(firstCube);
         usedPositions.Add(currentPosition);
 
         for (int i = 1; i < cubeCount; i++)
         {
-            Vector3 newPosition = GetRandomAdjacentPosition(currentPosition, rotation);
-            GameObject newCube = InstantiateCube(newPosition, rotation);
+            Vector3 newPosition = GetRandomAdjacentPosition(currentPosition);
+            GameObject newCube = InstantiateCube(centerPosition, newPosition);
             spawnedBlocks.Add(newCube);
             usedPositions.Add(newPosition);
             currentPosition = newPosition;
@@ -59,7 +59,7 @@ public class RandomTetrisSpawner : MonoBehaviour
         spawnedBlocks.Clear();
     }
 
-    private Vector3 GetRandomAdjacentPosition(Vector3 basePosition, Quaternion rotation)
+    private Vector3 GetRandomAdjacentPosition(Vector3 basePosition)
     {
         Vector3[] localAdjacentPositions = new Vector3[]
         {
@@ -89,9 +89,12 @@ public class RandomTetrisSpawner : MonoBehaviour
         return validPositions[Random.Range(0, validPositions.Count)];
     }
 
-    private GameObject InstantiateCube(Vector3 position, Quaternion rotation)
+    private GameObject InstantiateCube(Vector3 worldCenter, Vector3 localPosition)
     {
-        return Instantiate(cubePrefab, position, rotation);
+        Vector3 finalPosition = worldCenter + localPosition;
+        GameObject cube = Instantiate(cubePrefab, finalPosition, Quaternion.identity);
+        return cube;
+        //return Instantiate(cubePrefab, position, rotation);
     }
     private void Update()
     {
@@ -102,3 +105,36 @@ public class RandomTetrisSpawner : MonoBehaviour
 
     }
 }
+
+/*
+public void SpawnTetrisBlock()
+    {
+        RemoveTetrisBlock();
+        usedPositions.Clear();
+        spawnedBlocks.Clear();
+
+        int cubeCount = Random.Range(3, 6);
+        Vector3 currentPosition = spawnPosition;
+        Quaternion rotation = Quaternion.Euler(blockRotation);
+
+        GameObject firstCube = InstantiateCube(currentPosition, rotation);
+        spawnedBlocks.Add(firstCube);
+        usedPositions.Add(currentPosition);
+
+        for (int i = 1; i < cubeCount; i++)
+        {
+            Vector3 newPosition = GetRandomAdjacentPosition(currentPosition, rotation);
+            GameObject newCube = InstantiateCube(newPosition, rotation);
+            spawnedBlocks.Add(newCube);
+            usedPositions.Add(newPosition);
+            currentPosition = newPosition;
+        }
+    }
+
+
+private GameObject InstantiateCube(Vector3 position, Quaternion rotation)
+{
+    Vector3 finalPosition =
+        //return Instantiate(cubePrefab, position, rotation);
+    }
+*/

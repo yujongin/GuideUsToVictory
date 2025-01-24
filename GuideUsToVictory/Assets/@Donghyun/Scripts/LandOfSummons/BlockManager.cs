@@ -21,7 +21,7 @@ public class BlockManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("더 이상 저장할 위치가 없습니다.");
+            Debug.LogWarning("더 이상 저장할 위치가 없음.");
         }
     }
 
