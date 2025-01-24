@@ -20,6 +20,7 @@ public static class Define
         Move,
         Attack,
         Skill,
+        Stun,
         Dead
     }
 
@@ -27,6 +28,12 @@ public static class Define
     {
         DefaultSkill,
         ASkill
+    }
+    public enum ESkillType
+    {
+        PassiveSkill,
+        ActiveSkill,
+        ContinuousSkill
     }
 
     public enum EGameState
@@ -40,5 +47,12 @@ public static class Define
     {
         Human,
         Demon
+    }
+
+    public enum EEffectType
+    {
+        Buff,
+        Debuff,
+        CrowdControl,
     }
 }

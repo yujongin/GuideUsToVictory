@@ -15,14 +15,17 @@ public class GameManager : MonoBehaviour
     public TMP_Text noticeText;
     public TMP_Text blockCountText;
     public TMP_Text unitCountText;
+    public TMP_Text faithText;
 
     public TeamData[] teamDatas = new TeamData[2];
     public TeamData myTeam;
     public TeamData enemyTeam;
 
+    public GameObject resultImage;
     private float time;
-    float readyTime = 10f;
+    float readyTime = 30f;
     float unitSpawnTerm = 20f;
+
     private void Start()
     {
         GameInit();
@@ -30,13 +33,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    AddUnit(ETeam.Blue, "EliteArcher");
-        //    AddUnit(ETeam.Blue, "JuniorKnight");
-        //    AddUnit(ETeam.Red, "EliteArcher");
-        //    AddUnit(ETeam.Red, "JuniorKnight");
-        //}
 
         time -= Time.deltaTime;
         
@@ -50,12 +46,17 @@ public class GameManager : MonoBehaviour
                 case EGameState.Battle:
                     SpawnUnits();
                     break;
+                case EGameState.End:
+                    break;
+
             }
         }
+        if (GameState == EGameState.End) return;
 
         timerText.text = time.ToString("F0");
         blockCountText.text = myTeam.CurBlockCount.ToString();
         unitCountText.text = myTeam.Population.ToString();
+        faithText.text = myTeam.Faith.ToString();
     }
     void GameInit()
     {
@@ -82,18 +83,29 @@ public class GameManager : MonoBehaviour
             teamDatas[i].MaxBlockCount = 4;
             teamDatas[i].CurBlockCount = teamDatas[i].MaxBlockCount;
             teamDatas[i].Population = 0;
+            teamDatas[i].Faith = 400;
+            teamDatas[i].AddFaith = 5;
         }
 
         time = readyTime;
         SetState(EGameState.Ready);
     }
 
+    public void AddFaith(ETeam team, float price)
+    {
+        GetTeamData(team).Faith += price;
+    }
+
     public void AddUnit(ETeam team, UnitData unitData)
     {
         TeamData data = GetTeamData(team);
+        // over than max population or less than unit Capacity
         if (data.CurBlockCount == 0 || data.CurBlockCount < unitData.Capacity) return;
+        // lack of money
+        if (data.Faith < unitData.PriceFaith) return;
 
         data.CurBlockCount-= unitData.Capacity;
+        data.Faith -= unitData.PriceFaith;
         data.Population++;
         data.UnitCountDict[unitData.name]++;
     }
@@ -112,6 +124,7 @@ public class GameManager : MonoBehaviour
         if (data.CurBlockCount == data.MaxBlockCount || data.UnitCountDict[unitData.name] == 0) return;
 
         data.CurBlockCount+= unitData.Capacity;
+        data.Faith += unitData.PriceFaith;
         data.Population--;
         data.UnitCountDict[unitData.name]--;
     }
@@ -131,7 +144,12 @@ public class GameManager : MonoBehaviour
     {
         gameState = state;
     }
-
+    public void GameEnd(ETeam loseTeam)
+    {
+        SetState(EGameState.End);
+        string text = loseTeam == myTeam.Team ? "Lose" : "Win";
+        resultImage.transform.Find(myTeam.Team.ToString() + text).gameObject.SetActive(true);
+    }
     void SpawnUnits()
     {
         //summon Timer

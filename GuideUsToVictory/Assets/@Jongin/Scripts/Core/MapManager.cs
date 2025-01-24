@@ -175,24 +175,6 @@ public class MapManager : MonoBehaviour
   }
 
 
-  void Update()
-  {
-    //if (Input.GetKeyDown(KeyCode.P))
-    //{
-    //    map[146,18].walkable = false;
-    //    Vector2 start = new Vector2(0, 0);
-    //    Vector2 dest = new Vector2(182, 18);
-
-    //    debugPath = FindPath(start, dest);
-
-    //    Debug.Log("Path:");
-    //    foreach (Vector2 pos in debugPath)
-    //    {
-    //        Debug.Log(pos);
-    //    }
-    //}
-  }
-
 
   #endregion
 

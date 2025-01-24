@@ -22,13 +22,14 @@ public class UnitSpawnManager : MonoBehaviour
     public Transform BlueSpawnPos;
     public Transform RedSpawnPos;
 
+    Vector3 randomPos = Vector3.zero;
     public Vector3 GetRandomSpawnPos(ETeam team)
     {
         Transform baseSpawnPos = team == ETeam.Blue ? BlueSpawnPos : RedSpawnPos;
         float x = Random.Range(-15, 15);
         float z = Random.Range(-15, 15);
-
-        Vector3 spawnPos = baseSpawnPos.position + new Vector3(x, 0, z);
+        randomPos.Set(x, 0, z);
+        Vector3 spawnPos = baseSpawnPos.position + randomPos;
         return spawnPos;
     }
 

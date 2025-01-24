@@ -9,7 +9,6 @@ public class NormalAttack : SkillBase
     public override void SetInfo(UnitBase owner)
     {
         base.SetInfo(owner);
-
     }
 
     public override void DoSkill()

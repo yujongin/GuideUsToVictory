@@ -14,10 +14,12 @@ public class SkillComponent : MonoBehaviour
     {
         get
         {
-            if(ActiveSkills.Count == 0) 
+            if (ActiveSkills.Count == 0)
+            {
                 return DefaultSkill;
-
-            int randomIndex = Random.Range(0,ActiveSkills.Count);
+            }
+                
+            int randomIndex = Random.Range(0, ActiveSkills.Count);
             return ActiveSkills[randomIndex];
         }
     }
@@ -26,8 +28,8 @@ public class SkillComponent : MonoBehaviour
     {
         this.owner = owner;
         SkillBase[] skills = GetComponents<SkillBase>();
-        
-        for(int i = 0; i<skills.Length; i++)
+
+        for (int i = 0; i < skills.Length; i++)
         {
             if (skills[i].skillData.SkillSlot == ESkillSlot.DefaultSkill)
             {
@@ -35,7 +37,7 @@ public class SkillComponent : MonoBehaviour
                 DefaultSkill.SetInfo(owner);
                 SkillList.Add(DefaultSkill);
             }
-            else if(skills[i].skillData.SkillSlot == ESkillSlot.ASkill)
+            else if (skills[i].skillData.SkillSlot == ESkillSlot.ASkill)
             {
                 ASkill = skills[i];
                 ASkill.SetInfo(owner);

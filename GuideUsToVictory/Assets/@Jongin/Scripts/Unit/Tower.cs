@@ -1,17 +1,32 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 public class Tower : UnitBase
 {
     LineRenderer lineRenderer;
     public GameObject destroyEffect;
+    public Image hpDisplayer;
+    Tween damageCoroutine;
     void Start()
     {
         Init();
         AddPos = Vector3.up * 5f;
         StartCoroutine(AttackTarget());
     }
+    public override void OnDamage(UnitBase attacker, float damageMultiplier)
+    {
+        if (isDead) return;
+        if(damageCoroutine != null)
+        {
+            damageCoroutine.Kill();
+        }
 
+        damageCoroutine = transform.DOPunchPosition(transform.right, 1, 10, 0, false);
+        base.OnDamage(attacker, damageMultiplier);
+
+        hpDisplayer.fillAmount = curHp / maxHp.Value;
+    }
 
 
     IEnumerator AttackTarget()
@@ -20,6 +35,7 @@ public class Tower : UnitBase
         {
             if (isDead)
             {
+                Managers.Game.GameEnd(MyTeam);
                 TowerCollapseSequence();
                 yield break;
             }

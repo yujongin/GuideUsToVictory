@@ -10,6 +10,7 @@ public class SkillBase : MonoBehaviour
 
     public Projectile projectile;
 
+    Coroutine countdown;
     public virtual void SetInfo(UnitBase owner)
     {
         Owner = owner;
@@ -21,7 +22,7 @@ public class SkillBase : MonoBehaviour
         yield return new WaitForSeconds(skillData.CoolTime);
         RemainCoolTime = 0;
 
-        if (Owner.skills != null)
+        if (Owner.skills != null && !Owner.skills.ActiveSkills.Contains(this))
         {
             Owner.skills.ActiveSkills.Add(this);
         }
@@ -36,6 +37,13 @@ public class SkillBase : MonoBehaviour
 
         if(Owner.UnitAnimator!=null)
         Owner.UnitAnimator.SetTrigger(skillData.AnimParam);
+
+        if (skillData.CoolTime > 0)
+        {
+            if(countdown != null)
+                StopCoroutine(countdown);
+            countdown = StartCoroutine(CountdownCoolTime());
+        }
     }
 
     protected virtual void GenerateProjectile(UnitBase owner, Vector3 spawnPos)

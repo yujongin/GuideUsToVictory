@@ -6,13 +6,18 @@ public class ResourceManager : MonoBehaviour
 {
     public List<GameObject> blueUnitPrefabs;
     public List<GameObject> redUnitPrefabs;
-
+    public List<GameObject> effectPrefabs;
     public Dictionary<ETeam, List<GameObject>> Units = new Dictionary<ETeam, List<GameObject>>();
+    public Dictionary<string, GameObject> effects = new Dictionary<string, GameObject>();
 
     void Awake()
     {
         Units.Add(ETeam.Blue, blueUnitPrefabs);
         Units.Add(ETeam.Red, redUnitPrefabs);
+        for(int i =0; i<effectPrefabs.Count; i++)
+        {
+            effects.Add(effectPrefabs[i].name, effectPrefabs[i]);
+        }
     }
     public GameObject Instantiate(GameObject prefab, Transform parent = null, bool pooling = false)
     {
@@ -27,10 +32,10 @@ public class ResourceManager : MonoBehaviour
     public UnitData[] GetUnitsByRace(ETeam team, ERace race)
     {
         UnitData[] units = new UnitData[4];
-        foreach(var unit in Units[team])
+        foreach (var unit in Units[team])
         {
             UnitData data = unit.GetComponent<UnitBase>().baseStat;
-            if(data.Race == race)
+            if (data.Race == race)
             {
                 units[data.cost - 1] = data;
             }
@@ -82,9 +87,10 @@ public class ResourceManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
+            GameObject go = Instantiate(GetUnitPrefab(ETeam.Blue, "IronRider"), null, true);
+            GameObject go1 = Instantiate(GetUnitPrefab(ETeam.Red, "IronRider"), null, true);
             //for (int i = 0; i < 50; i++)
             //{
-            //    GameObject go = Instantiate(GetUnitPrefab("Blue", "JuniorKnight"), null, true);
             //    // go.transform.position = new Vector3(200, 6, 0);
             //    // go.GetComponent<UnitController>().SetInfo();
             //    Instantiate(GetUnitPrefab("Red", "JuniorKnight"), null, true);
