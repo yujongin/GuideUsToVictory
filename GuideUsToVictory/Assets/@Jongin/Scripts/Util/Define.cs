@@ -11,6 +11,7 @@ public static class Define
 
     public enum ETeam
     {
+        None,
         Blue,
         Red
     }
