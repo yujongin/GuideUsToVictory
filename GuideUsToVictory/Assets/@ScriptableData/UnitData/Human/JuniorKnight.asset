@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 1
   Name: JuniorKnight
-  Hp: 50
-  Speed: 8
+  Hp: 70
+  Speed: 10
   AttackSpeed: 1
   AttackDamage: 15
   Armor: 15

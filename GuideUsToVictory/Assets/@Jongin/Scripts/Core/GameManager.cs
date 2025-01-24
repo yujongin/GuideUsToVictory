@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text faithText;
 
     public TeamData[] teamDatas = new TeamData[2];
-    public TeamData myTeam;
-    public TeamData enemyTeam;
+    public TeamData myTeamData;
+    public TeamData enemyTeamData;
 
     public GameObject resultImage;
     private float time;
@@ -55,9 +55,9 @@ public class GameManager : MonoBehaviour
         if (GameState == EGameState.End) return;
 
         timerText.text = time.ToString("F0");
-        blockCountText.text = myTeam.CurBlockCount.ToString();
-        unitCountText.text = myTeam.Population.ToString();
-        faithText.text = myTeam.Faith.ToString();
+        blockCountText.text = myTeamData.CurBlockCount.ToString();
+        unitCountText.text = myTeamData.Population.ToString();
+        faithText.text = myTeamData.Faith.ToString();
     }
     IEnumerator AddFaithPerSeconds()
     {
@@ -76,10 +76,10 @@ public class GameManager : MonoBehaviour
         ETeam randomTeam = (ETeam)Random.Range(0, 2);
         ETeam otherTeam = randomTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
         ERace tempRace = ERace.Human;
-        myTeam = new TeamData(randomTeam, tempRace);
-        enemyTeam = new TeamData(otherTeam, tempRace);
-        teamDatas[0] = myTeam;
-        teamDatas[1] = enemyTeam;
+        myTeamData = new TeamData(randomTeam, tempRace);
+        enemyTeamData = new TeamData(otherTeam, tempRace);
+        teamDatas[0] = myTeamData;
+        teamDatas[1] = enemyTeamData;
 
         //set default value unitCount, blockCount
         for (int i = 0; i < 2; i++)
@@ -160,8 +160,8 @@ public class GameManager : MonoBehaviour
     public void GameEnd(ETeam loseTeam)
     {
         SetState(EGameState.End);
-        string text = loseTeam == myTeam.Team ? "Lose" : "Win";
-        resultImage.transform.Find(myTeam.Team.ToString() + text).gameObject.SetActive(true);
+        string text = loseTeam == myTeamData.Team ? "Lose" : "Win";
+        resultImage.transform.Find(myTeamData.Team.ToString() + text).gameObject.SetActive(true);
     }
     void SpawnUnits()
     {

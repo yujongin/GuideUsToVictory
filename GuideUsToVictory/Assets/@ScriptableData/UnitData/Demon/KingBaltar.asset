@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
+  m_Name: KingBaltar
+  m_EditorClassIdentifier: 
+  cost: 4
+  Name: Waver
+  Hp: 130
+  Speed: 8
+  AttackSpeed: 1
+  AttackDamage: 0
+  Armor: 20
+  AbilityPower: 70
+  MagicRegistance: 30
+  AttackRange: 6
+  Capacity: 3
+  PriceFaith: 80
+  Race: 1
+  BlueUnitIcon: {fileID: 21300000, guid: 4c48c72e511e00c42bb292d504d8defa, type: 3}
+  RedUnitIcon: {fileID: 21300000, guid: 5d996a9c40c967f4b81775965918795f, type: 3}
+  UnitLockedIcon: {fileID: 21300000, guid: 8e3b27be8020a1b4592553e34f6d1208, type: 3}

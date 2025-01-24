@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: KingBaltar_R
+  m_Controller: {fileID: 9100000, guid: 5eefa04f206bd86428981897ef02c65b, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 539d63a4baeb3934bb4d7633be19898f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 821aad81ad044c341b528fe573297bcc, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 90ab35d03069c594082af61f2dfdeb7b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 62be04924b166cf47ac91e330e263c2c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 13489ab984144f14e881db16fcc9873b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 32606d0047bd72c448d977c4ca9d1f6d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 97181db25b1cb9049bcf5e35f3209389, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9cecc9b1660872445b4cf0ed0c4a63aa, type: 2}

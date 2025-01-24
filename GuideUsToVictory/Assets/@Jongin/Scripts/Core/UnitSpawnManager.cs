@@ -40,7 +40,7 @@ public class UnitSpawnManager : MonoBehaviour
             GameObject prefab = Managers.Resource.GetUnitPrefab(teamData.Team, unit.Key);
             for (int i = 0; i < unit.Value; i++)
             {
-                if (teamData.Team == Managers.Game.myTeam.Team)
+                if (teamData.Team == Managers.Game.myTeamData.Team)
                 {
                     GameObject go = Managers.Resource.Instantiate(prefab, myTeamsRoot, true);
                     myTeamsSpawned.Add(go.GetComponent<UnitBase>());
@@ -56,7 +56,7 @@ public class UnitSpawnManager : MonoBehaviour
 
     public void DespawnUnit(UnitBase unit)
     {
-        if(unit.MyTeam == Managers.Game.myTeam.Team)
+        if(unit.MyTeam == Managers.Game.myTeamData.Team)
         {
             myTeamsSpawned.Remove(unit);
         }

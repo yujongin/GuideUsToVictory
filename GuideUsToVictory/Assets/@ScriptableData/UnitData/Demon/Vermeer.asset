@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23348320a1c50b94ca1a34f03c0e3534, type: 3}
+  m_Name: Vermeer
+  m_EditorClassIdentifier: 
+  cost: 3
+  Name: Vermeer
+  Hp: 80
+  Speed: 10
+  AttackSpeed: 1
+  AttackDamage: 0
+  Armor: 20
+  AbilityPower: 50
+  MagicRegistance: 40
+  AttackRange: 6
+  Capacity: 2
+  PriceFaith: 50
+  Race: 1
+  BlueUnitIcon: {fileID: 21300000, guid: 61c8c1fcd34d33d428899e547964fe09, type: 3}
+  RedUnitIcon: {fileID: 21300000, guid: 17d5439358634334c9cf788ff10a1dd1, type: 3}
+  UnitLockedIcon: {fileID: 21300000, guid: d031c714331a5ab4facdcbfa1fbdb8ae, type: 3}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Vermeer_R
+  m_Controller: {fileID: 9100000, guid: 5eefa04f206bd86428981897ef02c65b, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 539d63a4baeb3934bb4d7633be19898f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 99b15dfa236db024a9a2a9ae3f0c79f2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 90ab35d03069c594082af61f2dfdeb7b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 548909130fd55264cadc972bc8e7c80e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 13489ab984144f14e881db16fcc9873b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3076b88b527a2dd47825f6c5647cf55c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 97181db25b1cb9049bcf5e35f3209389, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1145baa5a2b04af4fb0da4e2222a8923, type: 2}

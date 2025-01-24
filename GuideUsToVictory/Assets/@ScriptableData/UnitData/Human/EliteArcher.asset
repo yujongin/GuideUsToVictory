@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 2
   Name: EliteArcher
-  Hp: 70
+  Hp: 60
   Speed: 10
   AttackSpeed: 1.5
-  AttackDamage: 20
+  AttackDamage: 25
   Armor: 10
   AbilityPower: 0
   MagicRegistance: 10

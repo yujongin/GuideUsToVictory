@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     {
         panels.Push(menuPanel);
         closeBtn.onClick.AddListener(ClosePanel);
-        myTeamData = Managers.Game.myTeam;
+        myTeamData = Managers.Game.myTeamData;
         SetUnitControllBtns();
 
         for (int i = 0; i < unitBtns.Count; i++)
@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
         {
             if (units[i].name == unitName)
             {
-                Managers.Game.AddUnit(Managers.Game.myTeam.Team, units[i]);
+                Managers.Game.AddUnit(Managers.Game.myTeamData.Team, units[i]);
                 TMP_Text unitCountTmp = unitBtns[i].GetComponentInChildren<TMP_Text>();
                 unitCountTmp.text = myTeamData.UnitCountDict[units[i].Name].ToString();
             }
@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour
         {
             if (units[i].name == unitName)
             {
-                Managers.Game.RemoveUnit(Managers.Game.myTeam.Team, units[i]);
+                Managers.Game.RemoveUnit(Managers.Game.myTeamData.Team, units[i]);
                 TMP_Text unitCountTmp = unitBtns[i].GetComponentInChildren<TMP_Text>();
                 unitCountTmp.text = myTeamData.UnitCountDict[units[i].Name].ToString();
             }
