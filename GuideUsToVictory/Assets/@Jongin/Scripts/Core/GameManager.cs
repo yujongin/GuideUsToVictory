@@ -35,13 +35,14 @@ public class GameManager : MonoBehaviour
     {
 
         time -= Time.deltaTime;
-        
+
         if (time <= 0)
         {
             switch (GameState)
             {
                 case EGameState.Ready:
                     SetState(EGameState.Battle);
+                    StartCoroutine(AddFaithPerSeconds());
                     break;
                 case EGameState.Battle:
                     SpawnUnits();
@@ -57,6 +58,18 @@ public class GameManager : MonoBehaviour
         blockCountText.text = myTeam.CurBlockCount.ToString();
         unitCountText.text = myTeam.Population.ToString();
         faithText.text = myTeam.Faith.ToString();
+    }
+    IEnumerator AddFaithPerSeconds()
+    {
+        while (GameState == EGameState.Battle)
+        {
+            for (int i = 0; i < teamDatas.Length; i++)
+            {
+                teamDatas[i].Faith += teamDatas[i].AddFaith;
+            }
+
+            yield return new WaitForSeconds(5);
+        }
     }
     void GameInit()
     {
@@ -104,7 +117,7 @@ public class GameManager : MonoBehaviour
         // lack of money
         if (data.Faith < unitData.PriceFaith) return;
 
-        data.CurBlockCount-= unitData.Capacity;
+        data.CurBlockCount -= unitData.Capacity;
         data.Faith -= unitData.PriceFaith;
         data.Population++;
         data.UnitCountDict[unitData.name]++;
@@ -123,7 +136,7 @@ public class GameManager : MonoBehaviour
         TeamData data = GetTeamData(team);
         if (data.CurBlockCount == data.MaxBlockCount || data.UnitCountDict[unitData.name] == 0) return;
 
-        data.CurBlockCount+= unitData.Capacity;
+        data.CurBlockCount += unitData.Capacity;
         data.Faith += unitData.PriceFaith;
         data.Population--;
         data.UnitCountDict[unitData.name]--;
@@ -131,11 +144,11 @@ public class GameManager : MonoBehaviour
 
     TeamData GetTeamData(ETeam team)
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             if (teamDatas[i].Team == team)
             {
-                return teamDatas[i];    
+                return teamDatas[i];
             }
         }
         return null;
@@ -155,7 +168,7 @@ public class GameManager : MonoBehaviour
         //summon Timer
         time = unitSpawnTerm;
         //unit production
-        for(int i = 0; i < 2;i++)
+        for (int i = 0; i < 2; i++)
         {
             Managers.UnitSpawn.SpawnUnits(teamDatas[i]);
         }
