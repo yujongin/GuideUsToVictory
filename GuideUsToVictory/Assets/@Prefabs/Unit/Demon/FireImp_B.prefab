@@ -8,13 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 920894495204225364, guid: 63e90a62aeb793044989d3f5a6e2378c, type: 3}
+      propertyPath: baseStat
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b9fb583158d8fb41b3d005b837e1689, type: 2}
     - target: {fileID: 1822948666443275010, guid: 63e90a62aeb793044989d3f5a6e2378c, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 8484af3af9e9b4847bba2e27cfef0f1b, type: 2}
     - target: {fileID: 2470967169437555854, guid: 63e90a62aeb793044989d3f5a6e2378c, type: 3}
       propertyPath: m_Name
-      value: FireImp_B Variant
+      value: FireImp_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 2470967169437555854, guid: 63e90a62aeb793044989d3f5a6e2378c, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4737029908437044095, guid: 63e90a62aeb793044989d3f5a6e2378c, type: 3}
       propertyPath: m_LocalPosition.x

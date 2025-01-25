@@ -2,13 +2,14 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
-public class ButtonHoverEventHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+using static Define;
+public class RaceButtonHoverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public UnitSelectManager manager;
     public Sprite defaultImage;
     public Sprite selectImage;
     public Sprite descriptionImage;
+    ERace race;
     bool isSelected;
     public bool IsSelected
     {
@@ -46,6 +47,7 @@ public class ButtonHoverEventHandler : MonoBehaviour, IPointerEnterHandler, IPoi
         IsSelected = true;
         manager.SelectChange(this);
         manager.ShowDescription(descriptionImage);
+        manager.currentSelectRace = race;
     }
     void Deselected()
     {

@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 5812814578056475744}
   - component: {fileID: 8985496591685345170}
   - component: {fileID: 8638738743278610997}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FireThrower_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,11 +212,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
   skills: {fileID: 0}
-  baseStat: {fileID: 0}
+  baseStat: {fileID: 11400000, guid: 3e4205a76a5112744a106b2a1a8af0ba, type: 2}
   curHp: 0
   detectRange: 30
   isDead: 0
-  projectileLauncher: {fileID: 0}
+  projectileLauncher: {fileID: 1743198970628788235}
   unitState: 0
 --- !u!114 &5812814578056475744
 MonoBehaviour:
@@ -242,9 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc2a25055d8541741b1bb5dd268bd22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillData: {fileID: 0}
-  projectile: {fileID: 0}
-  shootDelay: 0
+  skillData: {fileID: 11400000, guid: 3e12250d7bf2ed140913b704f250a9d4, type: 2}
+  projectile: {fileID: 8332069880598080685, guid: 98bb8a12fcd78c64a83217af8da2498f, type: 3}
+  shootDelay: 0.3
 --- !u!114 &8638738743278610997
 MonoBehaviour:
   m_ObjectHideFlags: 0

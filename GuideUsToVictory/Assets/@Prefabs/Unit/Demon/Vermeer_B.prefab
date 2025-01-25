@@ -14,8 +14,16 @@ PrefabInstance:
       objectReference: {fileID: -1254322168, guid: 684f28e6d4611bc4c835c901d7da4135, type: 3}
     - target: {fileID: 1605940196759630055, guid: a677d09579e7f75408fce8cec3f4b3e7, type: 3}
       propertyPath: m_Name
-      value: Vermeer_B Variant
+      value: Vermeer_B
       objectReference: {fileID: 0}
+    - target: {fileID: 1605940196759630055, guid: a677d09579e7f75408fce8cec3f4b3e7, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187117880032563468, guid: a677d09579e7f75408fce8cec3f4b3e7, type: 3}
+      propertyPath: skillData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e12250d7bf2ed140913b704f250a9d4, type: 2}
     - target: {fileID: 4456914686786396843, guid: a677d09579e7f75408fce8cec3f4b3e7, type: 3}
       propertyPath: m_Controller
       value: 

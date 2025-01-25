@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject resultImage;
     private float time;
-    float readyTime = 30f;
+    float readyTime = 5f;
     float unitSpawnTerm = 20f;
 
     private void Start()
@@ -73,11 +74,14 @@ public class GameManager : MonoBehaviour
     }
     void GameInit()
     {
-        ETeam randomTeam = (ETeam)Random.Range(0, 2);
+        ETeam randomTeam = (ETeam)UnityEngine.Random.Range(1, 2);
         ETeam otherTeam = randomTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
-        ERace tempRace = ERace.Human;
-        myTeamData = new TeamData(randomTeam, tempRace);
-        enemyTeamData = new TeamData(otherTeam, tempRace);
+
+        ERace myRace = (ERace)Enum.Parse(typeof(ERace),PlayerPrefs.GetString("MyRace"));
+        ERace enemyRace = (ERace)UnityEngine.Random.Range(0,Enum.GetValues(typeof(ERace)).Length);
+
+        myTeamData = new TeamData(randomTeam, myRace);
+        enemyTeamData = new TeamData(otherTeam, enemyRace);
         teamDatas[0] = myTeamData;
         teamDatas[1] = enemyTeamData;
 
@@ -90,7 +94,7 @@ public class GameManager : MonoBehaviour
                 UnitBase unit = units[j].GetComponent<UnitBase>();
                 if (unit.baseStat.Race == teamDatas[i].Race)
                 {
-                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 0);
+                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 1);
                 }
             }
             teamDatas[i].MaxBlockCount = 4;

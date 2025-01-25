@@ -1,21 +1,23 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using static Define;
 public class UnitSelectManager : MonoBehaviour
 {
     public GameObject descriptionObject;
-    public ButtonHoverEventHandler[] buttons;
+    public RaceButtonHoverEvent[] buttons;
 
-    public Vector3 descriptionStartPos;
+    public ERace currentSelectRace;
+    Vector3 descriptionStartPos;
     private void Start()
     {
         descriptionStartPos = descriptionObject.transform.position;
         buttons[0].Selected();
     }
 
-    public void SelectChange(ButtonHoverEventHandler handler)
+    public void SelectChange(RaceButtonHoverEvent handler)
     {
         foreach (var button in buttons)
         {
@@ -38,5 +40,12 @@ public class UnitSelectManager : MonoBehaviour
 
         image.DOFade(1, 1);
     }
+    
+    public void ReadyButtonPressed()
+    {
+        DOTween.KillAll();
+        PlayerPrefs.SetString("MyRace", currentSelectRace.ToString());
+        SceneManager.LoadScene(2);
 
+    }
 }

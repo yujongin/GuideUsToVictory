@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: KingBaltar
   m_EditorClassIdentifier: 
   cost: 4
-  Name: Waver
+  Name: KingBaltar
   Hp: 130
   Speed: 8
   AttackSpeed: 1

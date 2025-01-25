@@ -58,10 +58,31 @@ PrefabInstance:
       objectReference: {fileID: 22100000, guid: 6141969acbbfb6944942dcf4e98a372b, type: 2}
     - target: {fileID: 2582942479210458207, guid: 2d17eed7dd278e44d97c66e5bdc14eb0, type: 3}
       propertyPath: m_Name
-      value: FireThrower_B Variant
+      value: FireThrower_B
       objectReference: {fileID: 0}
+    - target: {fileID: 2582942479210458207, guid: 2d17eed7dd278e44d97c66e5bdc14eb0, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756941608401976811, guid: 2d17eed7dd278e44d97c66e5bdc14eb0, type: 3}
+      propertyPath: projectileLauncher
+      value: 
+      objectReference: {fileID: 3529047700649208836}
+    - target: {fileID: 8985496591685345170, guid: 2d17eed7dd278e44d97c66e5bdc14eb0, type: 3}
+      propertyPath: skillData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e12250d7bf2ed140913b704f250a9d4, type: 2}
+    - target: {fileID: 8985496591685345170, guid: 2d17eed7dd278e44d97c66e5bdc14eb0, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 8332069880598080685, guid: 98bb8a12fcd78c64a83217af8da2498f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d17eed7dd278e44d97c66e5bdc14eb0, type: 3}
+--- !u!4 &3529047700649208836 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1743198970628788235, guid: 2d17eed7dd278e44d97c66e5bdc14eb0, type: 3}
+  m_PrefabInstance: {fileID: 2938779171150445583}
+  m_PrefabAsset: {fileID: 0}
