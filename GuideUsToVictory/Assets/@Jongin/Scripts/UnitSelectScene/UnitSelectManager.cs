@@ -1,51 +1,64 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Define;
 public class UnitSelectManager : MonoBehaviour
 {
-    public GameObject descriptionObject;
-    public RaceButtonHoverEvent[] buttons;
+    public Image description;
+    public Image race;
 
-    public ERace currentSelectRace;
+    public Sprite[] descriptions;
+    public Sprite[] raceImages;
+
+    ERace currentSelectRace;
+
+    int num = 0;
     Vector3 descriptionStartPos;
+    Sequence descriptionTween;
     private void Start()
     {
-        descriptionStartPos = descriptionObject.transform.position;
-        buttons[0].Selected();
+        description.sprite = descriptions[num];
+        race.sprite = raceImages[num]; 
+        ShowDescription(num);
+        currentSelectRace = (ERace)num;
+
+        descriptionStartPos = description.transform.position;
+
+        //353 -> 473
+        descriptionTween = DOTween.Sequence()
+            .Append(description.GetComponent<RectTransform>().DOMoveX(473, 1f))
+            .Join(description.DOFade(1, 1))
+            .SetAutoKill(false);
     }
 
-    public void SelectChange(RaceButtonHoverEvent handler)
+    public void SelectChange()
     {
-        foreach (var button in buttons)
-        {
-            if(button != handler)
-            {
-                button.IsSelected = false;
-            }
-        }
+        num++;
+        if (num > raceImages.Length - 1) { num = 0; }
+
+        ShowDescription(num);
+        race.sprite = raceImages[num];
+        currentSelectRace = (ERace)num;
     }
 
-    public void ShowDescription(Sprite description)
+    public void ShowDescription(int num)
     {
-        descriptionObject.transform.position = descriptionStartPos;
-        descriptionObject.transform.DOMoveX(descriptionObject.transform.position.x + 310, 1f);
-        Image image = descriptionObject.GetComponent<Image>();
-        image.sprite = description;
-        Color color = image.color;
-        color.a = 0;
-        image.color = color;
-
-        image.DOFade(1, 1);
+        description.sprite = descriptions[num];
+        descriptionTween.Restart();
     }
-    
+
     public void ReadyButtonPressed()
     {
         DOTween.KillAll();
         PlayerPrefs.SetString("MyRace", currentSelectRace.ToString());
         SceneManager.LoadScene(2);
+
+    }
+    public void BackButtonPressed()
+    {
+        DOTween.KillAll();
+        SceneManager.LoadScene(0);
 
     }
 }

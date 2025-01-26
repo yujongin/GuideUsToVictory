@@ -17,6 +17,7 @@ public class IronRiderSkillA : SkillBase
         {
             SetInfo(GetComponent<UnitBase>());
         }
+        isDoing = false;
     }
     public override void SetInfo(UnitBase owner)
     {
@@ -34,7 +35,7 @@ public class IronRiderSkillA : SkillBase
     }
     public override void DoSkill()
     {
-        if (isDoing) return;
+        if (isDoing || Owner.isDead) return;
         Owner.skills.ActiveSkills.Remove(this);
         isDoing = true;
         dustEffect.SetActive(true);
@@ -53,6 +54,7 @@ public class IronRiderSkillA : SkillBase
         IsLerpCellPosCompleted = true;
         while (controll.unitState == Define.EUnitState.Skill)
         {
+            if (Owner.isDead) yield break;
             if (IsLerpCellPosCompleted)
             {
                 Owner.Target = Owner.DetectTarget();
@@ -100,6 +102,7 @@ public class IronRiderSkillA : SkillBase
     }
     private void OnTriggerEnter(Collider other)
     {
+        if(Owner.isDead) return;
         if (other.GetComponent<UnitBase>() != null)
         {
             if (other.GetComponent<UnitBase>().MyTeam == Owner.MyTeam

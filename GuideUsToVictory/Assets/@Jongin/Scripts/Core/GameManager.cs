@@ -27,14 +27,16 @@ public class GameManager : MonoBehaviour
     float readyTime = 5f;
     float unitSpawnTerm = 20f;
 
+    UnitSelectAI unitSelectAI;
     private void Start()
     {
         GameInit();
         Managers.UI.Init();
+        unitSelectAI = GameObject.Find("AIManager").GetComponent<UnitSelectAI>();
+        unitSelectAI.Init();
     }
     private void Update()
     {
-
         time -= Time.deltaTime;
 
         if (time <= 0)
@@ -46,7 +48,7 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(AddFaithPerSeconds());
                     break;
                 case EGameState.Battle:
-                    SpawnUnits();
+                    SpawnUnitsInDict();
                     break;
                 case EGameState.End:
                     break;
@@ -77,8 +79,10 @@ public class GameManager : MonoBehaviour
         ETeam randomTeam = (ETeam)UnityEngine.Random.Range(1, 2);
         ETeam otherTeam = randomTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
 
-        ERace myRace = (ERace)Enum.Parse(typeof(ERace),PlayerPrefs.GetString("MyRace"));
-        ERace enemyRace = (ERace)UnityEngine.Random.Range(0,Enum.GetValues(typeof(ERace)).Length);
+        ERace myRace = (ERace)Enum.Parse(typeof(ERace), PlayerPrefs.GetString("MyRace"));
+        // check ai or human
+        //ERace enemyRace = (ERace)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ERace)).Length);
+        ERace enemyRace = ERace.Human;
 
         myTeamData = new TeamData(randomTeam, myRace);
         enemyTeamData = new TeamData(otherTeam, enemyRace);
@@ -94,13 +98,13 @@ public class GameManager : MonoBehaviour
                 UnitBase unit = units[j].GetComponent<UnitBase>();
                 if (unit.baseStat.Race == teamDatas[i].Race)
                 {
-                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 1);
+                    teamDatas[i].UnitCountDict.Add(unit.baseStat.name, 0);
                 }
             }
             teamDatas[i].MaxBlockCount = 4;
             teamDatas[i].CurBlockCount = teamDatas[i].MaxBlockCount;
             teamDatas[i].Population = 0;
-            teamDatas[i].Faith = 400;
+            teamDatas[i].Faith = 100;
             teamDatas[i].AddFaith = 5;
         }
 
@@ -157,20 +161,26 @@ public class GameManager : MonoBehaviour
         }
         return null;
     }
+
     public void SetState(EGameState state)
     {
         gameState = state;
     }
+
     public void GameEnd(ETeam loseTeam)
     {
         SetState(EGameState.End);
         string text = loseTeam == myTeamData.Team ? "Lose" : "Win";
         resultImage.transform.Find(myTeamData.Team.ToString() + text).gameObject.SetActive(true);
     }
-    void SpawnUnits()
+    void SpawnUnitsInDict()
     {
         //summon Timer
         time = unitSpawnTerm;
+
+        //Set AIUnit
+        unitSelectAI.SetAIUnitGreedy();
+
         //unit production
         for (int i = 0; i < 2; i++)
         {

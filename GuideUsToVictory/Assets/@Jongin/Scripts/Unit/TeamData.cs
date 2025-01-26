@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 using static Define;
 
 public class TeamData
@@ -12,10 +11,12 @@ public class TeamData
     public int Population;
     public float Faith;
     public float AddFaith;
+    public bool[] UnitUnlock;
     public TeamData(ETeam team, ERace race)
     {
         this.Team = team;
         this.Race = race;
         UnitCountDict = new Dictionary<string, int>();
+        UnitUnlock = new bool[4] { true, true, false, false };
     }
 }

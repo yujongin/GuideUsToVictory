@@ -1,6 +1,5 @@
 using UnityEngine;
 using static Define;
-using static UnityEditorInternal.VersionControl.ListControl;
 
 public class Stun : EffectBase
 {
