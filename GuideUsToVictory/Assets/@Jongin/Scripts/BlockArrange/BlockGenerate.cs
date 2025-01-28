@@ -12,9 +12,9 @@ public class BlockGenerate : MonoBehaviour
     Vector2 startPoint = new Vector2(0, 0);
     bool[,] blockMap = new bool[9, 9];
     Queue<Vector2> posQueue = new Queue<Vector2>();
+
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             for (int i = 0; i < blockMap.GetLength(0); i++)
@@ -25,11 +25,7 @@ public class BlockGenerate : MonoBehaviour
                 }
             }
 
-            foreach(var item in transform.GetComponentsInChildren<Transform>())
-            {
-                if(item != transform)
-                    Destroy(item.gameObject);
-            }
+
             int num = Random.Range(0, 10);
             int maxb = 0;
             if (num >= 0) maxb = 3;
@@ -40,7 +36,17 @@ public class BlockGenerate : MonoBehaviour
             posQueue.Enqueue(startPoint);
             GenerateRandomBlock(maxb);
 
-            //GameObject.Find("BlockNodeGenerator").GetComponent<BlockNodeGenerator1>().GetNeighborNodes(Define.ETeam.Blue);
+            BlockPlacementAI ai = FindFirstObjectByType<BlockPlacementAI>();
+            ai.block = gameObject;
+            ai.FindBestPosition();
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            foreach (var item in transform.GetComponentsInChildren<Transform>())
+            {
+                if (item != transform)
+                    Destroy(item.gameObject);
+            }
         }
     }
 
