@@ -4,26 +4,37 @@ using static Define;
 public class SummonGroundManager : MonoBehaviour
 {
     public BlockCell[,] grid;
-    float nodeSize = 1f;
+    int nodeSize = 1;
+
+    BlockGenerator blockGenerator;
+    BlockPlacementAI placementAI;
+
+    public Transform blockSummonPos;
     void Awake()
     {
         grid = FindFirstObjectByType<BlockGridGenerator>().GenerateGrid(nodeSize);
+        blockGenerator = FindFirstObjectByType<BlockGenerator>(); 
+        placementAI = FindFirstObjectByType<BlockPlacementAI>();
     }
 
     void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    GameObject go = blockGenerator.GetRandomBlock();
+        //    go.transform.position = blockSummonPos.position;
 
+        //    placementAI.block = go;
+        //    placementAI.FindBestPosition();
+        //}
     }
 
     public BlockCell GetNodeFromWorldPosition(Vector3 worldPosition)
     {
         Vector3 relativePosition = worldPosition - grid[0, 0].worldPosition;
-
         int x = Mathf.FloorToInt(relativePosition.x / nodeSize);
         int z = Mathf.FloorToInt(relativePosition.z / nodeSize);
 
-        //x = Mathf.Clamp(x, 0, grid.GetLength(0) - 1);
-        //z = Mathf.Clamp(z, 0, grid.GetLength(1) - 1);
         if (x < 0 || x > grid.GetLength(0) - 1 || z < 0 || z > grid.GetLength(1) - 1) return null;
         if (grid[x,z].placeable == false) return null;
         return grid[x, z];

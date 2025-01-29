@@ -17,7 +17,6 @@ public class BlockPlacementAI : MonoBehaviour
     private void Start()
     {
 
-        //Temp
         aiTeam = ETeam.Red;
         grid = Managers.SummonGround.grid;
 
@@ -37,12 +36,12 @@ public class BlockPlacementAI : MonoBehaviour
     {
         rotatedBlockNodes.Clear();
         Transform[] transforms = block.GetComponentsInChildren<Transform>()
-        .Where(child => child != this.transform)
+        .Where(child => child != block.transform)
         .ToArray();
 
         for (int i = 0; i < positions.Length; i++)
         {
-            block.transform.GetChild(i).position = positions[i];
+            block.transform.GetChild(i).localPosition = positions[i];
         }
 
         for (int i = 0; i < 4; i++)
@@ -51,7 +50,7 @@ public class BlockPlacementAI : MonoBehaviour
             {
                 block.transform.rotation = Quaternion.Euler(Vector3.up * 90 * (i));
             }
-            Vector2[] pos = new Vector2[transforms.Length - 1];
+            Vector2[] pos = new Vector2[transforms.Length];
 
             for (int j = 0; j < transforms.Length; j++)
             {
@@ -68,16 +67,16 @@ public class BlockPlacementAI : MonoBehaviour
     {
         blockPositions.Clear();
         Transform[] transforms = block.GetComponentsInChildren<Transform>()
-        .Where(child => child != this.transform)
+        .Where(child => child != block.transform)
         .ToArray();
 
         Vector3[] positions = new Vector3[transforms.Length];
         for (int i = 0; i < transforms.Length; i++)
         {
-            Vector3 addPos = transforms[0].position - transforms[i].position;
+            Vector3 addPos = transforms[0].localPosition - transforms[i].localPosition;
             for (int j = 0; j < transforms.Length; j++)
             {
-                positions[j] = transforms[j].position + addPos;
+                positions[j] = transforms[j].localPosition + addPos;
             }
             blockPositions.Add(positions);
         }
@@ -127,6 +126,16 @@ public class BlockPlacementAI : MonoBehaviour
         }
 
         //실제 배치
+        block.transform.position = bestNode.worldPosition;
+        block.transform.rotation = Quaternion.Euler(0, bestRot, 0);
+        for(int i = 0; i< block.transform.childCount; i++)
+        {
+            block.transform.GetChild(i).localPosition = blockPositions[bestPosIndex][i];
+            BlockCell cell = Managers.SummonGround.GetNodeFromWorldPosition(block.transform.GetChild(i).position);
+            myBlocks.Add(cell);
+            cell.team = aiTeam;
+            cell.placeable = false;
+        }
     }
     int GetSizeMyCells(List<BlockCell> blockPlace)
     {

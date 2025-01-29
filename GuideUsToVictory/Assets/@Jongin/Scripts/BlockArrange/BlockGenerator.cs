@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockGenerate : MonoBehaviour
+public class BlockGenerator : MonoBehaviour
 {
     public GameObject block;
+    public GameObject blockRoot;
     int blockCount = 0;
     Vector2[] dir = new Vector2[4]
     {
@@ -13,43 +14,30 @@ public class BlockGenerate : MonoBehaviour
     bool[,] blockMap = new bool[9, 9];
     Queue<Vector2> posQueue = new Queue<Vector2>();
 
-    void Update()
+
+    public GameObject GetRandomBlock()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        for (int i = 0; i < blockMap.GetLength(0); i++)
         {
-            for (int i = 0; i < blockMap.GetLength(0); i++)
+            for (int j = 0; j < blockMap.GetLength(1); j++)
             {
-                for (int j = 0; j < blockMap.GetLength(1); j++)
-                {
-                    blockMap[i, j] = false;
-                }
-            }
-
-
-            int num = Random.Range(0, 10);
-            int maxb = 0;
-            if (num >= 0) maxb = 3;
-            if (num >= 2) maxb = 4;
-            if (num >= 7) maxb = 5;
-            blockCount = 0;
-            posQueue.Clear();
-            posQueue.Enqueue(startPoint);
-            GenerateRandomBlock(maxb);
-
-            BlockPlacementAI ai = FindFirstObjectByType<BlockPlacementAI>();
-            ai.block = gameObject;
-            ai.FindBestPosition();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            foreach (var item in transform.GetComponentsInChildren<Transform>())
-            {
-                if (item != transform)
-                    Destroy(item.gameObject);
+                blockMap[i, j] = false;
             }
         }
+
+        blockRoot = new GameObject("Block");
+        int num = Random.Range(0, 10);
+        int maxb = 0;
+        if (num >= 0) maxb = 3;
+        if (num >= 2) maxb = 4;
+        if (num >= 7) maxb = 5;
+        blockCount = 0;
+        posQueue.Clear();
+        posQueue.Enqueue(startPoint);
+        GenerateRandomBlock(maxb);
+
+        return blockRoot;
     }
-
 
     void GenerateRandomBlock(int maxCount)
     {
@@ -59,7 +47,7 @@ public class BlockGenerate : MonoBehaviour
         Vector2 currentPos = posQueue.Dequeue();
 
         // 블록을 생성하고 위치 설정
-        GameObject newBlock = Instantiate(block, transform);
+        GameObject newBlock = Instantiate(block, blockRoot.transform);
         newBlock.transform.localPosition = new Vector3(currentPos.x, 0, currentPos.y);
         blockCount++;
 
