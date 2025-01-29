@@ -19,14 +19,14 @@ public class SummonGroundManager : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    GameObject go = blockGenerator.GetRandomBlock();
-        //    go.transform.position = blockSummonPos.position;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject go = blockGenerator.GetRandomBlock();
+            go.transform.position = blockSummonPos.position;
 
-        //    placementAI.block = go;
-        //    placementAI.FindBestPosition();
-        //}
+            placementAI.block = go;
+            placementAI.FindBestPosition();
+        }
     }
 
     public BlockCell GetNodeFromWorldPosition(Vector3 worldPosition)
