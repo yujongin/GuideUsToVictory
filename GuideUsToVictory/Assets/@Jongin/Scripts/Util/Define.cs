@@ -56,4 +56,12 @@ public static class Define
         Debuff,
         CrowdControl,
     }
+
+    public enum EAuctionState
+    {
+        None,
+        BlockGenrate,
+        Auction,
+        Placement
+    }
 }
