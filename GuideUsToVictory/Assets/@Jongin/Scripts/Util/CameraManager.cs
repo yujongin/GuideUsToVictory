@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 public class CameraManager : MonoBehaviour
@@ -8,6 +7,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] float moveForwardSpeed = 1f;
     [SerializeField] float moveForwardDistance = 2f;
     [SerializeField] Transform center;
+    [SerializeField] GameObject battleCanvas;
+    [SerializeField] GameObject AuctionCanvas;
     float maxMoveVector = 100f;
     float minMoveVector = 30f;
     float rightLimit = 220f;
@@ -19,6 +20,7 @@ public class CameraManager : MonoBehaviour
 
     //0 : battleField Camera
     //1 : SummonGroundCamera
+    //2 : AuctionCamera
     public CinemachineCamera[] cameras;
     private int activeCameraIndex = 0;
 
@@ -36,30 +38,27 @@ public class CameraManager : MonoBehaviour
         {
             ActiveCamera(0);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ActiveCamera(1);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            MoveToTeamTower(Define.ETeam.Blue);
+            ActiveCamera(2);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            MoveToTeamTower(Define.ETeam.Red);
-        }
+
 
         if (activeCameraIndex != 0) return;
 
-        if (Input.mousePosition.x >= Screen.width)
+        if (Input.mousePosition.x >= Screen.width - 10)
         {
             transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
             if (transform.position.x >= rightLimit)
             {
-                transform.position = new Vector3(rightLimit, transform.position.y,transform.position.z);
+                transform.position = new Vector3(rightLimit, transform.position.y, transform.position.z);
             }
         }
-        else if (Input.mousePosition.x <= 0)
+        else if (Input.mousePosition.x <= 10)
         {
             transform.Translate(Vector3.left * Time.deltaTime * moveSpeed);
             if (transform.position.x <= leftLimit)
@@ -105,14 +104,30 @@ public class CameraManager : MonoBehaviour
 
     }
 
-    void ActiveCamera(int cameraIndex)
+    public void ActiveCamera(int cameraIndex)
     {
-        foreach(var camera in cameras)
+        foreach (var camera in cameras)
         {
             camera.Priority = 0;
         }
 
         cameras[cameraIndex].Priority = 10;
         activeCameraIndex = cameraIndex;
+
+        if (cameraIndex == (int)Define.ECameraType.Battle)
+        {
+            AuctionCanvas.SetActive(false);
+            battleCanvas.SetActive(true);
+        }
+        else if (cameraIndex == (int)Define.ECameraType.Auction)
+        {
+            AuctionCanvas.SetActive(true);
+            battleCanvas.SetActive(false);
+        }
+        else
+        {
+            AuctionCanvas.SetActive(false);
+            battleCanvas.SetActive(false);
+        }
     }
 }

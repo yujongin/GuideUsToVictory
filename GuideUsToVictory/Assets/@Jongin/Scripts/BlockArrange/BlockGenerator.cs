@@ -35,7 +35,6 @@ public class BlockGenerator : MonoBehaviour
         posQueue.Clear();
         posQueue.Enqueue(startPoint);
         GenerateRandomBlock(maxb);
-
         return blockRoot;
     }
 

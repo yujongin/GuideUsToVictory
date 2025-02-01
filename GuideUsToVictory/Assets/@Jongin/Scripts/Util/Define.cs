@@ -64,4 +64,10 @@ public static class Define
         Auction,
         Placement
     }
+    public enum ECameraType
+    {
+        Battle,
+        SummonGround,
+        Auction
+    }
 }

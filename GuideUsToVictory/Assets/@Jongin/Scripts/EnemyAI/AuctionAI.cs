@@ -1,16 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class AuctionAI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    TeamData aiTeamData;
 
-    // Update is called once per frame
-    void Update()
+    public void Start()
     {
-        
+        aiTeamData = Managers.Game.enemyTeamData;
+    }
+    public void MakeBidAI()
+    {
     }
 }

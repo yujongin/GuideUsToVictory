@@ -13,30 +13,37 @@ public class SummonGroundManager : MonoBehaviour
     void Awake()
     {
         grid = FindFirstObjectByType<BlockGridGenerator>().GenerateGrid(nodeSize);
-        blockGenerator = FindFirstObjectByType<BlockGenerator>(); 
+        blockGenerator = FindFirstObjectByType<BlockGenerator>();
         placementAI = FindFirstObjectByType<BlockPlacementAI>();
     }
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    GameObject go = blockGenerator.GetRandomBlock();
-        //    go.transform.position = blockSummonPos.position;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject go = blockGenerator.GetRandomBlock();
+            //go.transform.position = blockSummonPos.position;
 
-        //    placementAI.block = go;
-        //    placementAI.FindBestPosition();
-        //}
+            placementAI.block = go;
+            placementAI.FindBestPosition();
+        }
     }
 
+    public void AIBlockPlacement(GameObject block)
+    {
+        placementAI.block = block;
+        placementAI.FindBestPosition();
+    }
     public BlockCell GetNodeFromWorldPosition(Vector3 worldPosition)
     {
         Vector3 relativePosition = worldPosition - grid[0, 0].worldPosition;
-        int x = Mathf.FloorToInt(relativePosition.x / nodeSize);
-        int z = Mathf.FloorToInt(relativePosition.z / nodeSize);
+        int x = Mathf.RoundToInt(relativePosition.x / nodeSize);
+        int z = Mathf.RoundToInt(relativePosition.z / nodeSize);
+        //int x = (int)relativePosition.x;
+        //int z = (int)relativePosition.z;
 
         if (x < 0 || x > grid.GetLength(0) - 1 || z < 0 || z > grid.GetLength(1) - 1) return null;
-        if (grid[x,z].placeable == false) return null;
+        if (grid[x, z].placeable == false) return null;
         return grid[x, z];
     }
     private void OnDrawGizmos()

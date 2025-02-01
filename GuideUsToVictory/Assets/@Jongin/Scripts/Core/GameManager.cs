@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     float unitSpawnTerm = 20f;
 
     UnitSelectAI unitSelectAI;
+    Sequence noticeTextSequence;
+
     private void Start()
     {
         GameInit();
@@ -104,11 +106,22 @@ public class GameManager : MonoBehaviour
             teamDatas[i].MaxBlockCount = 4;
             teamDatas[i].CurBlockCount = teamDatas[i].MaxBlockCount;
             teamDatas[i].Population = 0;
-            teamDatas[i].Faith = 100;
+            teamDatas[i].Faith = 200;
             teamDatas[i].AddFaith = 5;
         }
 
         time = readyTime;
+
+        //textTween
+        noticeTextSequence = DOTween.Sequence();
+        Tween FadeIn = DOTween.To(() => noticeText.alpha, x => noticeText.alpha = x, 1f, 0.5f);
+        noticeTextSequence.Append(FadeIn);
+        noticeTextSequence.AppendInterval(3);
+        Tween FadeOut = DOTween.To(() => noticeText.alpha, x => noticeText.alpha = x, 0f, 0.5f);
+        noticeTextSequence.Append(FadeOut)
+            .SetAutoKill(false).Pause();
+
+        CallNoticeTextFade("30초 후 게임이 시작됩니다.");
         SetState(EGameState.Ready);
     }
 
@@ -187,21 +200,11 @@ public class GameManager : MonoBehaviour
             Managers.UnitSpawn.SpawnUnits(teamDatas[i]);
         }
     }
-    void CallNoticeTextFade(string text)
+    public void CallNoticeTextFade(string text)
     {
         noticeText.text = text;
         noticeText.alpha = 0;
-        Sequence noticeTextSequence = DOTween.Sequence();
-        Tween FadeIn = DOTween.To(() => noticeText.alpha, x => noticeText.alpha = x, 1f, 0.5f);
-        noticeTextSequence.Append(FadeIn);
-        noticeTextSequence.AppendInterval(3);
-        Tween FadeOut = DOTween.To(() => noticeText.alpha, x => noticeText.alpha = x, 0f, 0.5f);
-        noticeTextSequence.Append(FadeOut);
-    }
-
-    void UpdateEnd()
-    {
-        //show Win Lose ment 
+        noticeTextSequence.Restart();
     }
 
 }
