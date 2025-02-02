@@ -12,6 +12,7 @@ public class Managers : MonoBehaviour
     private UnitSpawnManager _unitSpawn;
     private UIManager _ui;
     private SummonGroundManager _summonGround;
+    private AuctionManager _auction;
     public static MapManager Map { get { return Instance?._map; } }
     public static GameManager Game { get { return Instance ?. _game; } }
     public static PoolManager Pool {  get { return Instance?._pool; } } 
@@ -19,6 +20,7 @@ public class Managers : MonoBehaviour
     public static UnitSpawnManager UnitSpawn {  get { return Instance?._unitSpawn; } } 
     public static UIManager UI { get { return Instance?._ui; } }
     public static SummonGroundManager SummonGround { get { return Instance?._summonGround; } }
+    public static AuctionManager Auction { get { return Instance?._auction; } }
     
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class Managers : MonoBehaviour
         _unitSpawn = GetComponentInChildren<UnitSpawnManager>();
         _ui = GetComponentInChildren<UIManager>();
         _summonGround = GetComponentInChildren<SummonGroundManager>();
+        _auction = GetComponentInChildren<AuctionManager>();
         _pool = new PoolManager();
     }
 }

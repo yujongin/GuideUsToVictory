@@ -60,7 +60,7 @@ public static class Define
     public enum EAuctionState
     {
         None,
-        BlockGenrate,
+        BlockGenerate,
         Auction,
         Placement
     }

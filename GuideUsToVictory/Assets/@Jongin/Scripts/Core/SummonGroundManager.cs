@@ -27,27 +27,42 @@ public class SummonGroundManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameObject go = blockGenerator.GetRandomBlock();
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    GameObject go = blockGenerator.GetRandomBlock();
 
-            placementAI.block = go;
-            placementAI.FindBestPosition();
+        //    placementAI.block = go;
+        //    placementAI.FindBestPosition(ETeam.Red);
+        //}
+    }
+    public void AddBlock(ETeam team, GameObject block)
+    {
+        for (int i = 0; i < block.transform.childCount; i++)
+        {
+            BlockCell node = GetNodeFromWorldPosition(block.transform.GetChild(i).transform.position);
+            node.placeable = false;
+            node.team = team;
+            teamBlocks[team].Add(node);
         }
+        Managers.Game.IncreaseMaxBlock(team, block.transform.childCount);
+        block.transform.parent = team == ETeam.Blue ? Managers.SummonGround.blueBlockParent : Managers.SummonGround.redBlockParent;
     }
 
+    public void AutoBlockPlacement(GameObject block)
+    {
+        placementAI.block = block;
+        placementAI.FindBestPosition(ETeam.Blue);
+    }
     public void AIBlockPlacement(GameObject block)
     {
         placementAI.block = block;
-        placementAI.FindBestPosition();
+        placementAI.FindBestPosition(ETeam.Red);
     }
     public BlockCell GetNodeFromWorldPosition(Vector3 worldPosition)
     {
         Vector3 relativePosition = worldPosition - grid[0, 0].worldPosition;
         int x = Mathf.RoundToInt(relativePosition.x / nodeSize);
         int z = Mathf.RoundToInt(relativePosition.z / nodeSize);
-        //int x = (int)relativePosition.x;
-        //int z = (int)relativePosition.z;
 
         if (x < 0 || x > grid.GetLength(0) - 1 || z < 0 || z > grid.GetLength(1) - 1) return null;
         if (grid[x, z].placeable == false) return null;
@@ -87,28 +102,28 @@ public class SummonGroundManager : MonoBehaviour
         return neighborNodes;
     }
 
-    private void OnDrawGizmos()
-    {
-        if (grid != null)
-        {
-            foreach (BlockCell node in grid)
-            {
-                if (node.team == ETeam.Blue)
-                {
-                    Gizmos.color = Color.blue;
-                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
-                }
-                else if (node.team == ETeam.Red)
-                {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
-                }
-                else
-                {
-                    Gizmos.color = node.placeable ? Color.green : Color.magenta;
-                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
-                }
-            }
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if (grid != null)
+    //    {
+    //        foreach (BlockCell node in grid)
+    //        {
+    //            if (node.team == ETeam.Blue)
+    //            {
+    //                Gizmos.color = Color.blue;
+    //                Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
+    //            }
+    //            else if (node.team == ETeam.Red)
+    //            {
+    //                Gizmos.color = Color.red;
+    //                Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
+    //            }
+    //            else
+    //            {
+    //                Gizmos.color = node.placeable ? Color.green : Color.magenta;
+    //                Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
+    //            }
+    //        }
+    //    }
+    //}
 }

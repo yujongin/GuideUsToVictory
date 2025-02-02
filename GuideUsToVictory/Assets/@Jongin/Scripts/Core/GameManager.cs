@@ -24,12 +24,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject resultImage;
     private float time;
-    float readyTime = 5f;
+    float readyTime = 1f;
     float unitSpawnTerm = 20f;
 
     UnitSelectAI unitSelectAI;
     Sequence noticeTextSequence;
 
+    public ETeam loseTeam;
     private void Start()
     {
         GameInit();
@@ -78,19 +79,19 @@ public class GameManager : MonoBehaviour
     }
     void GameInit()
     {
-        ETeam randomTeam = (ETeam)UnityEngine.Random.Range(1, 2);
-        ETeam otherTeam = randomTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
+        //ETeam randomTeam = (ETeam)UnityEngine.Random.Range(1, 2);
+        //ETeam otherTeam = randomTeam == ETeam.Blue ? ETeam.Red : ETeam.Blue;
 
         ERace myRace = (ERace)Enum.Parse(typeof(ERace), PlayerPrefs.GetString("MyRace"));
         // check ai or human
         //ERace enemyRace = (ERace)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ERace)).Length);
         ERace enemyRace = ERace.Human;
 
-        myTeamData = new TeamData(randomTeam, myRace);
-        enemyTeamData = new TeamData(otherTeam, enemyRace);
+        myTeamData = new TeamData(ETeam.Blue, myRace);
+        enemyTeamData = new TeamData(ETeam.Red, enemyRace);
         teamDatas[0] = myTeamData;
         teamDatas[1] = enemyTeamData;
-
+        enemyLayer = LayerMask.GetMask(enemyTeamData.Team.ToString());
         //set default value unitCount, blockCount
         for (int i = 0; i < 2; i++)
         {
@@ -106,8 +107,8 @@ public class GameManager : MonoBehaviour
             teamDatas[i].MaxBlockCount = 4;
             teamDatas[i].CurBlockCount = teamDatas[i].MaxBlockCount;
             teamDatas[i].Population = 0;
-            teamDatas[i].Faith = 200;
-            teamDatas[i].AddFaith = 5;
+            teamDatas[i].Faith = 300;
+            teamDatas[i].AddFaith = 2;
         }
 
         time = readyTime;
@@ -121,7 +122,7 @@ public class GameManager : MonoBehaviour
         noticeTextSequence.Append(FadeOut)
             .SetAutoKill(false).Pause();
 
-        CallNoticeTextFade("30초 후 게임이 시작됩니다.");
+        CallNoticeTextFade("30초 후 게임이 시작됩니다.", Color.white);
         SetState(EGameState.Ready);
     }
 
@@ -129,15 +130,26 @@ public class GameManager : MonoBehaviour
     {
         GetTeamData(team).Faith += price;
     }
+    public void UseFaith(ETeam team, float price)
+    {
+        GetTeamData(team).Faith -= price;
+    }
 
     public void AddUnit(ETeam team, UnitData unitData)
     {
         TeamData data = GetTeamData(team);
         // over than max population or less than unit Capacity
-        if (data.CurBlockCount == 0 || data.CurBlockCount < unitData.Capacity) return;
+        if (data.CurBlockCount == 0 || data.CurBlockCount < unitData.Capacity)
+        {
+            CallNoticeTextFade("소환 블록이 부족합니다.", Color.red);
+            return;
+        }
         // lack of money
-        if (data.Faith < unitData.PriceFaith) return;
-
+        if (data.Faith < unitData.PriceFaith)
+        {
+            CallNoticeTextFade("신앙이 부족합니다.", Color.red);
+            return;
+        }
         data.CurBlockCount -= unitData.Capacity;
         data.Faith -= unitData.PriceFaith;
         data.Population++;
@@ -182,6 +194,7 @@ public class GameManager : MonoBehaviour
 
     public void GameEnd(ETeam loseTeam)
     {
+        this.loseTeam = loseTeam;
         SetState(EGameState.End);
         string text = loseTeam == myTeamData.Team ? "Lose" : "Win";
         resultImage.transform.Find(myTeamData.Team.ToString() + text).gameObject.SetActive(true);
@@ -200,8 +213,9 @@ public class GameManager : MonoBehaviour
             Managers.UnitSpawn.SpawnUnits(teamDatas[i]);
         }
     }
-    public void CallNoticeTextFade(string text)
+    public void CallNoticeTextFade(string text, Color color)
     {
+        noticeText.color = color;
         noticeText.text = text;
         noticeText.alpha = 0;
         noticeTextSequence.Restart();

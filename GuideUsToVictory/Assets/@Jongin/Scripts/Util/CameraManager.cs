@@ -8,7 +8,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] float moveForwardDistance = 2f;
     [SerializeField] Transform center;
     [SerializeField] GameObject battleCanvas;
-    [SerializeField] GameObject AuctionCanvas;
+    [SerializeField] GameObject auctionCanvas;
+    [SerializeField] GameObject summonGroundCanvas;
     float maxMoveVector = 100f;
     float minMoveVector = 30f;
     float rightLimit = 220f;
@@ -34,6 +35,12 @@ public class CameraManager : MonoBehaviour
     }
     void Update()
     {
+        if(Managers.Game.GameState == Define.EGameState.End)
+        {
+            GameEnd(Managers.Game.loseTeam);
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ActiveCamera(0);
@@ -90,6 +97,7 @@ public class CameraManager : MonoBehaviour
 
     void MoveToTeamTower(Define.ETeam team)
     {
+        ActiveCamera(0);
         float mul = team == Define.ETeam.Blue ? -200 : 200;
         if (cameraMoveTween != null)
         {
@@ -100,8 +108,7 @@ public class CameraManager : MonoBehaviour
     }
     public void GameEnd(Define.ETeam loseTeam)
     {
-        //MoveToTeamTower(loseTeam);
-
+        MoveToTeamTower(loseTeam);
     }
 
     public void ActiveCamera(int cameraIndex)
@@ -116,18 +123,21 @@ public class CameraManager : MonoBehaviour
 
         if (cameraIndex == (int)Define.ECameraType.Battle)
         {
-            AuctionCanvas.SetActive(false);
+            auctionCanvas.SetActive(false);
             battleCanvas.SetActive(true);
+            summonGroundCanvas.SetActive(false);
         }
         else if (cameraIndex == (int)Define.ECameraType.Auction)
         {
-            AuctionCanvas.SetActive(true);
+            auctionCanvas.SetActive(true);
             battleCanvas.SetActive(false);
+            summonGroundCanvas.SetActive(false);
         }
         else
         {
-            AuctionCanvas.SetActive(false);
+            auctionCanvas.SetActive(false);
             battleCanvas.SetActive(false);
+            summonGroundCanvas.SetActive(true);
         }
     }
 }

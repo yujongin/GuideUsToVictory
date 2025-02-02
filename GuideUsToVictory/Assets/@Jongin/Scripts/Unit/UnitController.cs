@@ -220,7 +220,7 @@ public class UnitController : UnitBase
         {
             next.walkable = true;
         }
-        Managers.Game.AddFaith(EnemyTeam, baseStat.PriceFaith * 0.5f);
+        Managers.Game.AddFaith(EnemyTeam, baseStat.PriceFaith * 0.1f);
         Managers.UnitSpawn.DespawnUnit(this);
     }
 

@@ -6,7 +6,6 @@ public class BlockPlacementAI : MonoBehaviour
 {
     public GameObject block;
     public BlockCell[,] grid;
-    ETeam aiTeam;
 
     List<BlockCell> myBlocks;
     List<Vector2[]> rotatedBlockNodes = new List<Vector2[]>();
@@ -18,22 +17,7 @@ public class BlockPlacementAI : MonoBehaviour
     List<BlockCell> neighborNodes = new List<BlockCell>();
     private void Start()
     {
-
-        aiTeam = Managers.Game.enemyTeamData.Team;
         grid = Managers.SummonGround.grid;
-        myBlocks = Managers.SummonGround.teamBlocks[aiTeam];
-
-        for (int i = 0; i < grid.GetLength(0); i++)
-        {
-            for (int j = 0; j < grid.GetLength(1); j++)
-            {
-                if (grid[i, j].team == aiTeam)
-                {
-                    myBlocks.Add(grid[i, j]);
-                }
-            }
-        }
-
     }
     public List<Vector2[]> GetRotateVectorArray(Vector3[] positions)
     {
@@ -44,15 +28,13 @@ public class BlockPlacementAI : MonoBehaviour
 
         for (int i = 0; i < positions.Length; i++)
         {
-            block.transform.GetChild(i).localPosition = positions[i];
+            transforms[i].localPosition = positions[i];
         }
 
         for (int i = 0; i < 4; i++)
         {
-            if (i > 0)
-            {
-                block.transform.rotation = Quaternion.Euler(Vector3.up * 90 * (i));
-            }
+            block.transform.rotation = Quaternion.Euler(Vector3.up * 90 * (i));
+
             Vector2[] pos = new Vector2[transforms.Length];
 
             for (int j = 0; j < transforms.Length; j++)
@@ -86,10 +68,10 @@ public class BlockPlacementAI : MonoBehaviour
 
         return blockPositions;
     }
-    public void FindBestPosition()
+    public void FindBestPosition(ETeam team)
     {
-        SetMinMaxPos();
-        neighborNodes = Managers.SummonGround.GetNeighborNodes(aiTeam);
+        SetMinMaxPos(team);
+        neighborNodes = Managers.SummonGround.GetNeighborNodes(team);
         int bestSize = int.MaxValue;
         BlockCell bestNode = null;
         float bestRot = 0;
@@ -109,13 +91,25 @@ public class BlockPlacementAI : MonoBehaviour
                     {
                         Vector3 nodePos = neighborNodes[k].worldPosition + new Vector3(pos[j].x, 0, pos[j].y);
                         BlockCell cell = Managers.SummonGround.GetNodeFromWorldPosition(nodePos);
-                        if (cell == null) break;
+                        //Debug.Log("pos: " + new Vector3(pos[j].x, 0, pos[j].y));
+                        //Debug.Log("nodePos: " +  nodePos);
+                        if (cell == null)
+                        {
+                            break;
+                        }
+                        //Debug.Log("cellPos: " + cell.cellPos);
                         blockPlace.Add(cell);
                     }
 
+
                     if (blockPlace.Count == pos.Length)
                     {
+                        //for (int z = 0; z < blockPlace.Count; z++)
+                        //{
+                        //    Debug.Log("cellPos: " + blockPlace[z].cellPos);
+                        //}
                         int size = GetSizeMyCells(blockPlace);
+
                         if (size < bestSize)
                         {
                             bestSize = size;
@@ -135,53 +129,57 @@ public class BlockPlacementAI : MonoBehaviour
         {
             block.transform.GetChild(i).localPosition = blockPositions[bestPosIndex][i];
             BlockCell cell = Managers.SummonGround.GetNodeFromWorldPosition(block.transform.GetChild(i).position);
-            myBlocks.Add(cell);
-            cell.team = aiTeam;
+            Managers.SummonGround.teamBlocks[team].Add(cell);
+            cell.team = team;
             cell.placeable = false;
         }
-        block.transform.parent = aiTeam == ETeam.Blue ? Managers.SummonGround.blueBlockParent : Managers.SummonGround.redBlockParent;
+        block.transform.parent = team == ETeam.Blue ? Managers.SummonGround.blueBlockParent : Managers.SummonGround.redBlockParent;
+        Managers.Game.IncreaseMaxBlock(team, block.transform.childCount);
     }
     int GetSizeMyCells(List<BlockCell> blockPlace)
     {
-        Vector2 maxPos = new Vector2(maxX, maxZ);
-        Vector2 minPos = new Vector2(minX, minZ);
+        Vector2Int maxPos = new Vector2Int(maxX, maxZ);
+        Vector2Int minPos = new Vector2Int(minX, minZ);
+        //Debug.Log("maxPos: " + maxPos + ", minPos : " + minPos);
+
         for (int i = 0; i < blockPlace.Count; i++)
         {
-            if (blockPlace[i].cellPos.x > maxPos.x)
-                maxPos.x = blockPlace[i].cellPos.x;
-            if (blockPlace[i].cellPos.x < minPos.x)
-                minPos.x = blockPlace[i].cellPos.x;
-            if (blockPlace[i].cellPos.y > maxPos.y)
-                maxPos.y = blockPlace[i].cellPos.y;
-            if (blockPlace[i].cellPos.y < minPos.y)
-                minPos.y = blockPlace[i].cellPos.y;
+            int x = Mathf.RoundToInt(blockPlace[i].cellPos.x);
+            int y = Mathf.RoundToInt(blockPlace[i].cellPos.y);
+            //Debug.Log("cellposX: " + x + ", cellposY : " + y);
+            if (x > maxPos.x) maxPos.x = x;
+            if (x < minPos.x) minPos.x = x;
+            if (y > maxPos.y) maxPos.y = y;
+            if (y < minPos.y) minPos.y = y;
+
+            //Debug.Log("maxPos: " + maxPos + ", minPos : " + minPos);
         }
-        return (int)((maxPos.x - minPos.x + 1) * (maxPos.y - minPos.y + 1));
+
+        //Debug.Log("Result : " + (maxPos.x - minPos.x + 1) * (maxPos.y - minPos.y + 1));
+        return (maxPos.x - minPos.x + 1) * (maxPos.y - minPos.y + 1);
     }
-    void SetMinMaxPos()
+    void SetMinMaxPos(ETeam team)
     {
+        myBlocks = Managers.SummonGround.teamBlocks[team];
+        maxX = Mathf.RoundToInt(myBlocks[0].cellPos.x);
+        minX = Mathf.RoundToInt(myBlocks[0].cellPos.x);
+        maxZ = Mathf.RoundToInt(myBlocks[0].cellPos.y);
+        minZ = Mathf.RoundToInt(myBlocks[0].cellPos.y);
         for (int i = 0; i < myBlocks.Count; i++)
         {
-            if (myBlocks[i].cellPos.x > maxX)
-                maxX = (int)myBlocks[i].cellPos.x;
+            if (Mathf.RoundToInt(myBlocks[i].cellPos.x) > maxX)
+                maxX = Mathf.RoundToInt(myBlocks[i].cellPos.x);
 
-            if (myBlocks[i].cellPos.x < minX)
-                minX = (int)myBlocks[i].cellPos.x;
+            if (Mathf.RoundToInt(myBlocks[i].cellPos.x) < minX)
+                minX = Mathf.RoundToInt(myBlocks[i].cellPos.x);
 
-            if (myBlocks[i].cellPos.y > maxZ)
-                maxZ = (int)myBlocks[i].cellPos.y;
+            if (Mathf.RoundToInt(myBlocks[i].cellPos.y) > maxZ)
+                maxZ = Mathf.RoundToInt(myBlocks[i].cellPos.y);
 
-            if (myBlocks[i].cellPos.y < minZ)
-                minZ = (int)myBlocks[i].cellPos.y;
+            if (Mathf.RoundToInt(myBlocks[i].cellPos.y) < minZ)
+                minZ = Mathf.RoundToInt(myBlocks[i].cellPos.y);
         }
     }
-
-
-
-
-
-
-
 
 
 }

@@ -17,6 +17,6 @@ public class TeamData
         this.Team = team;
         this.Race = race;
         UnitCountDict = new Dictionary<string, int>();
-        UnitUnlock = new bool[4] { true, true, true, true };
+        UnitUnlock = new bool[4] { true, true, false, false };
     }
 }

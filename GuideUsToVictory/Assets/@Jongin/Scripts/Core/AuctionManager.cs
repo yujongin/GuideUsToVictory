@@ -14,9 +14,15 @@ public class AuctionManager : MonoBehaviour
     public TMP_Text auctionTimerText;
     public Button makeBidButton;
 
+    [HideInInspector]
+    public bool isPlacement;
+
+    public GameObject summonGroundPanel;
+    public Image placementTimerImage;
+    public TMP_Text placementTimerText;
+
     public EAuctionState auctionState;
 
-    public BlockGenerator blockGenerator;
     public Transform blockSpawnPosition;
     public GameObject blockGenerateEffect;
 
@@ -26,31 +32,49 @@ public class AuctionManager : MonoBehaviour
     public TMP_InputField priceInput;
     public TMP_Text curBlockPriceText;
     public TMP_Text curBidTeamText;
-    
-    float auctionTime = 10f;
+
+    float auctionTime = 20f;
     float curAuctionTime = 0;
 
     float curBlockPrice = 0;
     ETeam curBidTeam;
     GameObject curBlock;
 
+    BlockGenerator blockGenerator;
     CameraManager cameraManager;
+    PlayerBlockPlacement playerBlockPlacement;
 
     int auctionPhase = 0;
+
+    bool isStart = false;
     void Start()
     {
         auctionState = EAuctionState.None;
+        curBidTeam = ETeam.None;
         makeBidButton.onClick.AddListener(() =>
         {
-            MakeBid(Managers.Game.enemyTeamData.Team);
+            if (priceInput.text == "")
+            {
+                Managers.Game.CallNoticeTextFade("지불할 신앙을 입력하세요", Color.red);
+                return;
+            }
+            MakeBid(Managers.Game.myTeamData.Team, int.Parse(priceInput.text));
+            CallMakeBIdAI();
         });
 
         cameraManager = FindFirstObjectByType<CameraManager>();
-
+        blockGenerator = FindFirstObjectByType<BlockGenerator>();
+        playerBlockPlacement = FindFirstObjectByType<PlayerBlockPlacement>();
+        playerBlockPlacement.originalMaterial = blueTeamMat;
     }
 
     void Update()
     {
+        if (Managers.Game.GameState == EGameState.End)
+        {
+            StopAllCoroutines();
+            return;
+        }
         if (auctionState == EAuctionState.None)
         {
             auctionCooltime -= Time.deltaTime;
@@ -58,9 +82,10 @@ public class AuctionManager : MonoBehaviour
             if (auctionCooltime <= 0)
             {
                 cameraManager.ActiveCamera((int)ECameraType.Auction);
-                auctionState = EAuctionState.BlockGenrate;
+                auctionState = EAuctionState.BlockGenerate;
                 auctionCooltime = 90f;
                 auctionPhase = 1;
+                isAIWon = false;
             }
             string m = Mathf.FloorToInt(auctionCooltime / 60).ToString();
             string s = Mathf.FloorToInt(auctionCooltime % 60) < 10 ?
@@ -72,7 +97,7 @@ public class AuctionManager : MonoBehaviour
         {
             switch (auctionState)
             {
-                case EAuctionState.BlockGenrate:
+                case EAuctionState.BlockGenerate:
                     //block generate
                     curAuctionTime = auctionTime;
                     GenerateBlock();
@@ -80,6 +105,11 @@ public class AuctionManager : MonoBehaviour
                     auctionState = EAuctionState.Auction;
                     break;
                 case EAuctionState.Auction:
+                    if(!isStart)
+                    {
+                        CallMakeBIdAI();
+                        isStart = true;
+                    }
                     auctionPanel.SetActive(true);
                     curAuctionTime -= Time.deltaTime;
                     auctionTimerText.text = Mathf.FloorToInt(curAuctionTime).ToString();
@@ -87,10 +117,17 @@ public class AuctionManager : MonoBehaviour
 
                     if (curAuctionTime <= 0)
                     {
+                        if(curBidTeam == ETeam.None)
+                        {
+                            Destroy(curBlock);
+                            EndPlacementTurn();
+                            return;
+                        }
                         auctionPanel.SetActive(false);
                         cameraManager.ActiveCamera((int)ECameraType.SummonGround);
                         SuccessfulBid();
                         auctionState = EAuctionState.Placement;
+                        isStart = false;
                     }
                     break;
                 case EAuctionState.Placement:
@@ -119,7 +156,6 @@ public class AuctionManager : MonoBehaviour
         blockGenerateEffect.SetActive(true);
 
         InitBlockPrice(meshes.Length);
-        aiTeamData = Managers.Game.enemyTeamData;
     }
 
     void InitBlockPrice(int blockCount)
@@ -129,13 +165,8 @@ public class AuctionManager : MonoBehaviour
         curBlockPrice = curBlockPrice + addPrice;
         curBlockPriceText.text = curBlockPrice.ToString();
     }
-    public void MakeBid(ETeam team)
+    public void MakeBid(ETeam team, int price)
     {
-        if (priceInput.text == "")
-        {
-            Managers.Game.CallNoticeTextFade("지불할 신앙을 입력하세요");
-            return;
-        }
         for (int i = 0; i < meshes.Length; i++)
         {
             Material[] newMaterials = meshes[i].materials;
@@ -143,17 +174,17 @@ public class AuctionManager : MonoBehaviour
 
             meshes[i].materials = newMaterials;
         }
-        curBlockPrice = int.Parse(priceInput.text);
+        curBlockPrice = price;
         curBlockPriceText.text = curBlockPrice.ToString();
         curBidTeam = team;
         curBidTeamText.text = team.ToString();
 
-        curAuctionTime += 5;
-        if(curAuctionTime > 30)
+        curAuctionTime += 3;
+        if (curAuctionTime > auctionTime)
         {
-            curAuctionTime = 30;
+            curAuctionTime = auctionTime;
         }
-        
+
         priceInput.text = "";
     }
     public void MakeBidText(int addPrice)
@@ -162,7 +193,7 @@ public class AuctionManager : MonoBehaviour
         {
             if (curBlockPrice + addPrice > Managers.Game.myTeamData.Faith)
             {
-                Managers.Game.CallNoticeTextFade("신앙이 부족합니다.");
+                Managers.Game.CallNoticeTextFade("신앙이 부족합니다.", Color.red);
                 return;
             }
             priceInput.text = (curBlockPrice + addPrice).ToString();
@@ -171,7 +202,7 @@ public class AuctionManager : MonoBehaviour
         {
             if (int.Parse(priceInput.text) + addPrice > Managers.Game.myTeamData.Faith)
             {
-                Managers.Game.CallNoticeTextFade("신앙이 부족합니다.");
+                Managers.Game.CallNoticeTextFade("신앙이 부족합니다.", Color.red);
                 return;
             }
             priceInput.text = (int.Parse(priceInput.text) + addPrice).ToString();
@@ -185,9 +216,10 @@ public class AuctionManager : MonoBehaviour
 
     public void SuccessfulBid()
     {
+        Managers.Game.UseFaith(curBidTeam, curBlockPrice);
         if (curBidTeam == Managers.Game.myTeamData.Team)
         {
-
+            StartCoroutine(PlacementBlockPlayer());
         }
         else
         {
@@ -195,20 +227,107 @@ public class AuctionManager : MonoBehaviour
         }
     }
 
+    public IEnumerator PlacementBlockPlayer()
+    {
+        yield return new WaitForSeconds(1f);
+        summonGroundPanel.SetActive(true);
+        isPlacement = false;
+        float time = 10f;
+        curBlock.transform.rotation = Quaternion.identity;
+        playerBlockPlacement.neighbors = Managers.SummonGround.GetNeighborNodes(Managers.Game.myTeamData.Team);
+        playerBlockPlacement.target = curBlock;
+
+        while (time > 0)
+        {
+            if (isPlacement)
+                break;
+            time -= Time.deltaTime;
+            placementTimerImage.fillAmount = time / 10f;
+            placementTimerText.text = Mathf.FloorToInt(time).ToString();
+
+            if (time <= 0)
+            {
+                //auto placement
+                Managers.SummonGround.AutoBlockPlacement(curBlock);
+                playerBlockPlacement.AutoBlockPlacement();
+                time = 0;
+            }
+            yield return null;
+        }
+        yield return new WaitForSeconds(1f);
+        summonGroundPanel.SetActive(false);
+        EndPlacementTurn();
+    }
 
     //AI 
-    TeamData aiTeamData;
     public IEnumerator PlacementBlockAI()
     {
         yield return new WaitForSeconds(1f);
         Managers.SummonGround.AIBlockPlacement(curBlock);
-
+        yield return new WaitForSeconds(1f);
+        EndPlacementTurn();
     }
 
-    public IEnumerator MakeBidAI()
+    void EndPlacementTurn()
     {
-        
+        if (auctionPhase == 1)
+        {
+            cameraManager.ActiveCamera((int)ECameraType.Auction);
+            auctionPhase++;
+            auctionState = EAuctionState.BlockGenerate;
+        }
+        else if (auctionPhase == 2)
+        {
+            cameraManager.ActiveCamera((int)ECameraType.Battle);
+            auctionPhase = 0;
+            auctionState = EAuctionState.None;
+        }
+        curBidTeam = ETeam.None;
+    }
 
-        yield return null;
+
+    void CallMakeBIdAI()
+    {
+        if(makeBidAI!= null)
+        {
+            StopCoroutine(makeBidAI);
+        }
+
+        StartCoroutine(MakeBidAI());
+    }
+
+    Coroutine makeBidAI;
+    bool isAIWon = false;
+    IEnumerator MakeBidAI()
+    {
+        yield return new WaitForSeconds(1);
+        TeamData aiData = Managers.Game.enemyTeamData;
+        float remainFaith = aiData.Faith;
+        float minUnitPrice = curBlock.transform.childCount * 20f;
+
+        if (auctionPhase == 1)
+        {
+            if (curBlockPrice <= remainFaith - minUnitPrice - 5)
+            {
+                MakeBid(aiData.Team, (int)curBlockPrice + 5);
+            }
+        }
+        else
+        {
+            if (!isAIWon)
+            {
+                if (curBlockPrice <= remainFaith - 5)
+                {
+                    MakeBid(aiData.Team, (int)curBlockPrice + 5);
+                }
+            }
+            else
+            {
+                if (curBlockPrice <= remainFaith - minUnitPrice - 5)
+                {
+                    MakeBid(aiData.Team, (int)curBlockPrice + 5);
+                }
+            }
+        }
     }
 }
