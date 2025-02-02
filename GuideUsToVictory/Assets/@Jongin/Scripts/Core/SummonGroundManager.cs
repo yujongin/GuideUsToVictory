@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
@@ -9,12 +10,19 @@ public class SummonGroundManager : MonoBehaviour
     BlockGenerator blockGenerator;
     BlockPlacementAI placementAI;
 
-    public Transform blockSummonPos;
+    public Dictionary<ETeam, List<BlockCell>> teamBlocks;
+    public Transform redBlockParent;
+    public Transform blueBlockParent;
+
     void Awake()
     {
+        teamBlocks = new Dictionary<ETeam, List<BlockCell>>();
+        teamBlocks.Add(ETeam.Blue, new List<BlockCell>());
+        teamBlocks.Add(ETeam.Red, new List<BlockCell>());
         grid = FindFirstObjectByType<BlockGridGenerator>().GenerateGrid(nodeSize);
         blockGenerator = FindFirstObjectByType<BlockGenerator>();
         placementAI = FindFirstObjectByType<BlockPlacementAI>();
+
     }
 
     void Update()
@@ -22,7 +30,6 @@ public class SummonGroundManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameObject go = blockGenerator.GetRandomBlock();
-            //go.transform.position = blockSummonPos.position;
 
             placementAI.block = go;
             placementAI.FindBestPosition();
@@ -46,6 +53,40 @@ public class SummonGroundManager : MonoBehaviour
         if (grid[x, z].placeable == false) return null;
         return grid[x, z];
     }
+
+
+
+    Vector2[] dir = new Vector2[4]
+    {
+        new Vector2(0,1), new Vector2(1,0), new Vector2(-1,0), new Vector2(0,-1)
+    };
+
+    public List<BlockCell> GetNeighborNodes(ETeam team)
+    {
+        List<BlockCell> neighborNodes = new List<BlockCell>();
+        neighborNodes.Clear();
+        for (int i = 0; i < teamBlocks[team].Count; i++)
+        {
+            for (int j = 0; j < dir.Length; j++)
+            {
+                int cellX = (int)(teamBlocks[team][i].cellPos.x + dir[j].x);
+                int cellY = (int)(teamBlocks[team][i].cellPos.y + dir[j].y);
+
+                if (cellX < 0 || cellX > grid.GetLength(0) - 1 || cellY < 0 || cellY > grid.GetLength(0) - 1 ||
+                    grid[cellX, cellY].placeable == false)
+                {
+                    continue;
+                }
+
+                if (!neighborNodes.Contains(grid[cellX, cellY]))
+                {
+                    neighborNodes.Add(grid[cellX, cellY]);
+                }
+            }
+        }
+        return neighborNodes;
+    }
+
     private void OnDrawGizmos()
     {
         if (grid != null)

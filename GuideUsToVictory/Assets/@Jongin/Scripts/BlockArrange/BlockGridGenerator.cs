@@ -29,10 +29,12 @@ public class BlockGridGenerator : MonoBehaviour
                 if (x < 2 && z < 2)
                 {
                     grid[x, z] = new BlockCell(new Vector2(x, z), worldPosition, false, ETeam.Blue);
+                    Managers.SummonGround.teamBlocks[ETeam.Blue].Add(grid[x, z]); 
                 }
                 else if(x >= grid.GetLength(0) - 2 && z >= grid.GetLength(1) - 2)
                 {
                     grid[x, z] = new BlockCell(new Vector2(x, z), worldPosition, false, ETeam.Red);
+                    Managers.SummonGround.teamBlocks[ETeam.Red].Add(grid[x, z]); 
                 }
                 else
                 {

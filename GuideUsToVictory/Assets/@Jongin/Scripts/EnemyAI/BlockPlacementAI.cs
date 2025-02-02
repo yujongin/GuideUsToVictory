@@ -8,17 +8,20 @@ public class BlockPlacementAI : MonoBehaviour
     public BlockCell[,] grid;
     ETeam aiTeam;
 
-    List<BlockCell> myBlocks = new List<BlockCell>();
+    List<BlockCell> myBlocks;
     List<Vector2[]> rotatedBlockNodes = new List<Vector2[]>();
     int minX = int.MaxValue;
     int maxX = 0;
     int minZ = int.MaxValue;
     int maxZ = 0;
+
+    List<BlockCell> neighborNodes = new List<BlockCell>();
     private void Start()
     {
 
-        aiTeam = ETeam.Red;
+        aiTeam = Managers.Game.enemyTeamData.Team;
         grid = Managers.SummonGround.grid;
+        myBlocks = Managers.SummonGround.teamBlocks[aiTeam];
 
         for (int i = 0; i < grid.GetLength(0); i++)
         {
@@ -30,7 +33,7 @@ public class BlockPlacementAI : MonoBehaviour
                 }
             }
         }
-        //aiTeam = Managers.Game.enemyTeamData.Team;
+
     }
     public List<Vector2[]> GetRotateVectorArray(Vector3[] positions)
     {
@@ -86,7 +89,7 @@ public class BlockPlacementAI : MonoBehaviour
     public void FindBestPosition()
     {
         SetMinMaxPos();
-        GetNeighborNodes();
+        neighborNodes = Managers.SummonGround.GetNeighborNodes(aiTeam);
         int bestSize = int.MaxValue;
         BlockCell bestNode = null;
         float bestRot = 0;
@@ -136,6 +139,7 @@ public class BlockPlacementAI : MonoBehaviour
             cell.team = aiTeam;
             cell.placeable = false;
         }
+        block.transform.parent = aiTeam == ETeam.Blue ? Managers.SummonGround.blueBlockParent : Managers.SummonGround.redBlockParent;
     }
     int GetSizeMyCells(List<BlockCell> blockPlace)
     {
@@ -176,36 +180,6 @@ public class BlockPlacementAI : MonoBehaviour
 
 
 
-    Vector2[] dir = new Vector2[4]
-    {
-        new Vector2(0,1), new Vector2(1,0), new Vector2(-1,0), new Vector2(0,-1)
-    };
-
-    List<BlockCell> neighborNodes = new List<BlockCell>();
-    public List<BlockCell> GetNeighborNodes()
-    {
-        neighborNodes.Clear();
-        for (int i = 0; i < myBlocks.Count; i++)
-        {
-            for (int j = 0; j < dir.Length; j++)
-            {
-                int cellX = (int)(myBlocks[i].cellPos.x + dir[j].x);
-                int cellY = (int)(myBlocks[i].cellPos.y + dir[j].y);
-
-                if (cellX < 0 || cellX > grid.GetLength(0) - 1 || cellY < 0 || cellY > grid.GetLength(0) - 1 ||
-                    grid[cellX, cellY].placeable == false)
-                {
-                    continue;
-                }
-
-                if (!neighborNodes.Contains(grid[cellX, cellY]))
-                {
-                    neighborNodes.Add(grid[cellX, cellY]);
-                }
-            }
-        }
-        return neighborNodes;
-    }
 
 
 

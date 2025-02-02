@@ -42,7 +42,7 @@ public class AuctionManager : MonoBehaviour
         auctionState = EAuctionState.None;
         makeBidButton.onClick.AddListener(() =>
         {
-            MakeBid(Managers.Game.myTeamData.Team);
+            MakeBid(Managers.Game.enemyTeamData.Team);
         });
 
         cameraManager = FindFirstObjectByType<CameraManager>();
@@ -88,6 +88,7 @@ public class AuctionManager : MonoBehaviour
                     if (curAuctionTime <= 0)
                     {
                         auctionPanel.SetActive(false);
+                        cameraManager.ActiveCamera((int)ECameraType.SummonGround);
                         SuccessfulBid();
                         auctionState = EAuctionState.Placement;
                     }
@@ -184,7 +185,7 @@ public class AuctionManager : MonoBehaviour
 
     public void SuccessfulBid()
     {
-        if(curBidTeam == Managers.Game.myTeamData.Team)
+        if (curBidTeam == Managers.Game.myTeamData.Team)
         {
 
         }
@@ -199,7 +200,6 @@ public class AuctionManager : MonoBehaviour
     TeamData aiTeamData;
     public IEnumerator PlacementBlockAI()
     {
-        cameraManager.ActiveCamera((int)ECameraType.SummonGround);
         yield return new WaitForSeconds(1f);
         Managers.SummonGround.AIBlockPlacement(curBlock);
 
