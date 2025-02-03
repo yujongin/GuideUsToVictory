@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject resultImage;
     private float time;
-    float readyTime = 1f;
+    float readyTime = 30f;
     float unitSpawnTerm = 20f;
 
     UnitSelectAI unitSelectAI;
@@ -164,6 +164,19 @@ public class GameManager : MonoBehaviour
         data.CurBlockCount += count;
     }
 
+    public void UnlockUnit(ETeam team)
+    {
+        for (int i = 0; i < GetTeamData(team).UnitUnlock.Length; i++)
+        {
+            if (!GetTeamData(team).UnitUnlock[i])
+            {
+                GetTeamData(team).UnitUnlock[i] = true;
+                if (team == myTeamData.Team)
+                    Managers.UI.SetUnitUnlock();
+                return;
+            }
+        }
+    }
     public void RemoveUnit(ETeam team, UnitData unitData)
     {
         TeamData data = GetTeamData(team);

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 1
   Name: JuniorKnight
+  Description: "\uB8E8\uBA58\uD14C\uB974\uC5D0\uC11C \uADFC\uBB34\uD558\uB294 \uACAC\uC2B5
+    \uAE30\uC0AC\n\uB8E8\uBA58 \uAC00\uB4DC\uB77C\uB294 \uCC3D\uC220\uC744 \uC775\uD78C\uB2E4"
   Hp: 70
   Speed: 10
   AttackSpeed: 1

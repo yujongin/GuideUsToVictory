@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 3
   Name: IronRider
+  Description: "\uB8E8\uBA58\uD14C\uB974\uC758 \uAE30\uB9C8\uBCD1\n\uAC15\uC778\uD55C
+    \uAD70\uC138\uC640 \uD754\uB4E4\uB9BC \uC5C6\uB294 \uB2E8\uACB0\uC744 \uC0C1\uC9D5\uD55C\uB2E4"
   Hp: 100
   Speed: 12
   AttackSpeed: 1

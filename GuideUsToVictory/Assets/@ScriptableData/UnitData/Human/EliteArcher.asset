@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 2
   Name: EliteArcher
+  Description: "\uB8E8\uBA58\uD14C\uB974\uC758 \uC815\uC608 \uAD81\uC218\n\uC6C0\uC9C1\uC774\uB294
+    \uC801\uB3C4 \uB2E8\uBC88\uC5D0 \uB9DE\uCD98\uB2E4"
   Hp: 60
   Speed: 10
   AttackSpeed: 1.5

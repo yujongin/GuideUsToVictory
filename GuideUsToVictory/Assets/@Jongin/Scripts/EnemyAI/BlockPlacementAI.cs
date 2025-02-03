@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static Define;
 public class BlockPlacementAI : MonoBehaviour
@@ -130,6 +131,14 @@ public class BlockPlacementAI : MonoBehaviour
             block.transform.GetChild(i).localPosition = blockPositions[bestPosIndex][i];
             BlockCell cell = Managers.SummonGround.GetNodeFromWorldPosition(block.transform.GetChild(i).position);
             Managers.SummonGround.teamBlocks[team].Add(cell);
+
+            for (int j = 0; j < 4; j++)
+            {
+                if (cell.cellPos == Managers.SummonGround.unitUnlockNode[j])
+                {
+                    Managers.Game.UnlockUnit(team);
+                }
+            }
             cell.team = team;
             cell.placeable = false;
         }

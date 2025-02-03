@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 4
   Name: Waver
+  Description: "\uB8E8\uBA58\uD14C\uB974\uC758 \uC9C0\uC2DD\uACFC \uB9C8\uBC95 \uAE30\uC220\uC758
+    \uC9D1\uC57D\uCCB4\n\uC815\uC608\uC911\uC5D0 \uC815\uC608\uB85C \uAF3D\uD78C\uB2E4"
   Hp: 100
   Speed: 8
   AttackSpeed: 0.8

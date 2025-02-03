@@ -39,19 +39,19 @@ public class GridGenerator : MonoBehaviour
     }
 
 
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        if (grid != null)
-        {
-            foreach (Node node in grid)
-            {
-                Gizmos.color = node.walkable ? Color.green : Color.red;
-                Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
-            }
-        }
-    }
-#endif
+//#if UNITY_EDITOR
+//    private void OnDrawGizmos()
+//    {
+//        if (grid != null)
+//        {
+//            foreach (Node node in grid)
+//            {
+//                Gizmos.color = node.walkable ? Color.green : Color.red;
+//                Gizmos.DrawCube(node.worldPosition, Vector3.one * (2f * 0.1f));
+//            }
+//        }
+//    }
+//#endif
 }
 
 public class Node

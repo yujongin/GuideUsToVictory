@@ -14,6 +14,7 @@ public class ButtonEventHandler : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!GetComponent<Button>().interactable) return;
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             OnLeftClick.Invoke(Managers.UI.units[myIndex].Name);
@@ -23,6 +24,4 @@ public class ButtonEventHandler : MonoBehaviour, IPointerClickHandler
             OnRightClick.Invoke(Managers.UI.units[myIndex].Name);
         }
     }
-
-
 }

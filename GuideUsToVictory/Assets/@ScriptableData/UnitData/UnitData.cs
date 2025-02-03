@@ -5,6 +5,8 @@ public class UnitData : ScriptableObject
 {
     public int cost;
     public string Name;
+    [TextArea]
+    public string Description;
     public float Hp;
     public float Speed;
     public float AttackSpeed;

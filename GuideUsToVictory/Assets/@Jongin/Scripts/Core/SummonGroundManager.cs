@@ -10,19 +10,26 @@ public class SummonGroundManager : MonoBehaviour
     BlockGenerator blockGenerator;
     BlockPlacementAI placementAI;
 
-    public Dictionary<ETeam, List<BlockCell>> teamBlocks;
+    public Dictionary<ETeam, List<BlockCell>> teamBlocks = new Dictionary<ETeam, List<BlockCell>>();
     public Transform redBlockParent;
     public Transform blueBlockParent;
 
+    public Vector2[] unitUnlockNode;
     void Awake()
     {
-        teamBlocks = new Dictionary<ETeam, List<BlockCell>>();
         teamBlocks.Add(ETeam.Blue, new List<BlockCell>());
         teamBlocks.Add(ETeam.Red, new List<BlockCell>());
         grid = FindFirstObjectByType<BlockGridGenerator>().GenerateGrid(nodeSize);
         blockGenerator = FindFirstObjectByType<BlockGenerator>();
         placementAI = FindFirstObjectByType<BlockPlacementAI>();
 
+        unitUnlockNode = new Vector2[4]
+        {
+            new Vector2(15,15),
+            new Vector2(11,11),
+            new Vector2(8,8),
+            new Vector2(4,4)
+        };
     }
 
     void Update()
@@ -40,6 +47,13 @@ public class SummonGroundManager : MonoBehaviour
         for (int i = 0; i < block.transform.childCount; i++)
         {
             BlockCell node = GetNodeFromWorldPosition(block.transform.GetChild(i).transform.position);
+            for (int j = 0; j < 4; j++)
+            {
+                if (node.cellPos == unitUnlockNode[j])
+                {
+                    Managers.Game.UnlockUnit(team);
+                }
+            }
             node.placeable = false;
             node.team = team;
             teamBlocks[team].Add(node);
