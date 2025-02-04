@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: db24020d51e5b43db953b32451e4cef5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 58351
+  packageName: Defence Game Music
+  packageVersion: 1.0
+  assetPath: Assets/Sound/Defence_Music/PlayMusic.cs
+  uploadId: 107875

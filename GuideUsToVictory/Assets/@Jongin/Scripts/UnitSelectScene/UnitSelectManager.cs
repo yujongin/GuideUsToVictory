@@ -30,6 +30,8 @@ public class UnitSelectManager : MonoBehaviour
             .Append(description.GetComponent<RectTransform>().DOMoveX(473, 1f))
             .Join(description.DOFade(1, 1))
             .SetAutoKill(false);
+
+        SoundManager.Instance.OnPlayBGM(SoundManager.Instance.selectBgm);
     }
 
     public void SelectChange()

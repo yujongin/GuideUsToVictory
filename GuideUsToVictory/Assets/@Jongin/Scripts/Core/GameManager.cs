@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         Managers.UI.Init();
         unitSelectAI = GameObject.Find("AIManager").GetComponent<UnitSelectAI>();
         unitSelectAI.Init();
+        SoundManager.Instance.OnPlayBGM(SoundManager.Instance.inGameBgm);
     }
     private void Update()
     {
@@ -84,8 +85,8 @@ public class GameManager : MonoBehaviour
 
         ERace myRace = (ERace)Enum.Parse(typeof(ERace), PlayerPrefs.GetString("MyRace"));
         // check ai or human
-        //ERace enemyRace = (ERace)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ERace)).Length);
-        ERace enemyRace = ERace.Human;
+        ERace enemyRace = (ERace)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ERace)).Length);
+        //ERace enemyRace = ERace.Human;
 
         myTeamData = new TeamData(ETeam.Blue, myRace);
         enemyTeamData = new TeamData(ETeam.Red, enemyRace);

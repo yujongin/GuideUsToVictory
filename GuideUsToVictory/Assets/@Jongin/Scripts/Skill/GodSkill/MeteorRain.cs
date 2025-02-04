@@ -9,7 +9,7 @@ public class MeteorRain : MonoBehaviour
     bool isAIUse = false;
     public VisualEffect myEffect;
     public VisualEffect aiEffect;
-
+    public Button meteorBtn;
     UnitBase enemyTower;
     private void Start()
     {
@@ -28,8 +28,8 @@ public class MeteorRain : MonoBehaviour
     public void DoSkill()
     {
         if (isUse) return;
+        meteorBtn.interactable = false;
         StartCoroutine(EffectPlay(myEffect, Managers.Game.enemyLayer));
-        //GetComponent<Button>().interactable = false;
         isUse = true;
     }
 
