@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Define;
-using TMPro;
 public class UIManager : MonoBehaviour
 {
     Stack<GameObject> panels = new Stack<GameObject>();
@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     TMP_Text ar_Text;
     TMP_Text mr_Text;
     TMP_Text sp_Text;
+    TMP_Text hp_Text;
     TMP_Text as_Text;
     TMP_Text ca_Text;
     TMP_Text fa_Text;
@@ -48,6 +49,7 @@ public class UIManager : MonoBehaviour
         ap_Text = statPanel.transform.Find("AP").GetComponentInChildren<TMP_Text>();
         ar_Text = statPanel.transform.Find("AR").GetComponentInChildren<TMP_Text>();
         mr_Text = statPanel.transform.Find("MR").GetComponentInChildren<TMP_Text>();
+        hp_Text = statPanel.transform.Find("HP").GetComponentInChildren<TMP_Text>();
         sp_Text = statPanel.transform.Find("SP").GetComponentInChildren<TMP_Text>();
         as_Text = statPanel.transform.Find("AS").GetComponentInChildren<TMP_Text>();
         ca_Text = statPanel.transform.Find("Capacity").GetComponentInChildren<TMP_Text>();
@@ -59,7 +61,7 @@ public class UIManager : MonoBehaviour
         ETeam team = myTeamData.Team;
 
         units = Managers.Resource.GetUnitsByRace(team, race);
-        for(int i = 0; i< units.Length; i++)
+        for (int i = 0; i < units.Length; i++)
         {
             unitBtns[i].GetComponent<ButtonDescription>().btnName = units[i].Name;
             unitBtns[i].GetComponent<ButtonDescription>().description = units[i].Description;
@@ -77,7 +79,7 @@ public class UIManager : MonoBehaviour
 
     public void SetUnitUnlock()
     {
-        for(int i = 0; i< myTeamData.UnitUnlock.Length; i++)
+        for (int i = 0; i < myTeamData.UnitUnlock.Length; i++)
         {
             if (myTeamData.UnitUnlock[i])
             {
@@ -88,12 +90,13 @@ public class UIManager : MonoBehaviour
     }
     public void SetBtnDescription(string btnName, string description, UnitData unitData = null)
     {
-        if(unitData != null)
+        if (unitData != null)
         {
             ad_Text.text = unitData.AttackDamage.ToString();
             ap_Text.text = unitData.AbilityPower.ToString();
             ar_Text.text = unitData.Armor.ToString();
             mr_Text.text = unitData.MagicRegistance.ToString();
+            hp_Text.text = unitData.Hp.ToString();
             sp_Text.text = unitData.Speed.ToString();
             as_Text.text = unitData.AttackSpeed.ToString();
             ca_Text.text = unitData.Capacity.ToString();
@@ -135,7 +138,7 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
-        if(panels.Count == 1)
+        if (panels.Count == 1)
         {
             closeBtn.gameObject.SetActive(false);
         }

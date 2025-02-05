@@ -70,6 +70,7 @@ public class PlayerBlockPlacement : MonoBehaviour
                         Managers.Game.CallNoticeTextFade("현재 자리는 블록을 놓을 수 없습니다.", Color.red);
                         return;
                     }
+                    SoundManager.Instance.PlayOneShot(SoundManager.Instance.putBlockSound);
                     target.transform.parent = Managers.SummonGround.blueBlockParent;
                     Managers.SummonGround.AddBlock(Define.ETeam.Blue, target);
                     ChangeAllBlockMat(blocks, originalMaterial);

@@ -8,6 +8,7 @@ public class ButtonHoverEvent : MonoBehaviour,IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         hoverEffect.SetActive(true);
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.uiHoverSound);
     }
 
     public void OnPointerExit(PointerEventData eventData)

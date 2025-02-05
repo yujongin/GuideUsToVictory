@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: FireThrower
   Description: "\uD30C\uBA78\uC758 \uC131\uCC44\uC5D0\uC11C \uC218\uB828\uD55C \uB9C8\uC871\uC758
     \uB9C8\uBC95\uC0AC\n\uBD88\uAF43 \uC5D0\uB108\uC9C0\uB97C \uBB49\uCCD0 \uB358\uC9C4\uB2E4"
-  Hp: 90
+  Hp: 80
   Speed: 8
   AttackSpeed: 0.7
   AttackDamage: 0

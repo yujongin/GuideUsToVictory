@@ -36,6 +36,7 @@ public class MeteorRain : MonoBehaviour
     IEnumerator EffectPlay(VisualEffect effect, LayerMask mask)
     {
         effect.Play();
+        SoundManager.Instance.PlayMeteorSound();
         yield return new WaitForSeconds(3);
         Collider[] colliders = Physics.OverlapSphere(Vector3.zero, 250f, mask);
         foreach (var collider in colliders)

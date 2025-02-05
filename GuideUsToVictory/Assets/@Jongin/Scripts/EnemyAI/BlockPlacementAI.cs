@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static Define;
 public class BlockPlacementAI : MonoBehaviour
@@ -124,6 +123,11 @@ public class BlockPlacementAI : MonoBehaviour
         }
 
         //실제 배치
+        if(bestNode == null)
+        {
+            Destroy(block);
+            return;
+        }
         block.transform.position = bestNode.worldPosition;
         block.transform.rotation = Quaternion.Euler(0, bestRot, 0);
         for (int i = 0; i < block.transform.childCount; i++)

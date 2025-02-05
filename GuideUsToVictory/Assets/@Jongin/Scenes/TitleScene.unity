@@ -2485,6 +2485,22 @@ MonoBehaviour:
   titleBgm: {fileID: 8300000, guid: 71bbeded6ead34338adaed49f6910489, type: 3}
   selectBgm: {fileID: 8300000, guid: a333ef5493f964632a3f3a9701187534, type: 3}
   inGameBgm: {fileID: 8300000, guid: 8668dcd2915f24e18b56fac749ac8241, type: 3}
+  winBgms:
+  - {fileID: 8300000, guid: 9c2affa27d4db4c14aa598fe09f72825, type: 3}
+  - {fileID: 8300000, guid: fd1bf1145f5ef41248186f74c986ed4b, type: 3}
+  loseBgm: {fileID: 8300000, guid: 5bff748f127974880ac7ab4c6df916b1, type: 3}
+  uiHoverSound: {fileID: 8300000, guid: 73ce859a63c2b48729477337591566ab, type: 3}
+  unitGenerateSound: {fileID: 8300000, guid: 409ad536b56c4a1cbb63e97ffa133a89, type: 3}
+  makeBidSound: {fileID: 8300000, guid: 7d4401503b0fcf68a8523a362b9ce44f, type: 3}
+  successBidSound: {fileID: 8300000, guid: bd745d97d1337fa3997b200f65a2826d, type: 3}
+  hitSound: {fileID: 8300000, guid: 2b21ef916f6943c439b71a7c74568878, type: 3}
+  putBlockSound: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
+  explosionSounds:
+  - {fileID: 8300000, guid: ad2f2c27b6cd24c498831b6016b9f324, type: 3}
+  - {fileID: 8300000, guid: 7ac1c81df7f125e43b59df2e442e5660, type: 3}
+  - {fileID: 8300000, guid: 090681b75de75b3408ec66e1896d1a66, type: 3}
+  minDelay: 0.2
+  maxDelay: 0.5
 --- !u!1 &1952305613
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +2553,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

@@ -199,6 +199,7 @@ public class UnitController : UnitBase
     public override void OnDamage(UnitBase attacker, float damageMultiplier)
     {
         if (isDead) return;
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.hitSound);
         if (spriteRenderer != null)
         {
             if (damageEffectCoroutine != null)

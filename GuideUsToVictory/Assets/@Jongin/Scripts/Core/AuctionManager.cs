@@ -47,9 +47,9 @@ public class AuctionManager : MonoBehaviour
     int auctionPhase = 0;
 
     bool isStart = false;
-    void Start()
+    public void Init()
     {
-        auctionState = EAuctionState.None;
+        auctionState = EAuctionState.Ready;
         curBidTeam = ETeam.None;
         makeBidButton.onClick.AddListener(() =>
         {
@@ -59,6 +59,7 @@ public class AuctionManager : MonoBehaviour
                 return;
             }
             MakeBid(Managers.Game.myTeamData.Team, int.Parse(priceInput.text));
+            SoundManager.Instance.PlayOneShot(SoundManager.Instance.makeBidSound);
             CallMakeBIdAI();
         });
 
@@ -75,7 +76,7 @@ public class AuctionManager : MonoBehaviour
             StopAllCoroutines();
             return;
         }
-        if (auctionState == EAuctionState.None)
+        if (auctionState == EAuctionState.Ready)
         {
             auctionCooltime -= Time.deltaTime;
 
@@ -83,7 +84,7 @@ public class AuctionManager : MonoBehaviour
             {
                 cameraManager.ActiveCamera((int)ECameraType.Auction);
                 auctionState = EAuctionState.BlockGenerate;
-                auctionCooltime = 90f;
+                auctionCooltime = 60f;
                 auctionPhase = 1;
                 isAIWon = false;
             }
@@ -217,6 +218,7 @@ public class AuctionManager : MonoBehaviour
     public void SuccessfulBid()
     {
         Managers.Game.UseFaith(curBidTeam, curBlockPrice);
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.successBidSound);
         if (curBidTeam == Managers.Game.myTeamData.Team)
         {
             StartCoroutine(PlacementBlockPlayer());
@@ -250,6 +252,7 @@ public class AuctionManager : MonoBehaviour
                 //auto placement
                 Managers.SummonGround.AutoBlockPlacement(curBlock);
                 playerBlockPlacement.AutoBlockPlacement();
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.putBlockSound);
                 time = 0;
             }
             yield return null;
@@ -280,7 +283,7 @@ public class AuctionManager : MonoBehaviour
         {
             cameraManager.ActiveCamera((int)ECameraType.Battle);
             auctionPhase = 0;
-            auctionState = EAuctionState.None;
+            auctionState = EAuctionState.Ready;
         }
         curBidTeam = ETeam.None;
     }
@@ -307,25 +310,25 @@ public class AuctionManager : MonoBehaviour
 
         if (auctionPhase == 1)
         {
-            if (curBlockPrice <= remainFaith - minUnitPrice - 5)
+            if (curBlockPrice <= remainFaith - minUnitPrice - 10)
             {
-                MakeBid(aiData.Team, (int)curBlockPrice + 5);
+                MakeBid(aiData.Team, (int)curBlockPrice + 10);
             }
         }
         else
         {
             if (!isAIWon)
             {
-                if (curBlockPrice <= remainFaith - 5)
+                if (curBlockPrice <= remainFaith - 10)
                 {
                     MakeBid(aiData.Team, (int)curBlockPrice + 5);
                 }
             }
             else
             {
-                if (curBlockPrice <= remainFaith - minUnitPrice - 5)
+                if (curBlockPrice <= remainFaith - minUnitPrice - 10)
                 {
-                    MakeBid(aiData.Team, (int)curBlockPrice + 5);
+                    MakeBid(aiData.Team, (int)curBlockPrice + 10);
                 }
             }
         }

@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static Define;
 public class GameManager : MonoBehaviour
 {
@@ -23,12 +25,16 @@ public class GameManager : MonoBehaviour
     public TeamData enemyTeamData;
 
     public GameObject resultImage;
+    public GameObject optionPanel;
+
+    public Image teamImage;
     private float time;
     float readyTime = 30f;
-    float unitSpawnTerm = 20f;
+    float unitSpawnTerm = 30f;
 
     UnitSelectAI unitSelectAI;
     Sequence noticeTextSequence;
+    Sequence teamImageSequence;
 
     public ETeam loseTeam;
     private void Start()
@@ -37,10 +43,16 @@ public class GameManager : MonoBehaviour
         Managers.UI.Init();
         unitSelectAI = GameObject.Find("AIManager").GetComponent<UnitSelectAI>();
         unitSelectAI.Init();
+        Managers.Auction.Init();
         SoundManager.Instance.OnPlayBGM(SoundManager.Instance.inGameBgm);
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            optionPanel.SetActive(!optionPanel.activeSelf);
+        }
+
         time -= Time.deltaTime;
 
         if (time <= 0)
@@ -114,6 +126,12 @@ public class GameManager : MonoBehaviour
 
         time = readyTime;
 
+        //ImageTween
+        teamImageSequence = DOTween.Sequence();
+        teamImageSequence.Append(teamImage.DOFade(1, 0.5f));
+        teamImageSequence.AppendInterval(1);
+        teamImageSequence.Append(teamImage.DOFade(0, 0.5f));
+
         //textTween
         noticeTextSequence = DOTween.Sequence();
         Tween FadeIn = DOTween.To(() => noticeText.alpha, x => noticeText.alpha = x, 1f, 0.5f);
@@ -123,7 +141,7 @@ public class GameManager : MonoBehaviour
         noticeTextSequence.Append(FadeOut)
             .SetAutoKill(false).Pause();
 
-        CallNoticeTextFade("30초 후 게임이 시작됩니다.", Color.white);
+        CallNoticeTextFade("30초 후 유닛을 소환합니다. \n유닛을 추가하세요!", Color.white);
         SetState(EGameState.Ready);
     }
 
@@ -210,11 +228,32 @@ public class GameManager : MonoBehaviour
     {
         this.loseTeam = loseTeam;
         SetState(EGameState.End);
+
+        if(loseTeam == myTeamData.Team)
+        {
+            SoundManager.Instance.OnPlayBGM(SoundManager.Instance.loseBgm);
+        }
+        else
+        {
+            SoundManager.Instance.PlayWinBgm();
+        }
         string text = loseTeam == myTeamData.Team ? "Lose" : "Win";
+        resultImage.SetActive(true);
         resultImage.transform.Find(myTeamData.Team.ToString() + text).gameObject.SetActive(true);
+    }
+
+    public void LoadSceneTitle()
+    {
+        DOTween.KillAll();
+        SceneManager.LoadScene(0);
+    }
+    public void CloseOptionPanel()
+    {
+        optionPanel.SetActive(false);
     }
     void SpawnUnitsInDict()
     {
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.unitGenerateSound);
         //summon Timer
         time = unitSpawnTerm;
 
