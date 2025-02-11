@@ -10,3 +10,6 @@ team project
 <br/><br/><br/><br/>
 
 ## 기획 의도
+<br/>
+<img src="https://github.com/user-attachments/assets/8f97ac6e-d885-4418-b6f5-a7dbb51daa3c"/> 
+
