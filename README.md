@@ -13,3 +13,9 @@ team project
 <br/>
 <img src="https://github.com/user-attachments/assets/8f97ac6e-d885-4418-b6f5-a7dbb51daa3c"/> 
 
+### 개략적인 게임 플레이 & 게임의 목표
+
+#### 1. 자원을 수급해 유닛을 생산하고 유닛들이 자동으로 싸워 상대방의 타워를 먼저 부수는 팀의 승리
+#### 2. 유닛을 생산하기 위해서는 신앙과 블록이 필요
+#### 
+
