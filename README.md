@@ -37,6 +37,7 @@ team project
 #### 10. 플레이어는 정해진 시간 안에 가능한 지점 중 한 곳에 배치해야 하고 시간이 지나면 AI처럼 자동 배치
 
 [플레이어 블록 배치 코드](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/BlockArrange/PlayerBlockPlacement.cs)
+<br/>
 [AI 블록 배치 코드](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/EnemyAI/BlockPlacementAI.cs)
 
 <br/>
