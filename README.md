@@ -22,7 +22,7 @@ team project
 <br/>
 <img src="https://github.com/user-attachments/assets/0167c103-1b8a-4a9f-bd69-a416bbefd1b5"/> 
 
-#### 경매
+### 경매
 #### 4. 블록은 신앙을 사용한 경매를 통해 획득
 #### 5. 가지고 있는 신앙을 사용해 블록을 응찰
 #### 6. 플레이어와 AI중 더 높은 가격으로 응찰한 쪽이 낙찰
@@ -30,7 +30,7 @@ team project
 <br/>
 <img src="https://github.com/user-attachments/assets/c034b1ae-e60d-4638-a4e1-45eb1ec0304a"/>
 
-#### 블록 배치
+### 블록 배치
 #### 7. 낙찰받은 블록은 소환의 땅에 배치
 #### 8. 자신의 블록과 연결해서만 배치 가능
 #### 9. AI는 블록을 놨을 때 전체 블록의 너비가 가장 작은 장소를 찾아 배치
