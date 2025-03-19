@@ -46,9 +46,7 @@
 
 ## 전체적인 코드 구조
 
-##### *참고사항* 
 ##### 기존에는 팀 프로젝트였기 때문에 세 명이서 진행하려 했으나 다른 두 팀원이 참여하지 않아 혼자 진행하고 완성하게 됐습니다.
-##### 그래서 "@Jongin" 폴더에 있는 스크립트만 확인해 주시면 됩니다.
 
 <br/>
 
@@ -65,6 +63,7 @@
 #### GameManager에서 우리 팀이 어떤 종족인지 확인하고 ResourceManager로 부터 알맞은 유닛들을 받아와 TeamData에 저장합니다.
 #### UnitSpawnManager에서 GameManager의 TeamData를 통해 유닛을 소환할 수 있도록 해줍니다.
 
+
 <br/>
 
 ### 경매 및 블록 배치
@@ -73,12 +72,14 @@
 #### 플레이어가 블록을 낙찰받으면 PlaceBlock, AI가 낙찰받으면 BlockPlacementAI에서 블록을 알맞게 배치할 수 있도록 합니다.
 #### 경매는 경매 -> 블록 배치 순으로 2세트 진행합니다.
 
+
 <br/>
 
 ### AI
 #### 유닛 선택 AI
 #### 유닛 선택 AI는 Greedy 알고리즘으로 해금된 유닛 중 가장 높은 유닛을 뽑을 수 있는 만큼 뽑고
 #### 필요 자원이 부족하면 아랫 단계의 유닛을 뽑도록 만들었습니다.
+[UnitSelectAI](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/EnemyAI/UnitSelectAI.cs)
 
 <br/>
 
@@ -87,6 +88,7 @@
 #### 최소한의 돈을 남기고 모두 응찰하도록 하였고 
 #### 두 번째 경매는 만약 첫 번째 경매에서 낙찰받지 못했다면 유닛을 뽑는 것을 고려하지 않고 
 #### 모든 돈을 다 쓸 때까지 응찰하도록 하였습니다.
+[AuctionManager](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/Core/AuctionManager.cs)
 
 <br/>
 
@@ -95,7 +97,7 @@
 #### 중심된 블록이 바뀌었을 때와 블록이 회전했을 때의 모든 블록 localPosition을 고려하여
 #### 모든 경우의 수를 놓을 수 있는 자리에 놓아보았을 때
 #### 모든 연결된 블록의 너비가 작은 경우의 수로 배치하도록 하였습니다.
-
+[BlockPlacementAI](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/EnemyAI/BlockPlacementAI.cs)
 
 
 
