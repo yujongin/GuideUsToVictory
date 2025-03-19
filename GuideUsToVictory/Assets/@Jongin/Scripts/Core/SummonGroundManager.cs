@@ -32,16 +32,6 @@ public class SummonGroundManager : MonoBehaviour
         };
     }
 
-    void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    GameObject go = blockGenerator.GetRandomBlock();
-
-        //    placementAI.block = go;
-        //    placementAI.FindBestPosition(ETeam.Red);
-        //}
-    }
     public void AddBlock(ETeam team, GameObject block)
     {
         for (int i = 0; i < block.transform.childCount; i++)

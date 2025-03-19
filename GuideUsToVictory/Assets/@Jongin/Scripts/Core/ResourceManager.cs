@@ -83,23 +83,4 @@ public class ResourceManager : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GameObject go = Instantiate(GetUnitPrefab(ETeam.Blue, "IronRider"), null, true);
-            GameObject go1 = Instantiate(GetUnitPrefab(ETeam.Red, "IronRider"), null, true);
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    // go.transform.position = new Vector3(200, 6, 0);
-            //    // go.GetComponent<UnitController>().SetInfo();
-            //    Instantiate(GetUnitPrefab("Red", "JuniorKnight"), null, true);
-            //}
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    Instantiate(GetUnitPrefab("Blue", "EliteArcher"), null, true);
-            //    // Instantiate(GetUnitPrefab("Red", "EliteArcher"), null, true);
-            //}
-        }
-    }
 }
