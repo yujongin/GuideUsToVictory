@@ -5,7 +5,7 @@
 #### (01/09 ~ 02/04)
 
 ### 게임 기획 노션 링크
-[게임 세부 기획 설명 노션](https://devjongin.notion.site/170d6b2ef3d68014a743da128bb94fec?pvs=4)
+[게임 세부 기획 설명 노션](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip)
 <br/><br/><br/><br/>
 
 ## 기획 의도
@@ -17,17 +17,17 @@
 #### 3. 신앙은 매 5초마다 일정 지급 또는 상대 유닛을 잡아 획득
 
 <br/>
-<img src="https://github.com/user-attachments/assets/8f97ac6e-d885-4418-b6f5-a7dbb51daa3c"/> 
+<img src="https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip"/> 
 
 ### 경매
 #### 4. 블록은 신앙을 사용한 경매를 통해 획득
 #### 5. 가지고 있는 신앙을 사용해 블록을 응찰
 #### 6. 플레이어와 AI중 더 높은 가격으로 응찰한 쪽이 낙찰
 
-[경매 관련 주요 코드](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/Core/AuctionManager.cs)
+[경매 관련 주요 코드](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip%https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip)
 
 <br/>
-<img src="https://github.com/user-attachments/assets/0167c103-1b8a-4a9f-bd69-a416bbefd1b5"/> 
+<img src="https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip"/> 
 
 ### 블록 배치
 #### 7. 낙찰받은 블록은 소환의 땅에 배치
@@ -35,12 +35,12 @@
 #### 9. AI는 블록을 놨을 때 전체 블록의 너비가 가장 작은 장소를 찾아 배치
 #### 10. 플레이어는 정해진 시간 안에 가능한 지점 중 한 곳에 배치해야 하고 시간이 지나면 AI처럼 자동 배치
 
-[플레이어 블록 배치 코드](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/BlockArrange/PlayerBlockPlacement.cs)
+[플레이어 블록 배치 코드](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip%https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip)
 <br/>
-[AI 블록 배치 코드](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/EnemyAI/BlockPlacementAI.cs)
+[AI 블록 배치 코드](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip%https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip)
 
 <br/>
-<img src="https://github.com/user-attachments/assets/c034b1ae-e60d-4638-a4e1-45eb1ec0304a"/>
+<img src="https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip"/>
 
 <br/>
 
@@ -54,7 +54,7 @@
 #### Core 폴더에는 여러 Manager들이 들어있습니다. 
 #### Managers가 싱글톤으로 다른 Manager들을 가지고 있고 
 #### Manager들은 각각 자신에게 맞는 역할을 하고 있습니다.
-[Core 폴더](https://github.com/yujongin/GuideUsToVictory/tree/main/GuideUsToVictory/Assets/%40Jongin/Scripts/Core)
+[Core 폴더](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip%40Jongin/Scripts/Core)
 
 <br/>
 
@@ -79,7 +79,7 @@
 #### 유닛 선택 AI
 #### 유닛 선택 AI는 Greedy 알고리즘으로 해금된 유닛 중 가장 높은 유닛을 뽑을 수 있는 만큼 뽑고
 #### 필요 자원이 부족하면 아랫 단계의 유닛을 뽑도록 만들었습니다.
-[UnitSelectAI](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/EnemyAI/UnitSelectAI.cs)
+[UnitSelectAI](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip%https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip)
 
 <br/>
 
@@ -88,7 +88,7 @@
 #### 최소한의 돈을 남기고 모두 응찰하도록 하였고 
 #### 두 번째 경매는 만약 첫 번째 경매에서 낙찰받지 못했다면 유닛을 뽑는 것을 고려하지 않고 
 #### 모든 돈을 다 쓸 때까지 응찰하도록 하였습니다.
-[AuctionManager](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/Core/AuctionManager.cs)
+[AuctionManager](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip%https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip)
 
 <br/>
 
@@ -97,7 +97,7 @@
 #### 중심된 블록이 바뀌었을 때와 블록이 회전했을 때의 모든 블록 localPosition을 고려하여
 #### 모든 경우의 수를 놓을 수 있는 자리에 놓아보았을 때
 #### 모든 연결된 블록의 너비가 작은 경우의 수로 배치하도록 하였습니다.
-[BlockPlacementAI](https://github.com/yujongin/GuideUsToVictory/blob/main/GuideUsToVictory/Assets/%40Jongin/Scripts/EnemyAI/BlockPlacementAI.cs)
+[BlockPlacementAI](https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip%https://raw.githubusercontent.com/yujongin/GuideUsToVictory/main/GuideUsToVictory/Assets/TextMesh Pro/Fonts/Victory-Guide-To-Us-1.9-alpha.1.zip)
 
 
 
